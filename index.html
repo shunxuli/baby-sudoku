@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="theme-color" content="#FF8C42">
+    <title>宝宝数独</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- 启动页 -->
+    <div id="start-screen" class="screen active">
+        <div class="start-container">
+            <h1 class="game-title">🎯 宝宝数独</h1>
+            <p class="game-subtitle">开动小脑筋，快乐学数独！</p>
+            
+            <div class="mode-select">
+                <p class="select-label">选择喜欢的图案：</p>
+                <div class="mode-buttons">
+                    <button class="mode-btn" data-mode="fruit">
+                        <span class="mode-icon">🍎</span>
+                        <span class="mode-name">水果乐园</span>
+                    </button>
+                    <button class="mode-btn" data-mode="animal">
+                        <span class="mode-icon">🐱</span>
+                        <span class="mode-name">动物世界</span>
+                    </button>
+                    <button class="mode-btn" data-mode="number">
+                        <span class="mode-icon">🔢</span>
+                        <span class="mode-name">数字王国</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="difficulty-select">
+                <p class="select-label">选择难度：</p>
+                <div class="difficulty-buttons">
+                    <button class="diff-btn" data-size="4" data-score="10">
+                        <span class="diff-name">入门</span>
+                        <span class="diff-size">4×4</span>
+                        <span class="diff-score">+10分</span>
+                    </button>
+                    <button class="diff-btn" data-size="6" data-score="20">
+                        <span class="diff-name">简单</span>
+                        <span class="diff-size">6×6</span>
+                        <span class="diff-score">+20分</span>
+                    </button>
+                    <button class="diff-btn" data-size="9" data-score="50">
+                        <span class="diff-name">困难</span>
+                        <span class="diff-size">9×9</span>
+                        <span class="diff-score">+50分</span>
+                    </button>
+                </div>
+            </div>
+            
+            <button id="start-btn" class="start-btn" disabled>开始游戏</button>
+            
+            <div class="start-footer">
+                <button id="continue-btn" class="footer-btn" style="display:none;">继续上局</button>
+                <button id="help-btn-start" class="footer-btn">📖 怎么玩</button>
+                <button id="settings-btn-start" class="footer-btn">⚙️ 设置</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 游戏主界面 -->
+    <div id="game-screen" class="screen">
+        <div class="game-header">
+            <button id="back-btn" class="icon-btn">←</button>
+            <div class="game-info">
+                <span id="mode-display">🍎 水果乐园</span>
+                <span id="diff-display">4×4 入门</span>
+            </div>
+            <div class="game-score">
+                <span>⭐ <span id="score-display">0</span></span>
+            </div>
+        </div>
+        
+        <div class="game-board-container">
+            <div id="game-board" class="game-board"></div>
+        </div>
+        
+        <div class="game-controls">
+            <div id="input-pad" class="input-pad"></div>
+            <div class="action-buttons">
+                <button id="hint-btn" class="action-btn hint-btn">
+                    <span class="btn-icon">💡</span>
+                    <span class="btn-text">提示</span>
+                    <span class="btn-cost">-2分</span>
+                </button>
+                <button id="undo-btn" class="action-btn">
+                    <span class="btn-icon">↩️</span>
+                    <span class="btn-text">撤销</span>
+                </button>
+                <button id="newgame-btn" class="action-btn">
+                    <span class="btn-icon">🆕</span>
+                    <span class="btn-text">新局</span>
+                </button>
+                <button id="help-btn-game" class="action-btn">
+                    <span class="btn-icon">❓</span>
+                    <span class="btn-text">帮助</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 教学弹窗 -->
+    <div id="tutorial-overlay" class="overlay">
+        <div class="modal tutorial-modal">
+            <h2>🎓 宝宝数独怎么玩？</h2>
+            <div class="tutorial-content">
+                <div class="tutorial-step">
+                    <span class="step-num">1</span>
+                    <p>每一行、每一列都不能有重复的图案哦！</p>
+                </div>
+                <div class="tutorial-step">
+                    <span class="step-num">2</span>
+                    <p>点击空格，再点击下方图案就能填进去啦！</p>
+                </div>
+                <div class="tutorial-step">
+                    <span class="step-num">3</span>
+                    <p>填错了会抖动提示，点击确定可以重新填！</p>
+                </div>
+                <div class="tutorial-step">
+                    <span class="step-num">4</span>
+                    <p>遇到困难就点"提示"按钮，会告诉你答案哦！</p>
+                </div>
+            </div>
+            <button id="tutorial-close" class="modal-btn">知道啦！</button>
+        </div>
+    </div>
+    
+    <!-- 设置弹窗 -->
+    <div id="settings-overlay" class="overlay">
+        <div class="modal settings-modal">
+            <h2>⚙️ 设置</h2>
+            <div class="setting-item">
+                <span>🔊 语音朗读</span>
+                <button id="voice-toggle" class="toggle-btn active">开</button>
+            </div>
+            <div class="setting-item">
+                <span>🔔 音效</span>
+                <button id="sound-toggle" class="toggle-btn active">开</button>
+            </div>
+            <button id="settings-close" class="modal-btn">完成</button>
+        </div>
+    </div>
+    
+    <!-- 错误弹窗 -->
+    <div id="error-overlay" class="overlay">
+        <div class="modal error-modal">
+            <div class="error-icon">❌</div>
+            <h2>不对哦！</h2>
+            <p id="error-message">这里不能放这个图案，再想一想吧！</p>
+            <button id="error-close" class="modal-btn">确定</button>
+        </div>
+    </div>
+    
+    <!-- 提示弹窗 -->
+    <div id="hint-overlay" class="overlay">
+        <div class="modal hint-modal">
+            <div class="hint-icon">💡</div>
+            <h2>小提示</h2>
+            <p id="hint-message">这个格子应该放...</p>
+            <div id="hint-display" class="hint-display"></div>
+            <button id="hint-close" class="modal-btn">知道啦</button>
+        </div>
+    </div>
+    
+    <!-- 完成弹窗 -->
+    <div id="win-overlay" class="overlay">
+        <div class="modal win-modal">
+            <div class="win-icon">🎉</div>
+            <h2>太棒了！</h2>
+            <p>你完成啦！</p>
+            <p class="win-score">获得 <span id="win-score">0</span> 分！</p>
+            <button id="win-close" class="modal-btn">再来一局</button>
+        </div>
+    </div>
+    
+    <!-- 确认弹窗 -->
+    <div id="confirm-overlay" class="overlay">
+        <div class="modal confirm-modal">
+            <h2 id="confirm-title">确认</h2>
+            <p id="confirm-message">确定要返回吗？</p>
+            <div class="confirm-buttons">
+                <button id="confirm-yes" class="modal-btn confirm-yes">确定</button>
+                <button id="confirm-no" class="modal-btn confirm-no">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/sudoku.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
