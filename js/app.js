@@ -1,5 +1,5 @@
 /**
- * 宝宝数独 - 主应用逻辑
+ * 果果数独 - 主应用逻辑
  * 支持 4x4、6x6、9x9，三种画面模式，语音教学
  */
 
@@ -69,8 +69,26 @@ class BabySudoku {
     
     init() {
         this.bindEvents();
+        this.initDefaults();
         this.loadSavedGame();
         this.updateScoreDisplay();
+    }
+    
+    initDefaults() {
+        // 首次访问时，语音和音效默认开启
+        if (localStorage.getItem('sudoku_voiceEnabled') === null) {
+            this.storage.setVoiceEnabled(true);
+        }
+        if (localStorage.getItem('sudoku_soundEnabled') === null) {
+            this.storage.setSoundEnabled(true);
+        }
+        // 首次访问时，默认选中数字王国 + 入门(4x4)
+        if (!this.storage.getLastMode()) {
+            this.selectMode('number');
+        }
+        if (!this.storage.getLastSize()) {
+            this.selectDifficulty(4, 10);
+        }
     }
     
     // ========== 事件绑定 ==========

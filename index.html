@@ -7,19 +7,23 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="format-detection" content="telephone=no">
     <meta name="theme-color" content="#FF8C42">
-    <title>宝宝数独</title>
+    <title>果果数独</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <!-- 启动页 -->
     <div id="start-screen" class="screen active">
         <div class="start-container">
-            <h1 class="game-title">🎯 宝宝数独</h1>
+            <h1 class="game-title">🎯 果果数独</h1>
             <p class="game-subtitle">开动小脑筋，快乐学数独！</p>
             
             <div class="mode-select">
                 <p class="select-label">选择喜欢的图案：</p>
                 <div class="mode-buttons">
+                    <button class="mode-btn" data-mode="number">
+                        <span class="mode-icon">🔢</span>
+                        <span class="mode-name">数字王国</span>
+                    </button>
                     <button class="mode-btn" data-mode="fruit">
                         <span class="mode-icon">🍎</span>
                         <span class="mode-name">水果乐园</span>
@@ -27,10 +31,6 @@
                     <button class="mode-btn" data-mode="animal">
                         <span class="mode-icon">🐱</span>
                         <span class="mode-name">动物世界</span>
-                    </button>
-                    <button class="mode-btn" data-mode="number">
-                        <span class="mode-icon">🔢</span>
-                        <span class="mode-name">数字王国</span>
                     </button>
                 </div>
             </div>
@@ -110,7 +110,7 @@
     <!-- 教学弹窗 -->
     <div id="tutorial-overlay" class="overlay">
         <div class="modal tutorial-modal">
-            <h2>🎓 宝宝数独怎么玩？</h2>
+            <h2>🎓 果果数独怎么玩？</h2>
             <div class="tutorial-content">
                 <div class="tutorial-step">
                     <span class="step-num">1</span>
