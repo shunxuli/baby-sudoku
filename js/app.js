@@ -108,6 +108,10 @@ class BabySudoku {
     
     // ========== 事件绑定 ==========
     bindEvents() {
+        // 桌面端：全局鼠标拖拽跟踪
+        document.addEventListener('mousemove', (e) => this.onInputMouseMove(e));
+        document.addEventListener('mouseup', (e) => this.onInputMouseUp(e));
+        
         // 模式选择
         document.querySelectorAll('.mode-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
@@ -384,6 +388,9 @@ class BabySudoku {
             btn.addEventListener('touchend', (e) => this.onInputTouchEnd(e), { passive: false });
             btn.addEventListener('touchcancel', () => this.onInputTouchCancel());
             
+            // 桌面端：mouse 拖拽事件
+            btn.addEventListener('mousedown', (e) => this.onInputMouseDown(e, i + 1));
+            
             pad.appendChild(btn);
         }
     }
@@ -495,9 +502,34 @@ class BabySudoku {
     onInputTouchCancel() {
         clearTimeout(this.dragState.longPressTimer);
         if (this.dragState.isDragging) {
-            this.animateBack();
+            this.fadeOutDrag();
         }
         this.resetDragState();
+    }
+    
+    // ========== 桌面端鼠标拖拽 ==========
+    onInputMouseDown(e, value) {
+        e.preventDefault();
+        const point = { clientX: e.clientX, clientY: e.clientY };
+        this.onInputTouchStart({ touches: [point], currentTarget: e.currentTarget }, value);
+        
+        // 鼠标没有长按延迟，直接进入拖拽模式
+        clearTimeout(this.dragState.longPressTimer);
+        this.startDrag({ touches: [point] }, value);
+    }
+    
+    onInputMouseMove(e) {
+        if (!this.dragState.isDragging) return;
+        e.preventDefault();
+        const point = { clientX: e.clientX, clientY: e.clientY };
+        this.onInputTouchMove({ touches: [point], preventDefault: () => {} });
+    }
+    
+    onInputMouseUp(e) {
+        if (!this.dragState.draggedValue) return;
+        e.preventDefault();
+        const point = { clientX: e.clientX, clientY: e.clientY };
+        this.onInputTouchEnd({ changedTouches: [point], preventDefault: () => {}, stopPropagation: () => {} });
     }
     
     startDrag(e, value) {
