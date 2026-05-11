@@ -78,9 +78,11 @@ class BabySudoku {
         // 首次访问时，语音和音效默认开启
         if (localStorage.getItem('sudoku_voiceEnabled') === null) {
             this.storage.setVoiceEnabled(true);
+            this.speech.setEnabled(true);
         }
         if (localStorage.getItem('sudoku_soundEnabled') === null) {
             this.storage.setSoundEnabled(true);
+            this.sound.setEnabled(true);
         }
         // 首次访问时，默认选中数字王国 + 入门(4x4)
         if (!this.storage.getLastMode()) {
