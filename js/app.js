@@ -567,13 +567,13 @@ class BabySudoku {
         
         const elem = document.elementFromPoint(x, y);
         if (!elem) {
-            this.animateBack();
+            this.fadeOutDrag();
             return;
         }
         
         const cell = elem.closest('.cell');
         if (!cell) {
-            this.animateBack();
+            this.fadeOutDrag();
             return;
         }
         
@@ -581,13 +581,13 @@ class BabySudoku {
         const col = parseInt(cell.dataset.col);
         
         if (isNaN(row) || isNaN(col)) {
-            this.animateBack();
+            this.fadeOutDrag();
             return;
         }
         
         // 只能填到空格
         if (this.state.puzzle[row][col] !== 0 || this.state.userBoard[row][col] !== 0) {
-            this.animateBack();
+            this.fadeOutDrag();
             return;
         }
         
@@ -595,12 +595,12 @@ class BabySudoku {
         const isCorrect = this.engine.checkMove(this.state.userBoard, this.state.solution, row, col, value);
         
         if (isCorrect) {
-            // 直接填入，移除拖拽元素
+            // 直接填入，原地虚化消失
             this.state.selectedCell = { row, col };
-            this.removeDragElement();
+            this.fadeOutDrag();
             this.fillCell(row, col, value);
         } else {
-            // 填错：先显示错误反馈，再弹回
+            // 填错：先显示错误反馈，再原地虚化消失
             this.state.selectedCell = { row, col };
             this.renderBoard();
             const cells = document.querySelectorAll('.cell');
@@ -617,10 +617,10 @@ class BabySudoku {
             this.speech.speak(`不对，这里不能放${itemName}`, 'zh-CN');
             this.speech.speak('Try again!', 'en-US');
             
-            // 弹回动画
-            this.animateBack();
+            // 原地虚化消失
+            this.fadeOutDrag();
             
-            // 显示错误弹窗（延迟，等弹回动画开始后再显示）
+            // 显示错误弹窗
             setTimeout(() => {
                 document.getElementById('error-message').textContent = 
                     `这里不能放${itemName}哦！再想一想吧！`;
@@ -629,25 +629,18 @@ class BabySudoku {
         }
     }
     
-    animateBack() {
-        if (!this.dragState.dragElement || !this.dragState.sourceBtn) {
+    fadeOutDrag() {
+        if (!this.dragState.dragElement) {
             this.removeDragElement();
             return;
         }
         
         const el = this.dragState.dragElement;
-        const btn = this.dragState.sourceBtn;
-        const btnRect = btn.getBoundingClientRect();
-        
-        el.classList.add('dragging-back');
-        el.style.left = `${btnRect.left + btnRect.width / 2 - el.offsetWidth / 2}px`;
-        el.style.top = `${btnRect.top + btnRect.height / 2 - el.offsetHeight / 2}px`;
-        el.style.transform = 'scale(0.5)';
-        el.style.opacity = '0';
+        el.classList.add('dragging-fadeout');
         
         setTimeout(() => {
             this.removeDragElement();
-        }, 350);
+        }, 500);
     }
     
     removeDragElement() {
