@@ -1153,6 +1153,12 @@ class PuzzleGame {
             house: { name: '小房子', icon: '🏠', drawer: (ctx, w, h) => this.drawHouse(ctx, w, h) },
             star: { name: '星星', icon: '⭐', drawer: (ctx, w, h) => this.drawStar(ctx, w, h) },
             balloon: { name: '气球', icon: '🎈', drawer: (ctx, w, h) => this.drawBalloon(ctx, w, h) },
+            moon: { name: '月亮', icon: '🌙', drawer: (ctx, w, h) => this.drawMoon(ctx, w, h) },
+            cake: { name: '蛋糕', icon: '🍰', drawer: (ctx, w, h) => this.drawCake(ctx, w, h) },
+            car: { name: '小汽车', icon: '🚗', drawer: (ctx, w, h) => this.drawCar(ctx, w, h) },
+            flower: { name: '花朵', icon: '🌺', drawer: (ctx, w, h) => this.drawFlower(ctx, w, h) },
+            elephant: { name: '大象', icon: '🐘', drawer: (ctx, w, h) => this.drawElephant(ctx, w, h) },
+            tree: { name: '圣诞树', icon: '🎄', drawer: (ctx, w, h) => this.drawTree(ctx, w, h) },
         };
     }
 
@@ -1587,8 +1593,14 @@ class PuzzleGame {
 
     // ========== Canvas 图案绘制 ==========
     drawRainbow(ctx, w, h) {
+        // 天空背景
+        const grad = ctx.createLinearGradient(0, 0, 0, h);
+        grad.addColorStop(0, '#87CEEB');
+        grad.addColorStop(1, '#E0F7FA');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
         const colors = ['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#0000FF', '#4B0082', '#9400D3'];
-        const cx = w / 2, cy = h * 0.8, maxR = Math.min(w, h) * 0.45, band = maxR / colors.length;
+        const cx = w / 2, cy = h * 0.75, maxR = Math.min(w, h) * 0.48, band = maxR / colors.length;
         colors.forEach((color, i) => {
             ctx.beginPath();
             ctx.arc(cx, cy, maxR - i * band, Math.PI, 0);
@@ -1602,14 +1614,26 @@ class PuzzleGame {
     }
 
     drawSunflower(ctx, w, h) {
+        // 绿色草地背景
+        ctx.fillStyle = '#90EE90';
+        ctx.fillRect(0, 0, w, h);
         const cx = w / 2, cy = h / 2;
+        // 茎
+        ctx.fillStyle = '#228B22';
+        ctx.fillRect(cx - 4, cy + h * 0.15, 8, h * 0.25);
+        // 叶子
+        ctx.beginPath(); ctx.ellipse(cx + w * 0.12, cy + h * 0.25, w * 0.08, h * 0.04, 0.3, 0, Math.PI * 2);
+        ctx.fillStyle = '#228B22'; ctx.fill();
+        ctx.beginPath(); ctx.ellipse(cx - w * 0.12, cy + h * 0.3, w * 0.08, h * 0.04, -0.3, 0, Math.PI * 2);
+        ctx.fillStyle = '#228B22'; ctx.fill();
+        // 花瓣
         for (let i = 0; i < 12; i++) {
             const angle = (i / 12) * Math.PI * 2;
             ctx.save();
             ctx.translate(cx, cy);
             ctx.rotate(angle);
             ctx.beginPath();
-            ctx.ellipse(0, -h * 0.2, w * 0.08, h * 0.18, 0, 0, Math.PI * 2);
+            ctx.ellipse(0, -h * 0.18, w * 0.08, h * 0.16, 0, 0, Math.PI * 2);
             ctx.fillStyle = '#FFD700';
             ctx.fill();
             ctx.restore();
@@ -1624,6 +1648,18 @@ class PuzzleGame {
     }
 
     drawFish(ctx, w, h) {
+        // 海洋背景
+        const grad = ctx.createLinearGradient(0, 0, 0, h);
+        grad.addColorStop(0, '#00BFFF');
+        grad.addColorStop(1, '#1E90FF');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
+        // 水泡
+        for (let i = 0; i < 8; i++) {
+            const bx = Math.random() * w, by = Math.random() * h * 0.4, br = Math.random() * 6 + 3;
+            ctx.beginPath(); ctx.arc(bx, by, br, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(255,255,255,0.3)'; ctx.fill();
+        }
         const cx = w / 2, cy = h / 2;
         ctx.beginPath(); ctx.ellipse(cx, cy, w * 0.25, h * 0.15, 0, 0, Math.PI * 2);
         ctx.fillStyle = '#FF8C00'; ctx.fill();
@@ -1646,12 +1682,38 @@ class PuzzleGame {
     }
 
     drawHouse(ctx, w, h) {
-        const cx = w / 2, cy = h * 0.6;
+        // 天空背景
+        const grad = ctx.createLinearGradient(0, 0, 0, h);
+        grad.addColorStop(0, '#87CEEB');
+        grad.addColorStop(1, '#B0E0E6');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
+        // 太阳
+        ctx.beginPath(); ctx.arc(w * 0.85, h * 0.12, 28, 0, Math.PI * 2);
+        ctx.fillStyle = '#FFD700'; ctx.fill();
+        for (let i = 0; i < 8; i++) {
+            const a = (i / 8) * Math.PI * 2;
+            ctx.beginPath();
+            ctx.moveTo(w * 0.85 + Math.cos(a) * 32, h * 0.12 + Math.sin(a) * 32);
+            ctx.lineTo(w * 0.85 + Math.cos(a) * 42, h * 0.12 + Math.sin(a) * 42);
+            ctx.strokeStyle = '#FFD700'; ctx.lineWidth = 3; ctx.stroke();
+        }
+        // 云朵
+        ctx.fillStyle = 'rgba(255,255,255,0.9)';
+        ctx.beginPath(); ctx.arc(w * 0.15, h * 0.12, 18, 0, Math.PI * 2);
+        ctx.arc(w * 0.22, h * 0.1, 22, 0, Math.PI * 2);
+        ctx.arc(w * 0.28, h * 0.12, 16, 0, Math.PI * 2);
+        ctx.fill();
+        const cx = w / 2, cy = h * 0.55;
+        // 草地
+        ctx.fillStyle = '#90EE90';
+        ctx.fillRect(0, cy + h * 0.15, w, h * 0.25);
+        // 房子主体
         ctx.fillStyle = '#FFE4B5';
         ctx.fillRect(cx - w * 0.2, cy - h * 0.15, w * 0.4, h * 0.3);
         ctx.beginPath();
         ctx.moveTo(cx - w * 0.25, cy - h * 0.15);
-        ctx.lineTo(cx, cy - h * 0.35);
+        ctx.lineTo(cx, cy - h * 0.38);
         ctx.lineTo(cx + w * 0.25, cy - h * 0.15);
         ctx.closePath(); ctx.fillStyle = '#FF6347'; ctx.fill();
         ctx.fillStyle = '#8B4513';
@@ -1659,10 +1721,6 @@ class PuzzleGame {
         ctx.fillStyle = '#87CEEB';
         ctx.fillRect(cx - w * 0.15, cy - h * 0.05, w * 0.08, h * 0.08);
         ctx.fillRect(cx + w * 0.07, cy - h * 0.05, w * 0.08, h * 0.08);
-        ctx.fillStyle = '#90EE90';
-        ctx.fillRect(0, cy + h * 0.15, w, h * 0.2);
-        ctx.beginPath(); ctx.arc(w * 0.85, h * 0.15, 25, 0, Math.PI * 2);
-        ctx.fillStyle = '#FFD700'; ctx.fill();
     }
 
     drawStar(ctx, w, h) {
@@ -1670,23 +1728,11 @@ class PuzzleGame {
         ctx.fillRect(0, 0, w, h);
         this.drawSingleStar(ctx, w / 2, h / 2, 5, w * 0.25, w * 0.1);
         ctx.fillStyle = '#FFD700'; ctx.fill();
-        const smallStars = [[w * 0.2, h * 0.2], [w * 0.8, h * 0.25], [w * 0.15, h * 0.75], [w * 0.85, h * 0.7], [w * 0.5, h * 0.15], [w * 0.5, h * 0.85]];
+        const smallStars = [[w * 0.2, h * 0.2], [w * 0.8, h * 0.25], [w * 0.15, h * 0.75], [w * 0.85, h * 0.7], [w * 0.5, h * 0.15], [w * 0.5, h * 0.85], [w * 0.3, h * 0.5], [w * 0.7, h * 0.5]];
         smallStars.forEach(([x, y]) => {
             ctx.beginPath(); ctx.arc(x, y, Math.random() * 3 + 2, 0, Math.PI * 2);
             ctx.fillStyle = 'white'; ctx.fill();
         });
-    }
-
-    drawSingleStar(ctx, cx, cy, spikes, outerR, innerR) {
-        let rot = Math.PI / 2 * 3, x = cx, y = cy, step = Math.PI / spikes;
-        ctx.beginPath(); ctx.moveTo(cx, cy - outerR);
-        for (let i = 0; i < spikes; i++) {
-            x = cx + Math.cos(rot) * outerR; y = cy + Math.sin(rot) * outerR;
-            ctx.lineTo(x, y); rot += step;
-            x = cx + Math.cos(rot) * innerR; y = cy + Math.sin(rot) * innerR;
-            ctx.lineTo(x, y); rot += step;
-        }
-        ctx.lineTo(cx, cy - outerR); ctx.closePath();
     }
 
     drawBalloon(ctx, w, h) {
@@ -1713,5 +1759,288 @@ class PuzzleGame {
         ctx.arc(w * 0.28, h * 0.15, 18, 0, Math.PI * 2);
         ctx.fill();
     }
-}
 
+    drawMoon(ctx, w, h) {
+        // 夜空背景
+        const grad = ctx.createLinearGradient(0, 0, 0, h);
+        grad.addColorStop(0, '#0D1B2A');
+        grad.addColorStop(1, '#1B263B');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
+        // 星星
+        for (let i = 0; i < 30; i++) {
+            const x = Math.random() * w, y = Math.random() * h * 0.6, r = Math.random() * 2 + 1;
+            ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(255,255,255,' + (Math.random() * 0.5 + 0.5) + ')';
+            ctx.fill();
+        }
+        // 弯月
+        ctx.beginPath();
+        ctx.arc(w * 0.65, h * 0.3, w * 0.18, 0, Math.PI * 2);
+        ctx.fillStyle = '#FFFACD';
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(w * 0.72, h * 0.25, w * 0.15, 0, Math.PI * 2);
+        ctx.fillStyle = '#1B263B';
+        ctx.fill();
+        // 山
+        ctx.beginPath();
+        ctx.moveTo(0, h);
+        ctx.lineTo(w * 0.2, h * 0.7);
+        ctx.lineTo(w * 0.4, h * 0.85);
+        ctx.lineTo(w * 0.6, h * 0.65);
+        ctx.lineTo(w * 0.8, h * 0.8);
+        ctx.lineTo(w, h * 0.7);
+        ctx.lineTo(w, h);
+        ctx.closePath();
+        ctx.fillStyle = '#2C3E50';
+        ctx.fill();
+    }
+
+    drawCake(ctx, w, h) {
+        // 粉色背景
+        ctx.fillStyle = '#FFF0F5';
+        ctx.fillRect(0, 0, w, h);
+        const cx = w / 2, cy = h * 0.55;
+        // 盘子
+        ctx.beginPath();
+        ctx.ellipse(cx, cy + h * 0.22, w * 0.35, h * 0.06, 0, 0, Math.PI * 2);
+        ctx.fillStyle = '#E0E0E0'; ctx.fill();
+        // 底层
+        ctx.fillStyle = '#FFB6C1';
+        ctx.fillRect(cx - w * 0.25, cy + h * 0.05, w * 0.5, h * 0.12);
+        ctx.beginPath();
+        ctx.ellipse(cx, cy + h * 0.05, w * 0.25, h * 0.04, 0, 0, Math.PI * 2);
+        ctx.fillStyle = '#FFB6C1'; ctx.fill();
+        ctx.beginPath();
+        ctx.ellipse(cx, cy + h * 0.17, w * 0.25, h * 0.04, 0, 0, Math.PI * 2);
+        ctx.fillStyle = '#FF69B4'; ctx.fill();
+        // 中层
+        ctx.fillStyle = '#FFDAB9';
+        ctx.fillRect(cx - w * 0.18, cy - h * 0.05, w * 0.36, h * 0.1);
+        ctx.beginPath();
+        ctx.ellipse(cx, cy - h * 0.05, w * 0.18, h * 0.03, 0, 0, Math.PI * 2);
+        ctx.fillStyle = '#FFDAB9'; ctx.fill();
+        ctx.beginPath();
+        ctx.ellipse(cx, cy + h * 0.05, w * 0.18, h * 0.03, 0, 0, Math.PI * 2);
+        ctx.fillStyle = '#FFA07A'; ctx.fill();
+        // 顶层
+        ctx.fillStyle = '#E6E6FA';
+        ctx.fillRect(cx - w * 0.12, cy - h * 0.15, w * 0.24, h * 0.1);
+        ctx.beginPath();
+        ctx.ellipse(cx, cy - h * 0.15, w * 0.12, h * 0.03, 0, 0, Math.PI * 2);
+        ctx.fillStyle = '#E6E6FA'; ctx.fill();
+        ctx.beginPath();
+        ctx.ellipse(cx, cy - h * 0.05, w * 0.12, h * 0.03, 0, 0, Math.PI * 2);
+        ctx.fillStyle = '#DDA0DD'; ctx.fill();
+        // 蜡烛
+        ctx.fillStyle = '#FFF';
+        ctx.fillRect(cx - 2, cy - h * 0.22, 4, h * 0.07);
+        ctx.beginPath(); ctx.arc(cx, cy - h * 0.22, 5, 0, Math.PI * 2);
+        ctx.fillStyle = '#FF4500'; ctx.fill();
+        ctx.beginPath(); ctx.arc(cx, cy - h * 0.26, 8, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255,200,0,0.4)'; ctx.fill();
+        // 樱桃装饰
+        const cherries = [[cx - w * 0.2, cy + h * 0.08], [cx + w * 0.2, cy + h * 0.08], [cx - w * 0.1, cy - h * 0.02], [cx + w * 0.1, cy - h * 0.02]];
+        cherries.forEach(([x, y]) => {
+            ctx.beginPath(); ctx.arc(x, y, 6, 0, Math.PI * 2);
+            ctx.fillStyle = '#DC143C'; ctx.fill();
+            ctx.beginPath(); ctx.arc(x - 2, y - 2, 2, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(255,255,255,0.5)'; ctx.fill();
+        });
+    }
+
+    drawCar(ctx, w, h) {
+        // 天空背景
+        const grad = ctx.createLinearGradient(0, 0, 0, h);
+        grad.addColorStop(0, '#87CEEB');
+        grad.addColorStop(1, '#B0E0E6');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
+        // 马路
+        ctx.fillStyle = '#696969';
+        ctx.fillRect(0, h * 0.7, w, h * 0.3);
+        // 马路标线
+        ctx.fillStyle = '#FFD700';
+        for (let i = 0; i < 5; i++) {
+            ctx.fillRect(i * (w / 5) + w * 0.05, h * 0.82, w * 0.1, 4);
+        }
+        const cx = w / 2, cy = h * 0.6;
+        // 车身
+        ctx.fillStyle = '#FF4444';
+        ctx.fillRect(cx - w * 0.22, cy - h * 0.08, w * 0.44, h * 0.16);
+        // 车顶
+        ctx.beginPath();
+        ctx.moveTo(cx - w * 0.15, cy - h * 0.08);
+        ctx.lineTo(cx - w * 0.1, cy - h * 0.18);
+        ctx.lineTo(cx + w * 0.1, cy - h * 0.18);
+        ctx.lineTo(cx + w * 0.15, cy - h * 0.08);
+        ctx.closePath();
+        ctx.fillStyle = '#FF4444'; ctx.fill();
+        // 车窗
+        ctx.fillStyle = '#87CEEB';
+        ctx.fillRect(cx - w * 0.08, cy - h * 0.16, w * 0.16, h * 0.08);
+        // 轮子
+        ctx.beginPath(); ctx.arc(cx - w * 0.12, cy + h * 0.08, w * 0.06, 0, Math.PI * 2);
+        ctx.fillStyle = '#333'; ctx.fill();
+        ctx.beginPath(); ctx.arc(cx + w * 0.12, cy + h * 0.08, w * 0.06, 0, Math.PI * 2);
+        ctx.fillStyle = '#333'; ctx.fill();
+        ctx.beginPath(); ctx.arc(cx - w * 0.12, cy + h * 0.08, w * 0.03, 0, Math.PI * 2);
+        ctx.fillStyle = '#AAA'; ctx.fill();
+        ctx.beginPath(); ctx.arc(cx + w * 0.12, cy + h * 0.08, w * 0.03, 0, Math.PI * 2);
+        ctx.fillStyle = '#AAA'; ctx.fill();
+        // 车灯
+        ctx.beginPath(); ctx.arc(cx + w * 0.22, cy - h * 0.02, 5, 0, Math.PI * 2);
+        ctx.fillStyle = '#FFFF00'; ctx.fill();
+    }
+
+    drawFlower(ctx, w, h) {
+        // 天空背景
+        const grad = ctx.createLinearGradient(0, 0, 0, h);
+        grad.addColorStop(0, '#87CEEB');
+        grad.addColorStop(1, '#E0F7FA');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
+        // 草地
+        ctx.fillStyle = '#90EE90';
+        ctx.fillRect(0, h * 0.55, w, h * 0.45);
+        const flowers = [
+            { x: w * 0.15, y: h * 0.5, color: '#FF69B4', size: 0.08 },
+            { x: w * 0.35, y: h * 0.45, color: '#FFD700', size: 0.1 },
+            { x: w * 0.55, y: h * 0.52, color: '#FF6347', size: 0.07 },
+            { x: w * 0.75, y: h * 0.48, color: '#9370DB', size: 0.09 },
+            { x: w * 0.9, y: h * 0.55, color: '#FF1493', size: 0.08 },
+            { x: w * 0.25, y: h * 0.65, color: '#FFA500', size: 0.06 },
+            { x: w * 0.5, y: h * 0.7, color: '#20B2AA', size: 0.07 },
+            { x: w * 0.7, y: h * 0.68, color: '#FF69B4', size: 0.08 },
+        ];
+        flowers.forEach(f => {
+            // 茎
+            ctx.beginPath();
+            ctx.moveTo(f.x, f.y + h * 0.05);
+            ctx.quadraticCurveTo(f.x + 5, f.y + h * 0.15, f.x, f.y + h * 0.25);
+            ctx.strokeStyle = '#228B22'; ctx.lineWidth = 3; ctx.stroke();
+            // 花瓣
+            for (let i = 0; i < 6; i++) {
+                const a = (i / 6) * Math.PI * 2;
+                ctx.beginPath();
+                ctx.ellipse(f.x + Math.cos(a) * w * f.size * 0.6, f.y + Math.sin(a) * h * f.size * 0.6, w * f.size * 0.4, h * f.size * 0.4, 0, 0, Math.PI * 2);
+                ctx.fillStyle = f.color; ctx.fill();
+            }
+            // 花心
+            ctx.beginPath(); ctx.arc(f.x, f.y, w * f.size * 0.25, 0, Math.PI * 2);
+            ctx.fillStyle = '#8B4513'; ctx.fill();
+        });
+    }
+
+    drawElephant(ctx, w, h) {
+        // 草原背景
+        const grad = ctx.createLinearGradient(0, 0, 0, h);
+        grad.addColorStop(0, '#87CEEB');
+        grad.addColorStop(0.6, '#90EE90');
+        grad.addColorStop(1, '#228B22');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
+        const cx = w / 2, cy = h * 0.5;
+        // 身体
+        ctx.beginPath();
+        ctx.ellipse(cx, cy, w * 0.22, h * 0.2, 0, 0, Math.PI * 2);
+        ctx.fillStyle = '#A9A9A9'; ctx.fill();
+        // 头
+        ctx.beginPath();
+        ctx.arc(cx + w * 0.15, cy - h * 0.12, w * 0.14, 0, Math.PI * 2);
+        ctx.fillStyle = '#A9A9A9'; ctx.fill();
+        // 耳朵
+        ctx.beginPath();
+        ctx.ellipse(cx + w * 0.05, cy - h * 0.18, w * 0.1, h * 0.14, -0.3, 0, Math.PI * 2);
+        ctx.fillStyle = '#B0B0B0'; ctx.fill();
+        ctx.beginPath();
+        ctx.ellipse(cx + w * 0.28, cy - h * 0.15, w * 0.08, h * 0.12, 0.3, 0, Math.PI * 2);
+        ctx.fillStyle = '#B0B0B0'; ctx.fill();
+        // 鼻子
+        ctx.beginPath();
+        ctx.moveTo(cx + w * 0.28, cy - h * 0.05);
+        ctx.quadraticCurveTo(cx + w * 0.4, cy + h * 0.05, cx + w * 0.32, cy + h * 0.15);
+        ctx.strokeStyle = '#A9A9A9'; ctx.lineWidth = 12; ctx.stroke();
+        // 眼睛
+        ctx.beginPath(); ctx.arc(cx + w * 0.18, cy - h * 0.15, 5, 0, Math.PI * 2);
+        ctx.fillStyle = 'white'; ctx.fill();
+        ctx.beginPath(); ctx.arc(cx + w * 0.19, cy - h * 0.15, 3, 0, Math.PI * 2);
+        ctx.fillStyle = 'black'; ctx.fill();
+        // 腿
+        ctx.fillStyle = '#A9A9A9';
+        ctx.fillRect(cx - w * 0.15, cy + h * 0.12, w * 0.06, h * 0.18);
+        ctx.fillRect(cx - w * 0.02, cy + h * 0.12, w * 0.06, h * 0.18);
+        ctx.fillRect(cx + w * 0.08, cy + h * 0.12, w * 0.06, h * 0.18);
+        // 尾巴
+        ctx.beginPath();
+        ctx.moveTo(cx - w * 0.22, cy);
+        ctx.quadraticCurveTo(cx - w * 0.3, cy + h * 0.05, cx - w * 0.28, cy - h * 0.05);
+        ctx.strokeStyle = '#A9A9A9'; ctx.lineWidth = 4; ctx.stroke();
+    }
+
+    drawTree(ctx, w, h) {
+        // 雪地背景
+        const grad = ctx.createLinearGradient(0, 0, 0, h);
+        grad.addColorStop(0, '#B0C4DE');
+        grad.addColorStop(0.5, '#E6F3FF');
+        grad.addColorStop(1, '#FFFFFF');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
+        // 飘雪
+        for (let i = 0; i < 20; i++) {
+            const x = Math.random() * w, y = Math.random() * h, r = Math.random() * 3 + 1;
+            ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(255,255,255,0.8)'; ctx.fill();
+        }
+        const cx = w / 2, cy = h * 0.55;
+        // 树干
+        ctx.fillStyle = '#8B4513';
+        ctx.fillRect(cx - w * 0.04, cy + h * 0.05, w * 0.08, h * 0.25);
+        // 树冠三层
+        const layers = [
+            { y: cy - h * 0.25, r: w * 0.22 },
+            { y: cy - h * 0.12, r: w * 0.28 },
+            { y: cy + h * 0.02, r: w * 0.32 },
+        ];
+        layers.forEach(layer => {
+            ctx.beginPath();
+            ctx.moveTo(cx, layer.y - layer.r * 0.8);
+            ctx.lineTo(cx + layer.r, layer.y + layer.r * 0.3);
+            ctx.lineTo(cx - layer.r, layer.y + layer.r * 0.3);
+            ctx.closePath();
+            ctx.fillStyle = '#228B22'; ctx.fill();
+        });
+        // 装饰球
+        const ornaments = [
+            [cx - w * 0.08, cy - h * 0.08, '#FF0000'],
+            [cx + w * 0.1, cy - h * 0.02, '#FFD700'],
+            [cx - w * 0.12, cy + h * 0.05, '#0000FF'],
+            [cx + w * 0.06, cy + h * 0.1, '#FF69B4'],
+            [cx, cy + h * 0.15, '#FFA500'],
+            [cx - w * 0.05, cy - h * 0.18, '#00CED1'],
+            [cx + w * 0.15, cy - h * 0.12, '#FF4500'],
+        ];
+        ornaments.forEach(([x, y, color]) => {
+            ctx.beginPath(); ctx.arc(x, y, 6, 0, Math.PI * 2);
+            ctx.fillStyle = color; ctx.fill();
+            ctx.beginPath(); ctx.arc(x - 2, y - 2, 2, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(255,255,255,0.5)'; ctx.fill();
+        });
+        // 星星顶
+        this.drawSingleStar(ctx, cx, cy - h * 0.32, 5, w * 0.08, w * 0.03);
+        ctx.fillStyle = '#FFD700'; ctx.fill();
+    }
+
+    drawSingleStar(ctx, cx, cy, spikes, outerR, innerR) {
+        let rot = Math.PI / 2 * 3, x = cx, y = cy, step = Math.PI / spikes;
+        ctx.beginPath(); ctx.moveTo(cx, cy - outerR);
+        for (let i = 0; i < spikes; i++) {
+            x = cx + Math.cos(rot) * outerR; y = cy + Math.sin(rot) * outerR;
+            ctx.lineTo(x, y); rot += step;
+            x = cx + Math.cos(rot) * innerR; y = cy + Math.sin(rot) * innerR;
+            ctx.lineTo(x, y); rot += step;
+        }
+        ctx.lineTo(cx, cy - outerR); ctx.closePath();
+    }
+}

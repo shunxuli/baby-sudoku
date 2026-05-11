@@ -196,6 +196,30 @@
                         <span class="mode-icon">🎈</span>
                         <span class="mode-name">气球</span>
                     </button>
+                    <button class="mode-btn" data-theme="moon">
+                        <span class="mode-icon">🌙</span>
+                        <span class="mode-name">月亮</span>
+                    </button>
+                    <button class="mode-btn" data-theme="cake">
+                        <span class="mode-icon">🍰</span>
+                        <span class="mode-name">蛋糕</span>
+                    </button>
+                    <button class="mode-btn" data-theme="car">
+                        <span class="mode-icon">🚗</span>
+                        <span class="mode-name">小汽车</span>
+                    </button>
+                    <button class="mode-btn" data-theme="flower">
+                        <span class="mode-icon">🌺</span>
+                        <span class="mode-name">花朵</span>
+                    </button>
+                    <button class="mode-btn" data-theme="elephant">
+                        <span class="mode-icon">🐘</span>
+                        <span class="mode-name">大象</span>
+                    </button>
+                    <button class="mode-btn" data-theme="tree">
+                        <span class="mode-icon">🎄</span>
+                        <span class="mode-name">圣诞树</span>
+                    </button>
                 </div>
             </div>
             
@@ -338,7 +362,17 @@
             
             <div class="puzzle-board" id="puzzle-board"></div>
             
-            <div class="puzzle-controls">
+            <!-- 完成后的展示界面 -->
+            <div class="puzzle-complete" id="puzzle-complete">
+                <div class="puzzle-complete-image" id="puzzle-complete-image"></div>
+                <div class="puzzle-complete-stars">⭐⭐⭐</div>
+                <div class="puzzle-complete-buttons">
+                    <button id="puzzle-replay-btn" class="modal-btn">再来一局</button>
+                    <button id="puzzle-home-btn" class="modal-btn confirm-no">返回大厅</button>
+                </div>
+            </div>
+            
+            <div class="puzzle-controls" id="puzzle-controls">
                 <div class="puzzle-options">
                     <label class="puzzle-option">
                         <input type="checkbox" id="puzzle-number-toggle" checked>
