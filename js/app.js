@@ -759,6 +759,7 @@ class MathGame {
     }
 
     startGame() {
+        this.hideComplete();
         this.state.streak = 0;
         this.state.correctCount = 0;
         this.state.totalCount = 0;
@@ -1192,6 +1193,14 @@ class PuzzleGame {
             this.lobby.showConfirm('新开一局', '确定要开始新拼图吗？', () => this.startGame());
         });
         document.getElementById('puzzle-help-btn').addEventListener('click', () => this.showTutorial());
+        document.getElementById('puzzle-replay-btn').addEventListener('click', () => {
+            this.hideComplete();
+            this.startGame();
+        });
+        document.getElementById('puzzle-home-btn').addEventListener('click', () => {
+            this.hideComplete();
+            this.lobby.showScreen('lobby-screen');
+        });
         document.getElementById('puzzle-number-toggle').addEventListener('change', (e) => {
             this.state.showNumbers = e.target.checked;
             this.renderBoard();
@@ -1223,6 +1232,7 @@ class PuzzleGame {
     }
 
     startGame() {
+        this.hideComplete();
         this.state.pieces = this.generatePieces(this.state.theme, this.state.size);
         this.state.selectedPiece = null;
         this.state.score = 0;
@@ -1389,17 +1399,50 @@ class PuzzleGame {
         this.state.isComplete = true;
         this.state.score = this.state.baseScore;
         this.lobby.addScore(this.state.score);
-        document.getElementById('win-message').textContent = '拼图完成啦！';
-        document.getElementById('win-score').textContent = this.state.score;
-        this.lobby.showOverlay('win-overlay');
         this.lobby.sound.playWin();
         const theme = this.themes[this.state.theme];
         this.lobby.speech.speak(`太棒了！${theme.name}拼图完成啦！获得${this.state.score}分！`, 'zh-CN');
         this.lobby.speech.speak('Congratulations! You completed the puzzle!', 'en-US');
-        document.getElementById('win-close').onclick = () => {
-            this.lobby.hideOverlay('win-overlay');
-            this.lobby.showScreen('lobby-screen');
-        };
+
+        // 显示完成界面：大图展示
+        const completeEl = document.getElementById('puzzle-complete');
+        const completeImage = document.getElementById('puzzle-complete-image');
+        const board = document.getElementById('puzzle-board');
+        const controls = document.getElementById('puzzle-controls');
+        const preview = document.querySelector('.puzzle-preview-wrapper');
+
+        // 隐藏游戏元素
+        board.style.display = 'none';
+        controls.style.display = 'none';
+        preview.style.display = 'none';
+
+        // 显示完成大图（使用原图 canvas）
+        const canvas = document.createElement('canvas');
+        canvas.width = 400;
+        canvas.height = 400;
+        const ctx = canvas.getContext('2d');
+        theme.drawer(ctx, 400, 400);
+        completeImage.style.backgroundImage = `url(${canvas.toDataURL()})`;
+
+        // 先隐藏按钮
+        document.querySelector('.puzzle-complete-buttons').style.display = 'none';
+        completeEl.classList.add('active');
+
+        // 3秒后显示按钮
+        setTimeout(() => {
+            document.querySelector('.puzzle-complete-buttons').style.display = 'flex';
+        }, 3000);
+    }
+
+    hideComplete() {
+        const completeEl = document.getElementById('puzzle-complete');
+        const board = document.getElementById('puzzle-board');
+        const controls = document.getElementById('puzzle-controls');
+        const preview = document.querySelector('.puzzle-preview-wrapper');
+        completeEl.classList.remove('active');
+        board.style.display = 'grid';
+        controls.style.display = 'flex';
+        preview.style.display = 'flex';
     }
 
     updateHeader() {
