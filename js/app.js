@@ -10,6 +10,19 @@ class BabySudoku {
         this.speech = new SpeechManager();
         this.sound = new SoundManager();
         
+        // 拖拽状态
+        this.dragState = {
+            isDragging: false,
+            draggedValue: null,
+            dragElement: null,
+            sourceBtn: null,
+            startX: 0,
+            startY: 0,
+            longPressTimer: null,
+            hasMoved: false,
+            preventClick: false,
+        };
+        
         // 游戏状态
         this.state = {
             mode: null,        // 'fruit' | 'animal' | 'number'
@@ -356,7 +369,21 @@ class BabySudoku {
                 btn.classList.add('selected');
             }
             
-            btn.addEventListener('click', () => this.onInputClick(i + 1));
+            // 桌面端：click 事件
+            btn.addEventListener('click', (e) => {
+                if (this.dragState && this.dragState.preventClick) {
+                    this.dragState.preventClick = false;
+                    return;
+                }
+                this.onInputClick(i + 1);
+            });
+            
+            // 移动端：touch 拖拽事件
+            btn.addEventListener('touchstart', (e) => this.onInputTouchStart(e, i + 1), { passive: false });
+            btn.addEventListener('touchmove', (e) => this.onInputTouchMove(e), { passive: false });
+            btn.addEventListener('touchend', (e) => this.onInputTouchEnd(e), { passive: false });
+            btn.addEventListener('touchcancel', () => this.onInputTouchCancel());
+            
             pad.appendChild(btn);
         }
     }
@@ -405,6 +432,242 @@ class BabySudoku {
                 this.fillCell(row, col, value);
             }
         }
+    }
+    
+    // ========== 拖拽交互 ==========
+    onInputTouchStart(e, value) {
+        const touch = e.touches[0];
+        this.dragState.startX = touch.clientX;
+        this.dragState.startY = touch.clientY;
+        this.dragState.draggedValue = value;
+        this.dragState.hasMoved = false;
+        this.dragState.preventClick = false;
+        this.dragState.sourceBtn = e.currentTarget;
+        
+        // 长按计时器，180ms后进入拖拽模式
+        this.dragState.longPressTimer = setTimeout(() => {
+            if (!this.dragState.isDragging) {
+                this.startDrag(e, value);
+            }
+        }, 180);
+    }
+    
+    onInputTouchMove(e) {
+        if (!this.dragState.draggedValue) return;
+        
+        const touch = e.touches[0];
+        const dx = Math.abs(touch.clientX - this.dragState.startX);
+        const dy = Math.abs(touch.clientY - this.dragState.startY);
+        
+        // 如果移动超过 8px，提前进入拖拽模式
+        if (!this.dragState.isDragging && (dx > 8 || dy > 8)) {
+            clearTimeout(this.dragState.longPressTimer);
+            this.startDrag(e, this.dragState.draggedValue);
+        }
+        
+        if (this.dragState.isDragging) {
+            e.preventDefault();
+            this.dragState.hasMoved = true;
+            this.updateDragPosition(touch.clientX, touch.clientY);
+            this.highlightHoverCell(touch.clientX, touch.clientY);
+        }
+    }
+    
+    onInputTouchEnd(e) {
+        clearTimeout(this.dragState.longPressTimer);
+        
+        if (this.dragState.isDragging) {
+            e.preventDefault();
+            e.stopPropagation();
+            this.dragState.preventClick = true;
+            this.endDrag(e.changedTouches[0]);
+            this.resetDragState();
+        } else {
+            // 短按：阻止后续 click 事件，手动触发点击
+            this.dragState.preventClick = true;
+            if (!this.dragState.hasMoved && this.dragState.draggedValue) {
+                this.onInputClick(this.dragState.draggedValue);
+            }
+            this.resetDragState();
+        }
+    }
+    
+    onInputTouchCancel() {
+        clearTimeout(this.dragState.longPressTimer);
+        if (this.dragState.isDragging) {
+            this.animateBack();
+        }
+        this.resetDragState();
+    }
+    
+    startDrag(e, value) {
+        this.dragState.isDragging = true;
+        this.state.selectedValue = value;
+        
+        const touch = e.touches[0];
+        const mode = this.modes[this.state.mode];
+        
+        // 创建拖拽元素
+        const el = document.createElement('div');
+        el.className = 'drag-item';
+        el.textContent = mode.items[value - 1];
+        document.body.appendChild(el);
+        this.dragState.dragElement = el;
+        
+        this.updateDragPosition(touch.clientX, touch.clientY);
+        
+        // 原按钮视觉反馈
+        if (this.dragState.sourceBtn) {
+            this.dragState.sourceBtn.classList.add('dragging-source');
+        }
+        
+        // 隐藏选中值的高亮，避免干扰
+        this.renderInputPad();
+    }
+    
+    updateDragPosition(x, y) {
+        const el = this.dragState.dragElement;
+        if (!el) return;
+        el.style.left = `${x - el.offsetWidth / 2}px`;
+        el.style.top = `${y - el.offsetHeight / 2}px`;
+    }
+    
+    highlightHoverCell(x, y) {
+        // 清除之前的高亮
+        document.querySelectorAll('.cell.hover-target').forEach(c => c.classList.remove('hover-target'));
+        document.querySelectorAll('.cell.hover-invalid').forEach(c => c.classList.remove('hover-invalid'));
+        
+        const elem = document.elementFromPoint(x, y);
+        if (!elem) return;
+        
+        const cell = elem.closest('.cell');
+        if (!cell) return;
+        
+        const row = parseInt(cell.dataset.row);
+        const col = parseInt(cell.dataset.col);
+        
+        if (isNaN(row) || isNaN(col)) return;
+        
+        // 空格且未填 → 绿色高亮
+        if (this.state.puzzle[row][col] === 0 && this.state.userBoard[row][col] === 0) {
+            cell.classList.add('hover-target');
+        } else {
+            // 固定格子或已填 → 红色高亮
+            cell.classList.add('hover-invalid');
+        }
+    }
+    
+    endDrag(touch) {
+        // 清除高亮
+        document.querySelectorAll('.cell.hover-target').forEach(c => c.classList.remove('hover-target'));
+        document.querySelectorAll('.cell.hover-invalid').forEach(c => c.classList.remove('hover-invalid'));
+        
+        const x = touch.clientX;
+        const y = touch.clientY;
+        
+        const elem = document.elementFromPoint(x, y);
+        if (!elem) {
+            this.animateBack();
+            return;
+        }
+        
+        const cell = elem.closest('.cell');
+        if (!cell) {
+            this.animateBack();
+            return;
+        }
+        
+        const row = parseInt(cell.dataset.row);
+        const col = parseInt(cell.dataset.col);
+        
+        if (isNaN(row) || isNaN(col)) {
+            this.animateBack();
+            return;
+        }
+        
+        // 只能填到空格
+        if (this.state.puzzle[row][col] !== 0 || this.state.userBoard[row][col] !== 0) {
+            this.animateBack();
+            return;
+        }
+        
+        const value = this.dragState.draggedValue;
+        const isCorrect = this.engine.checkMove(this.state.userBoard, this.state.solution, row, col, value);
+        
+        if (isCorrect) {
+            // 直接填入，移除拖拽元素
+            this.state.selectedCell = { row, col };
+            this.removeDragElement();
+            this.fillCell(row, col, value);
+        } else {
+            // 填错：先显示错误反馈，再弹回
+            this.state.selectedCell = { row, col };
+            this.renderBoard();
+            const cells = document.querySelectorAll('.cell');
+            const index = row * this.state.size + col;
+            const targetCell = cells[index];
+            if (targetCell) {
+                targetCell.classList.add('error-shake');
+                setTimeout(() => targetCell.classList.remove('error-shake'), 500);
+            }
+            this.sound.playError();
+            
+            const mode = this.modes[this.state.mode];
+            const itemName = mode.names.zh[value - 1];
+            this.speech.speak(`不对，这里不能放${itemName}`, 'zh-CN');
+            this.speech.speak('Try again!', 'en-US');
+            
+            // 弹回动画
+            this.animateBack();
+            
+            // 显示错误弹窗（延迟，等弹回动画开始后再显示）
+            setTimeout(() => {
+                document.getElementById('error-message').textContent = 
+                    `这里不能放${itemName}哦！再想一想吧！`;
+                this.showOverlay('error-overlay');
+            }, 300);
+        }
+    }
+    
+    animateBack() {
+        if (!this.dragState.dragElement || !this.dragState.sourceBtn) {
+            this.removeDragElement();
+            return;
+        }
+        
+        const el = this.dragState.dragElement;
+        const btn = this.dragState.sourceBtn;
+        const btnRect = btn.getBoundingClientRect();
+        
+        el.classList.add('dragging-back');
+        el.style.left = `${btnRect.left + btnRect.width / 2 - el.offsetWidth / 2}px`;
+        el.style.top = `${btnRect.top + btnRect.height / 2 - el.offsetHeight / 2}px`;
+        el.style.transform = 'scale(0.5)';
+        el.style.opacity = '0';
+        
+        setTimeout(() => {
+            this.removeDragElement();
+        }, 350);
+    }
+    
+    removeDragElement() {
+        if (this.dragState.dragElement) {
+            this.dragState.dragElement.remove();
+            this.dragState.dragElement = null;
+        }
+        if (this.dragState.sourceBtn) {
+            this.dragState.sourceBtn.classList.remove('dragging-source');
+            this.dragState.sourceBtn = null;
+        }
+    }
+    
+    resetDragState() {
+        this.dragState.isDragging = false;
+        this.dragState.draggedValue = null;
+        this.dragState.startX = 0;
+        this.dragState.startY = 0;
+        this.dragState.longPressTimer = null;
+        this.dragState.hasMoved = false;
     }
     
     highlightRelated(row, col) {
