@@ -114,6 +114,15 @@ class GameStorage {
     getLastOp() { return localStorage.getItem('math_lastOp'); }
     setLastRange(r) { localStorage.setItem('math_lastRange', r.toString()); }
     getLastRange() { const r = localStorage.getItem('math_lastRange'); return r ? parseInt(r) : null; }
+
+    // 拼图存储
+    savePuzzle(state) { localStorage.setItem('puzzle_savedGame', JSON.stringify(state)); }
+    getPuzzle() { try { return JSON.parse(localStorage.getItem('puzzle_savedGame') || 'null'); } catch { return null; } }
+    clearPuzzle() { localStorage.removeItem('puzzle_savedGame'); }
+    setPuzzleLastTheme(t) { localStorage.setItem('puzzle_lastTheme', t); }
+    getPuzzleLastTheme() { return localStorage.getItem('puzzle_lastTheme'); }
+    setPuzzleLastSize(s) { localStorage.setItem('puzzle_lastSize', s.toString()); }
+    getPuzzleLastSize() { const s = localStorage.getItem('puzzle_lastSize'); return s ? parseInt(s) : null; }
 }
 
 // ========== 数独游戏 ==========
@@ -551,6 +560,20 @@ class SudokuGame {
         this.startDrag({ touches: [point] }, value);
     }
 
+    onInputMouseMove(e) {
+        if (!this.dragState.isDragging) return;
+        e.preventDefault();
+        const point = { clientX: e.clientX, clientY: e.clientY };
+        this.onInputTouchMove({ touches: [point], preventDefault: () => {} });
+    }
+
+    onInputMouseUp(e) {
+        if (!this.dragState.draggedValue) return;
+        e.preventDefault();
+        const point = { clientX: e.clientX, clientY: e.clientY };
+        this.onInputTouchEnd({ changedTouches: [point], preventDefault: () => {}, stopPropagation: () => {} });
+    }
+
     startDrag(e, value) {
         this.dragState.isDragging = true;
         this.state.selectedValue = value;
@@ -940,6 +963,7 @@ class GameLobby {
         this.sound = new SoundManager();
         this.sudokuGame = new SudokuGame(this);
         this.mathGame = new MathGame(this);
+        this.puzzleGame = new PuzzleGame(this);
     }
 
     init() {
@@ -947,9 +971,20 @@ class GameLobby {
         this.updateLobbyScore();
         this.sudokuGame.init();
         this.mathGame.init();
+        this.puzzleGame.init();
     }
 
     bindLobbyEvents() {
+        // 全局鼠标拖拽跟踪（桌面端）
+        document.addEventListener('mousemove', (e) => {
+            this.sudokuGame.onInputMouseMove(e);
+            this.puzzleGame.onPieceMouseMove(e);
+        });
+        document.addEventListener('mouseup', (e) => {
+            this.sudokuGame.onInputMouseUp(e);
+            this.puzzleGame.onPieceMouseUp(e);
+        });
+
         // 大厅卡片点击
         document.querySelectorAll('.game-card:not(.coming-soon)').forEach(card => {
             card.addEventListener('click', () => {
@@ -960,6 +995,9 @@ class GameLobby {
                 } else if (game === 'math') {
                     this.showScreen('math-config-screen');
                     this.mathGame.checkStartReady();
+                } else if (game === 'puzzle') {
+                    this.showScreen('puzzle-config-screen');
+                    this.puzzleGame.checkStartReady();
                 }
             });
         });
@@ -1064,8 +1102,10 @@ class GameLobby {
     updateLobbyProgress() {
         const sudoku = this.storage.getSudoku();
         const math = this.storage.getMath();
+        const puzzle = this.storage.getPuzzle ? this.storage.getPuzzle() : null;
         const sudokuProgress = document.getElementById('sudoku-progress');
         const mathProgress = document.getElementById('math-progress');
+        const puzzleProgress = document.getElementById('puzzle-progress');
         if (sudoku && sudoku.puzzle) {
             const diff = { 4: '入门', 6: '简单', 9: '困难' };
             sudokuProgress.textContent = `🟢 上次: ${diff[sudoku.size] || ''} ${sudoku.size}×${sudoku.size}`;
@@ -1077,6 +1117,12 @@ class GameLobby {
         } else {
             mathProgress.textContent = '🟢 点击开始';
         }
+        if (puzzle && puzzle.pieces && puzzle.pieces.length > 0) {
+            const theme = puzzle.theme || '拼图';
+            puzzleProgress.textContent = `🟢 上次: ${theme}`;
+        } else {
+            puzzleProgress.textContent = '🟢 点击开始';
+        }
     }
 }
 
@@ -1085,3 +1131,587 @@ document.addEventListener('DOMContentLoaded', () => {
     window.lobby = new GameLobby();
     window.lobby.init();
 });
+
+// ========== 拼图游戏 ==========
+class PuzzleGame {
+    constructor(lobby) {
+        this.lobby = lobby;
+        this.state = {
+            theme: null, size: null, baseScore: 0,
+            pieces: [], selectedPiece: null, showNumbers: true,
+            score: 0, isComplete: false,
+        };
+        this.dragState = {
+            isDragging: false, dragElement: null, sourcePiece: null,
+            startX: 0, startY: 0, longPressTimer: null,
+            hasMoved: false, preventClick: false,
+        };
+        this.themes = {
+            rainbow: { name: '彩虹', icon: '🌈', drawer: (ctx, w, h) => this.drawRainbow(ctx, w, h) },
+            sunflower: { name: '太阳花', icon: '🌻', drawer: (ctx, w, h) => this.drawSunflower(ctx, w, h) },
+            fish: { name: '小鱼', icon: '🐟', drawer: (ctx, w, h) => this.drawFish(ctx, w, h) },
+            house: { name: '小房子', icon: '🏠', drawer: (ctx, w, h) => this.drawHouse(ctx, w, h) },
+            star: { name: '星星', icon: '⭐', drawer: (ctx, w, h) => this.drawStar(ctx, w, h) },
+            balloon: { name: '气球', icon: '🎈', drawer: (ctx, w, h) => this.drawBalloon(ctx, w, h) },
+        };
+    }
+
+    init() {
+        this.bindEvents();
+        this.initDefaults();
+    }
+
+    initDefaults() {
+        if (!this.lobby.storage.getPuzzleLastTheme()) this.selectTheme('rainbow');
+        if (!this.lobby.storage.getPuzzleLastSize()) this.selectSize(3, 20);
+    }
+
+    bindEvents() {
+        document.querySelectorAll('#puzzle-config-screen .mode-btn').forEach(btn => {
+            btn.addEventListener('click', () => this.selectTheme(btn.dataset.theme));
+        });
+        document.querySelectorAll('#puzzle-config-screen .diff-btn').forEach(btn => {
+            btn.addEventListener('click', () => this.selectSize(parseInt(btn.dataset.size), parseInt(btn.dataset.score)));
+        });
+        document.getElementById('puzzle-start-btn').addEventListener('click', () => this.startGame());
+        document.getElementById('puzzle-config-back').addEventListener('click', () => {
+            this.lobby.showScreen('lobby-screen');
+        });
+        document.getElementById('puzzle-back-btn').addEventListener('click', () => {
+            this.lobby.showConfirm('确认返回', '确定要返回大厅吗？', () => {
+                this.lobby.showScreen('lobby-screen');
+            });
+        });
+        document.getElementById('puzzle-newgame-btn').addEventListener('click', () => {
+            this.lobby.showConfirm('新开一局', '确定要开始新拼图吗？', () => this.startGame());
+        });
+        document.getElementById('puzzle-help-btn').addEventListener('click', () => this.showTutorial());
+        document.getElementById('puzzle-number-toggle').addEventListener('change', (e) => {
+            this.state.showNumbers = e.target.checked;
+            this.renderBoard();
+        });
+    }
+
+    selectTheme(theme) {
+        this.state.theme = theme;
+        document.querySelectorAll('#puzzle-config-screen .mode-btn').forEach(btn => {
+            btn.classList.toggle('selected', btn.dataset.theme === theme);
+        });
+        this.checkStartReady();
+        this.lobby.storage.setPuzzleLastTheme(theme);
+    }
+
+    selectSize(size, score) {
+        this.state.size = size;
+        this.state.baseScore = score;
+        document.querySelectorAll('#puzzle-config-screen .diff-btn').forEach(btn => {
+            btn.classList.toggle('selected', parseInt(btn.dataset.size) === size);
+        });
+        this.checkStartReady();
+        this.lobby.storage.setPuzzleLastSize(size);
+    }
+
+    checkStartReady() {
+        const ready = this.state.theme && this.state.size;
+        document.getElementById('puzzle-start-btn').disabled = !ready;
+    }
+
+    startGame() {
+        this.state.pieces = this.generatePieces(this.state.theme, this.state.size);
+        this.state.selectedPiece = null;
+        this.state.score = 0;
+        this.state.isComplete = false;
+        this.renderPreview();
+        this.renderBoard();
+        this.updateHeader();
+        this.lobby.showScreen('puzzle-game-screen');
+        const shown = localStorage.getItem('puzzle_tutorialShown');
+        if (!shown) {
+            setTimeout(() => this.showTutorial(), 500);
+            localStorage.setItem('puzzle_tutorialShown', 'true');
+        }
+    }
+
+    generatePieces(theme, size) {
+        const canvas = document.createElement('canvas');
+        canvas.width = 400;
+        canvas.height = 400;
+        const ctx = canvas.getContext('2d');
+        this.themes[theme].drawer(ctx, 400, 400);
+
+        const pieceSize = 400 / size;
+        const pieces = [];
+        for (let r = 0; r < size; r++) {
+            for (let c = 0; c < size; c++) {
+                const pCanvas = document.createElement('canvas');
+                pCanvas.width = pieceSize;
+                pCanvas.height = pieceSize;
+                const pCtx = pCanvas.getContext('2d');
+                pCtx.drawImage(canvas, c * pieceSize, r * pieceSize, pieceSize, pieceSize, 0, 0, pieceSize, pieceSize);
+                pieces.push({
+                    correctRow: r,
+                    correctCol: c,
+                    correctIndex: r * size + c,
+                    currentIndex: pieces.length,
+                    image: pCanvas.toDataURL(),
+                    locked: false,
+                });
+            }
+        }
+
+        // 打乱，但要确保不是已经完全排好的
+        do {
+            for (let i = pieces.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [pieces[i], pieces[j]] = [pieces[j], pieces[i]];
+            }
+        } while (this.isFullyCorrect(pieces));
+
+        pieces.forEach((p, i) => { p.currentIndex = i; });
+        return pieces;
+    }
+
+    isFullyCorrect(pieces) {
+        return pieces.every((p, i) => p.correctIndex === i);
+    }
+
+    isPieceCorrect(piece, index) {
+        return piece.correctIndex === index;
+    }
+
+    renderPreview() {
+        const preview = document.getElementById('puzzle-preview');
+        const canvas = document.createElement('canvas');
+        canvas.width = 400;
+        canvas.height = 400;
+        const ctx = canvas.getContext('2d');
+        this.themes[this.state.theme].drawer(ctx, 400, 400);
+        preview.style.backgroundImage = `url(${canvas.toDataURL()})`;
+    }
+
+    renderBoard() {
+        const board = document.getElementById('puzzle-board');
+        const size = this.state.size;
+        board.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
+        board.innerHTML = '';
+
+        this.state.pieces.forEach((piece, index) => {
+            const div = document.createElement('div');
+            div.className = 'puzzle-piece';
+            div.style.backgroundImage = `url(${piece.image})`;
+            div.dataset.index = index;
+
+            if (piece.locked) {
+                div.classList.add('locked');
+            } else if (this.state.selectedPiece === index) {
+                div.classList.add('selected');
+            }
+
+            // 数字提示
+            if (this.state.showNumbers) {
+                const num = document.createElement('span');
+                num.className = 'puzzle-piece-number';
+                num.textContent = piece.correctIndex + 1;
+                div.appendChild(num);
+            }
+
+            // 事件
+            div.addEventListener('click', (e) => {
+                if (this.dragState.preventClick) { this.dragState.preventClick = false; return; }
+                this.onPieceClick(index);
+            });
+
+            if (!piece.locked) {
+                div.addEventListener('touchstart', (e) => this.onPieceTouchStart(e, index), { passive: false });
+                div.addEventListener('touchmove', (e) => this.onPieceTouchMove(e), { passive: false });
+                div.addEventListener('touchend', (e) => this.onPieceTouchEnd(e), { passive: false });
+                div.addEventListener('touchcancel', () => this.onPieceTouchCancel());
+                div.addEventListener('mousedown', (e) => this.onPieceMouseDown(e, index));
+            }
+
+            board.appendChild(div);
+        });
+    }
+
+    onPieceClick(index) {
+        const piece = this.state.pieces[index];
+        if (piece.locked) return;
+
+        if (this.state.selectedPiece === null) {
+            this.state.selectedPiece = index;
+            this.renderBoard();
+        } else if (this.state.selectedPiece === index) {
+            this.state.selectedPiece = null;
+            this.renderBoard();
+        } else {
+            this.swapPieces(this.state.selectedPiece, index);
+            this.state.selectedPiece = null;
+            this.checkCompletion();
+            this.renderBoard();
+        }
+    }
+
+    swapPieces(idx1, idx2) {
+        const p1 = this.state.pieces[idx1];
+        const p2 = this.state.pieces[idx2];
+        [this.state.pieces[idx1], this.state.pieces[idx2]] = [p2, p1];
+        this.state.pieces[idx1].currentIndex = idx1;
+        this.state.pieces[idx2].currentIndex = idx2;
+    }
+
+    checkCompletion() {
+        let newLockCount = 0;
+        this.state.pieces.forEach((piece, index) => {
+            if (!piece.locked && this.isPieceCorrect(piece, index)) {
+                piece.locked = true;
+                newLockCount++;
+            }
+        });
+
+        if (newLockCount > 0) {
+            this.lobby.sound.playSuccess();
+            const theme = this.themes[this.state.theme];
+            this.lobby.speech.speak(`拼对啦！${theme.name}越来越完整了！`, 'zh-CN');
+        }
+
+        if (this.isFullyCorrect(this.state.pieces)) {
+            this.onWin();
+        }
+    }
+
+    onWin() {
+        this.state.isComplete = true;
+        this.state.score = this.state.baseScore;
+        this.lobby.addScore(this.state.score);
+        document.getElementById('win-message').textContent = '拼图完成啦！';
+        document.getElementById('win-score').textContent = this.state.score;
+        this.lobby.showOverlay('win-overlay');
+        this.lobby.sound.playWin();
+        const theme = this.themes[this.state.theme];
+        this.lobby.speech.speak(`太棒了！${theme.name}拼图完成啦！获得${this.state.score}分！`, 'zh-CN');
+        this.lobby.speech.speak('Congratulations! You completed the puzzle!', 'en-US');
+        document.getElementById('win-close').onclick = () => {
+            this.lobby.hideOverlay('win-overlay');
+            this.lobby.showScreen('lobby-screen');
+        };
+    }
+
+    updateHeader() {
+        const theme = this.themes[this.state.theme];
+        const diffMap = { 2: '入门', 3: '简单', 4: '中等', 5: '困难' };
+        document.getElementById('puzzle-theme-display').textContent = `${theme.icon} ${theme.name}`;
+        document.getElementById('puzzle-diff-display').textContent = `${this.state.size}×${this.state.size} ${diffMap[this.state.size]}`;
+        document.getElementById('puzzle-score-display').textContent = this.lobby.storage.getTotalScore();
+    }
+
+    showTutorial() {
+        const content = document.getElementById('tutorial-content');
+        content.innerHTML = `
+            <div class="tutorial-step">
+                <span class="step-num">1</span>
+                <p>看右上角的原图，记住图案的样子！</p>
+            </div>
+            <div class="tutorial-step">
+                <span class="step-num">2</span>
+                <p>点击两个拼图块，它们会交换位置</p>
+            </div>
+            <div class="tutorial-step">
+                <span class="step-num">3</span>
+                <p>把每个块都放到正确的地方</p>
+            </div>
+            <div class="tutorial-step">
+                <span class="step-num">4</span>
+                <p>拼对的块会锁定变绿色，不能再移动</p>
+            </div>
+        `;
+        this.lobby.showOverlay('tutorial-overlay');
+        this.lobby.speech.speak('看右上角的原图，点击两个拼图块交换位置，把图案拼完整！', 'zh-CN');
+        this.lobby.speech.speak('Look at the picture and swap the pieces to complete it!', 'en-US');
+    }
+
+    // ========== 拖拽交换 ==========
+    onPieceTouchStart(e, index) {
+        const piece = this.state.pieces[index];
+        if (piece.locked) return;
+        const touch = e.touches[0];
+        this.dragState.startX = touch.clientX;
+        this.dragState.startY = touch.clientY;
+        this.dragState.sourcePiece = index;
+        this.dragState.hasMoved = false;
+        this.dragState.preventClick = false;
+        this.dragState.longPressTimer = setTimeout(() => {
+            if (!this.dragState.isDragging) this.startPieceDrag(e, index);
+        }, 200);
+    }
+
+    onPieceTouchMove(e) {
+        if (!this.dragState.sourcePiece !== null && this.dragState.sourcePiece === undefined) return;
+        const touch = e.touches[0];
+        const dx = Math.abs(touch.clientX - this.dragState.startX);
+        const dy = Math.abs(touch.clientY - this.dragState.startY);
+        if (!this.dragState.isDragging && (dx > 8 || dy > 8)) {
+            clearTimeout(this.dragState.longPressTimer);
+            this.startPieceDrag(e, this.dragState.sourcePiece);
+        }
+        if (this.dragState.isDragging) {
+            e.preventDefault();
+            this.dragState.hasMoved = true;
+            this.updateDragPosition(touch.clientX, touch.clientY);
+            this.highlightHoverPiece(touch.clientX, touch.clientY);
+        }
+    }
+
+    onPieceTouchEnd(e) {
+        clearTimeout(this.dragState.longPressTimer);
+        if (this.dragState.isDragging) {
+            e.preventDefault();
+            e.stopPropagation();
+            this.dragState.preventClick = true;
+            this.endPieceDrag(e.changedTouches[0]);
+            this.resetDragState();
+        } else {
+            this.dragState.preventClick = true;
+            this.resetDragState();
+        }
+    }
+
+    onPieceTouchCancel() {
+        clearTimeout(this.dragState.longPressTimer);
+        if (this.dragState.isDragging) this.fadeOutDrag();
+        this.resetDragState();
+    }
+
+    onPieceMouseDown(e, index) {
+        e.preventDefault();
+        const piece = this.state.pieces[index];
+        if (piece.locked) return;
+        const point = { clientX: e.clientX, clientY: e.clientY };
+        this.onPieceTouchStart({ touches: [point], currentTarget: e.currentTarget }, index);
+        clearTimeout(this.dragState.longPressTimer);
+        this.startPieceDrag({ touches: [point] }, index);
+    }
+
+    onPieceMouseMove(e) {
+        if (!this.dragState.isDragging) return;
+        e.preventDefault();
+        const point = { clientX: e.clientX, clientY: e.clientY };
+        this.onPieceTouchMove({ touches: [point], preventDefault: () => {} });
+    }
+
+    onPieceMouseUp(e) {
+        if (this.dragState.sourcePiece === null) return;
+        e.preventDefault();
+        const point = { clientX: e.clientX, clientY: e.clientY };
+        this.onPieceTouchEnd({ changedTouches: [point], preventDefault: () => {}, stopPropagation: () => {} });
+    }
+
+    startPieceDrag(e, index) {
+        this.dragState.isDragging = true;
+        const touch = e.touches[0];
+        const piece = this.state.pieces[index];
+        const el = document.createElement('div');
+        el.className = 'puzzle-drag-item';
+        el.style.backgroundImage = `url(${piece.image})`;
+        document.body.appendChild(el);
+        this.dragState.dragElement = el;
+        this.updateDragPosition(touch.clientX, touch.clientY);
+        const boardPieces = document.querySelectorAll('.puzzle-piece');
+        if (boardPieces[index]) boardPieces[index].classList.add('dragging-source');
+    }
+
+    updateDragPosition(x, y) {
+        const el = this.dragState.dragElement;
+        if (!el) return;
+        el.style.left = `${x - el.offsetWidth / 2}px`;
+        el.style.top = `${y - el.offsetHeight / 2}px`;
+    }
+
+    highlightHoverPiece(x, y) {
+        document.querySelectorAll('.puzzle-piece.hover-target').forEach(p => p.classList.remove('hover-target'));
+        const elem = document.elementFromPoint(x, y);
+        if (!elem) return;
+        const piece = elem.closest('.puzzle-piece');
+        if (!piece) return;
+        const index = parseInt(piece.dataset.index);
+        if (isNaN(index)) return;
+        if (!this.state.pieces[index].locked) {
+            piece.classList.add('hover-target');
+        }
+    }
+
+    endPieceDrag(touch) {
+        document.querySelectorAll('.puzzle-piece.hover-target').forEach(p => p.classList.remove('hover-target'));
+        const x = touch.clientX;
+        const y = touch.clientY;
+        const elem = document.elementFromPoint(x, y);
+        if (!elem) { this.fadeOutDrag(); return; }
+        const pieceEl = elem.closest('.puzzle-piece');
+        if (!pieceEl) { this.fadeOutDrag(); return; }
+        const targetIndex = parseInt(pieceEl.dataset.index);
+        if (isNaN(targetIndex)) { this.fadeOutDrag(); return; }
+        if (this.state.pieces[targetIndex].locked) { this.fadeOutDrag(); return; }
+
+        const sourceIndex = this.dragState.sourcePiece;
+        if (sourceIndex !== null && sourceIndex !== targetIndex) {
+            this.swapPieces(sourceIndex, targetIndex);
+            this.checkCompletion();
+        }
+        this.fadeOutDrag();
+        this.renderBoard();
+    }
+
+    fadeOutDrag() {
+        if (!this.dragState.dragElement) { this.removeDragElement(); return; }
+        const el = this.dragState.dragElement;
+        el.classList.add('dragging-fadeout');
+        setTimeout(() => this.removeDragElement(), 500);
+    }
+
+    removeDragElement() {
+        if (this.dragState.dragElement) {
+            this.dragState.dragElement.remove();
+            this.dragState.dragElement = null;
+        }
+        const boardPieces = document.querySelectorAll('.puzzle-piece');
+        boardPieces.forEach(p => p.classList.remove('dragging-source'));
+    }
+
+    resetDragState() {
+        this.dragState.isDragging = false;
+        this.dragState.sourcePiece = null;
+        this.dragState.startX = 0;
+        this.dragState.startY = 0;
+        this.dragState.longPressTimer = null;
+        this.dragState.hasMoved = false;
+    }
+
+    // ========== Canvas 图案绘制 ==========
+    drawRainbow(ctx, w, h) {
+        const colors = ['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#0000FF', '#4B0082', '#9400D3'];
+        const cx = w / 2, cy = h * 0.8, maxR = Math.min(w, h) * 0.45, band = maxR / colors.length;
+        colors.forEach((color, i) => {
+            ctx.beginPath();
+            ctx.arc(cx, cy, maxR - i * band, Math.PI, 0);
+            ctx.lineWidth = band;
+            ctx.strokeStyle = color;
+            ctx.stroke();
+        });
+        ctx.fillStyle = 'white';
+        ctx.beginPath(); ctx.arc(cx - maxR * 0.3, cy, maxR * 0.15, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(cx + maxR * 0.3, cy, maxR * 0.12, 0, Math.PI * 2); ctx.fill();
+    }
+
+    drawSunflower(ctx, w, h) {
+        const cx = w / 2, cy = h / 2;
+        for (let i = 0; i < 12; i++) {
+            const angle = (i / 12) * Math.PI * 2;
+            ctx.save();
+            ctx.translate(cx, cy);
+            ctx.rotate(angle);
+            ctx.beginPath();
+            ctx.ellipse(0, -h * 0.2, w * 0.08, h * 0.18, 0, 0, Math.PI * 2);
+            ctx.fillStyle = '#FFD700';
+            ctx.fill();
+            ctx.restore();
+        }
+        ctx.beginPath(); ctx.arc(cx, cy, w * 0.1, 0, Math.PI * 2);
+        ctx.fillStyle = '#8B4513'; ctx.fill();
+        for (let i = 0; i < 20; i++) {
+            const a = Math.random() * Math.PI * 2, r = Math.random() * w * 0.08;
+            ctx.beginPath(); ctx.arc(cx + Math.cos(a) * r, cy + Math.sin(a) * r, 2, 0, Math.PI * 2);
+            ctx.fillStyle = '#654321'; ctx.fill();
+        }
+    }
+
+    drawFish(ctx, w, h) {
+        const cx = w / 2, cy = h / 2;
+        ctx.beginPath(); ctx.ellipse(cx, cy, w * 0.25, h * 0.15, 0, 0, Math.PI * 2);
+        ctx.fillStyle = '#FF8C00'; ctx.fill();
+        ctx.beginPath();
+        ctx.moveTo(cx - w * 0.25, cy);
+        ctx.lineTo(cx - w * 0.4, cy - h * 0.1);
+        ctx.lineTo(cx - w * 0.4, cy + h * 0.1);
+        ctx.closePath(); ctx.fillStyle = '#FF8C00'; ctx.fill();
+        ctx.beginPath(); ctx.arc(cx + w * 0.15, cy - h * 0.05, 6, 0, Math.PI * 2);
+        ctx.fillStyle = 'white'; ctx.fill();
+        ctx.beginPath(); ctx.arc(cx + w * 0.16, cy - h * 0.05, 3, 0, Math.PI * 2);
+        ctx.fillStyle = 'black'; ctx.fill();
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 2; j++) {
+                ctx.beginPath();
+                ctx.arc(cx - w * 0.05 + i * 15, cy - h * 0.02 + j * 12, 5, 0, Math.PI, true);
+                ctx.strokeStyle = '#E6732E'; ctx.lineWidth = 2; ctx.stroke();
+            }
+        }
+    }
+
+    drawHouse(ctx, w, h) {
+        const cx = w / 2, cy = h * 0.6;
+        ctx.fillStyle = '#FFE4B5';
+        ctx.fillRect(cx - w * 0.2, cy - h * 0.15, w * 0.4, h * 0.3);
+        ctx.beginPath();
+        ctx.moveTo(cx - w * 0.25, cy - h * 0.15);
+        ctx.lineTo(cx, cy - h * 0.35);
+        ctx.lineTo(cx + w * 0.25, cy - h * 0.15);
+        ctx.closePath(); ctx.fillStyle = '#FF6347'; ctx.fill();
+        ctx.fillStyle = '#8B4513';
+        ctx.fillRect(cx - w * 0.05, cy + h * 0.05, w * 0.1, h * 0.1);
+        ctx.fillStyle = '#87CEEB';
+        ctx.fillRect(cx - w * 0.15, cy - h * 0.05, w * 0.08, h * 0.08);
+        ctx.fillRect(cx + w * 0.07, cy - h * 0.05, w * 0.08, h * 0.08);
+        ctx.fillStyle = '#90EE90';
+        ctx.fillRect(0, cy + h * 0.15, w, h * 0.2);
+        ctx.beginPath(); ctx.arc(w * 0.85, h * 0.15, 25, 0, Math.PI * 2);
+        ctx.fillStyle = '#FFD700'; ctx.fill();
+    }
+
+    drawStar(ctx, w, h) {
+        ctx.fillStyle = '#1a237e';
+        ctx.fillRect(0, 0, w, h);
+        this.drawSingleStar(ctx, w / 2, h / 2, 5, w * 0.25, w * 0.1);
+        ctx.fillStyle = '#FFD700'; ctx.fill();
+        const smallStars = [[w * 0.2, h * 0.2], [w * 0.8, h * 0.25], [w * 0.15, h * 0.75], [w * 0.85, h * 0.7], [w * 0.5, h * 0.15], [w * 0.5, h * 0.85]];
+        smallStars.forEach(([x, y]) => {
+            ctx.beginPath(); ctx.arc(x, y, Math.random() * 3 + 2, 0, Math.PI * 2);
+            ctx.fillStyle = 'white'; ctx.fill();
+        });
+    }
+
+    drawSingleStar(ctx, cx, cy, spikes, outerR, innerR) {
+        let rot = Math.PI / 2 * 3, x = cx, y = cy, step = Math.PI / spikes;
+        ctx.beginPath(); ctx.moveTo(cx, cy - outerR);
+        for (let i = 0; i < spikes; i++) {
+            x = cx + Math.cos(rot) * outerR; y = cy + Math.sin(rot) * outerR;
+            ctx.lineTo(x, y); rot += step;
+            x = cx + Math.cos(rot) * innerR; y = cy + Math.sin(rot) * innerR;
+            ctx.lineTo(x, y); rot += step;
+        }
+        ctx.lineTo(cx, cy - outerR); ctx.closePath();
+    }
+
+    drawBalloon(ctx, w, h) {
+        const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD'];
+        const gradient = ctx.createLinearGradient(0, 0, 0, h);
+        gradient.addColorStop(0, '#87CEEB');
+        gradient.addColorStop(1, '#E0F7FA');
+        ctx.fillStyle = gradient; ctx.fillRect(0, 0, w, h);
+        const positions = [[w * 0.25, h * 0.3], [w * 0.5, h * 0.25], [w * 0.75, h * 0.35], [w * 0.35, h * 0.6], [w * 0.65, h * 0.55]];
+        positions.forEach(([x, y], i) => {
+            const color = colors[i % colors.length], r = Math.min(w, h) * 0.1;
+            ctx.beginPath(); ctx.ellipse(x, y, r, r * 1.2, 0, 0, Math.PI * 2);
+            ctx.fillStyle = color; ctx.fill();
+            ctx.beginPath(); ctx.ellipse(x - r * 0.3, y - r * 0.3, r * 0.2, r * 0.3, -0.5, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(255,255,255,0.3)'; ctx.fill();
+            ctx.beginPath();
+            ctx.moveTo(x, y + r * 1.2);
+            ctx.quadraticCurveTo(x + 5, y + r * 1.5, x, y + r * 1.8);
+            ctx.strokeStyle = '#888'; ctx.lineWidth = 2; ctx.stroke();
+        });
+        ctx.fillStyle = 'rgba(255,255,255,0.8)';
+        ctx.beginPath(); ctx.arc(w * 0.15, h * 0.15, 20, 0, Math.PI * 2);
+        ctx.arc(w * 0.22, h * 0.12, 25, 0, Math.PI * 2);
+        ctx.arc(w * 0.28, h * 0.15, 18, 0, Math.PI * 2);
+        ctx.fill();
+    }
+}
+

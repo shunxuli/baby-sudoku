@@ -37,11 +37,12 @@
                     <div class="card-progress" id="math-progress">🟢 上次: 10以内</div>
                 </div>
                 
-                <!-- 预留：拼图 -->
-                <div class="game-card coming-soon" data-game="puzzle">
+                <!-- 拼图 -->
+                <div class="game-card" data-game="puzzle">
                     <div class="card-icon">🧩</div>
                     <div class="card-name">拼图</div>
-                    <div class="card-desc">即将上线</div>
+                    <div class="card-desc">拼出完整图案</div>
+                    <div class="card-progress" id="puzzle-progress">🟢 点击开始</div>
                 </div>
                 
                 <!-- 预留：记忆卡 -->
@@ -162,6 +163,72 @@
         </div>
     </div>
     
+    <!-- ========== 拼图配置页 ========== -->
+    <div id="puzzle-config-screen" class="screen">
+        <div class="config-container">
+            <button id="puzzle-config-back" class="icon-btn">←</button>
+            <h2 class="config-title">🧩 拼图</h2>
+            
+            <div class="config-section">
+                <p class="config-label">选择图案：</p>
+                <div class="mode-buttons">
+                    <button class="mode-btn" data-theme="rainbow">
+                        <span class="mode-icon">🌈</span>
+                        <span class="mode-name">彩虹</span>
+                    </button>
+                    <button class="mode-btn" data-theme="sunflower">
+                        <span class="mode-icon">🌻</span>
+                        <span class="mode-name">太阳花</span>
+                    </button>
+                    <button class="mode-btn" data-theme="fish">
+                        <span class="mode-icon">🐟</span>
+                        <span class="mode-name">小鱼</span>
+                    </button>
+                    <button class="mode-btn" data-theme="house">
+                        <span class="mode-icon">🏠</span>
+                        <span class="mode-name">小房子</span>
+                    </button>
+                    <button class="mode-btn" data-theme="star">
+                        <span class="mode-icon">⭐</span>
+                        <span class="mode-name">星星</span>
+                    </button>
+                    <button class="mode-btn" data-theme="balloon">
+                        <span class="mode-icon">🎈</span>
+                        <span class="mode-name">气球</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="config-section">
+                <p class="config-label">选择难度：</p>
+                <div class="difficulty-buttons">
+                    <button class="diff-btn" data-size="2" data-score="10">
+                        <span class="diff-name">入门</span>
+                        <span class="diff-size">2×2</span>
+                        <span class="diff-score">+10分</span>
+                    </button>
+                    <button class="diff-btn" data-size="3" data-score="20">
+                        <span class="diff-name">简单</span>
+                        <span class="diff-size">3×3</span>
+                        <span class="diff-score">+20分</span>
+                    </button>
+                    <button class="diff-btn" data-size="4" data-score="30">
+                        <span class="diff-name">中等</span>
+                        <span class="diff-size">4×4</span>
+                        <span class="diff-score">+30分</span>
+                    </button>
+                    <button class="diff-btn" data-size="5" data-score="50">
+                        <span class="diff-name">困难</span>
+                        <span class="diff-size">5×5</span>
+                        <span class="diff-score">+50分</span>
+                    </button>
+                </div>
+            </div>
+            
+            <button id="puzzle-start-btn" class="start-btn" disabled>开始游戏</button>
+        </div>
+    </div>
+    
     <!-- ========== 数独游戏界面（保留原有结构） ========== -->
     <div id="game-screen" class="screen">
         <div class="game-header">
@@ -246,6 +313,48 @@
                     <span class="btn-icon">❓</span>
                     <span class="btn-text">帮助</span>
                 </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ========== 拼图游戏界面 ========== -->
+    <div id="puzzle-game-screen" class="screen">
+        <div class="game-header">
+            <button id="puzzle-back-btn" class="icon-btn">←</button>
+            <div class="game-info">
+                <span id="puzzle-theme-display">🌈 彩虹</span>
+                <span id="puzzle-diff-display">3×3 简单</span>
+            </div>
+            <div class="game-score">
+                <span>⭐ <span id="puzzle-score-display">0</span></span>
+            </div>
+        </div>
+        
+        <div class="puzzle-container">
+            <div class="puzzle-preview-wrapper">
+                <div class="puzzle-preview" id="puzzle-preview"></div>
+                <span class="preview-label">原图</span>
+            </div>
+            
+            <div class="puzzle-board" id="puzzle-board"></div>
+            
+            <div class="puzzle-controls">
+                <div class="puzzle-options">
+                    <label class="puzzle-option">
+                        <input type="checkbox" id="puzzle-number-toggle" checked>
+                        <span>显示数字</span>
+                    </label>
+                </div>
+                <div class="action-buttons">
+                    <button id="puzzle-newgame-btn" class="action-btn">
+                        <span class="btn-icon">🆕</span>
+                        <span class="btn-text">新局</span>
+                    </button>
+                    <button id="puzzle-help-btn" class="action-btn">
+                        <span class="btn-icon">❓</span>
+                        <span class="btn-text">帮助</span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
