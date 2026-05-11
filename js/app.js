@@ -1195,7 +1195,8 @@ class PuzzleGame {
         document.getElementById('puzzle-help-btn').addEventListener('click', () => this.showTutorial());
         document.getElementById('puzzle-replay-btn').addEventListener('click', () => {
             this.hideComplete();
-            this.startGame();
+            this.lobby.showScreen('puzzle-config-screen');
+            this.checkStartReady();
         });
         document.getElementById('puzzle-home-btn').addEventListener('click', () => {
             this.hideComplete();
