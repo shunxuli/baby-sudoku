@@ -44,19 +44,19 @@ class BabySudoku {
             fruit: {
                 name: '水果乐园',
                 icon: '🍎',
-                items: ['🍎', '🍌', '🍇', '🍊', '🍓', '🍑', '🍐', '🍉', '🍒'],
+                items: ['🍎', '🍊', '🍌', '🥝', '🫐', '🍇', '🍋', '🍓', '🍑'],
                 names: {
-                    'zh': ['苹果', '香蕉', '葡萄', '橙子', '草莓', '桃子', '梨子', '西瓜', '樱桃'],
-                    'en': ['Apple', 'Banana', 'Grape', 'Orange', 'Strawberry', 'Peach', 'Pear', 'Watermelon', 'Cherry']
+                    'zh': ['苹果', '橘子', '香蕉', '猕猴桃', '蓝莓', '葡萄', '柠檬', '草莓', '桃子'],
+                    'en': ['Apple', 'Orange', 'Banana', 'Kiwi', 'Blueberry', 'Grape', 'Lemon', 'Strawberry', 'Peach']
                 }
             },
             animal: {
                 name: '动物世界',
-                icon: '🐱',
-                items: ['🐱', '🐶', '🐰', '🐻', '🐼', '🐨', '🦁', '🐯', '🐷'],
+                icon: '🐼',
+                items: ['🐼', '🦁', '🐸', '🦀', '🐥', '🐳', '🐙', '🐞', '🦋'],
                 names: {
-                    'zh': ['小猫', '小狗', '兔子', '小熊', '熊猫', '考拉', '狮子', '老虎', '小猪'],
-                    'en': ['Cat', 'Dog', 'Rabbit', 'Bear', 'Panda', 'Koala', 'Lion', 'Tiger', 'Pig']
+                    'zh': ['熊猫', '狮子', '青蛙', '螃蟹', '小鸡', '鲸鱼', '章鱼', '瓢虫', '蝴蝶'],
+                    'en': ['Panda', 'Lion', 'Frog', 'Crab', 'Chick', 'Whale', 'Octopus', 'Ladybug', 'Butterfly']
                 }
             },
             number: {
