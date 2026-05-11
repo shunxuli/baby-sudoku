@@ -10,18 +10,63 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>果果数独</title>
-    <link rel="stylesheet" href="css/style.css?v=2">
+    <title>果果乐园</title>
+    <link rel="stylesheet" href="css/style.css?v=3">
 </head>
 <body>
-    <!-- 启动页 -->
-    <div id="start-screen" class="screen active">
-        <div class="start-container">
-            <h1 class="game-title">🎯 果果数独</h1>
-            <p class="game-subtitle">开动小脑筋，快乐学数独！</p>
+    <!-- ========== 游戏大厅 ========== -->
+    <div id="lobby-screen" class="screen active">
+        <div class="lobby-container">
+            <h1 class="lobby-title">🎯 果果乐园</h1>
+            <p class="lobby-subtitle">今天想玩什么？</p>
             
-            <div class="mode-select">
-                <p class="select-label">选择喜欢的图案：</p>
+            <div class="game-cards">
+                <!-- 数独卡片 -->
+                <div class="game-card" data-game="sudoku">
+                    <div class="card-icon">🔢</div>
+                    <div class="card-name">数独</div>
+                    <div class="card-desc">动脑填空格</div>
+                    <div class="card-progress" id="sudoku-progress">🟢 上次: 入门 4×4</div>
+                </div>
+                
+                <!-- 数学卡片 -->
+                <div class="game-card" data-game="math">
+                    <div class="card-icon">➕</div>
+                    <div class="card-name">数学</div>
+                    <div class="card-desc">加减法练习</div>
+                    <div class="card-progress" id="math-progress">🟢 上次: 10以内</div>
+                </div>
+                
+                <!-- 预留：拼图 -->
+                <div class="game-card coming-soon" data-game="puzzle">
+                    <div class="card-icon">🧩</div>
+                    <div class="card-name">拼图</div>
+                    <div class="card-desc">即将上线</div>
+                </div>
+                
+                <!-- 预留：记忆卡 -->
+                <div class="game-card coming-soon" data-game="memory">
+                    <div class="card-icon">🎴</div>
+                    <div class="card-name">记忆卡</div>
+                    <div class="card-desc">即将上线</div>
+                </div>
+            </div>
+            
+            <div class="lobby-footer">
+                <div class="total-score">⭐ 总积分: <span id="lobby-score">0</span></div>
+                <button id="lobby-settings" class="footer-btn">⚙️ 设置</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ========== 数独配置页 ========== -->
+    <div id="sudoku-config-screen" class="screen">
+        <div class="config-container">
+            <button id="sudoku-config-back" class="icon-btn">←</button>
+            <h2 class="config-title">🔢 数独</h2>
+            
+            <div class="config-section">
+                <p class="config-label">选择喜欢的图案：</p>
                 <div class="mode-buttons">
                     <button class="mode-btn" data-mode="number">
                         <span class="mode-icon">🔢</span>
@@ -32,14 +77,14 @@
                         <span class="mode-name">水果乐园</span>
                     </button>
                     <button class="mode-btn" data-mode="animal">
-                        <span class="mode-icon">🐱</span>
+                        <span class="mode-icon">🐼</span>
                         <span class="mode-name">动物世界</span>
                     </button>
                 </div>
             </div>
             
-            <div class="difficulty-select">
-                <p class="select-label">选择难度：</p>
+            <div class="config-section">
+                <p class="config-label">选择难度：</p>
                 <div class="difficulty-buttons">
                     <button class="diff-btn" data-size="4" data-score="10">
                         <span class="diff-name">入门</span>
@@ -59,22 +104,70 @@
                 </div>
             </div>
             
-            <button id="start-btn" class="start-btn" disabled>开始游戏</button>
-            
-            <div class="start-footer">
-                <button id="continue-btn" class="footer-btn" style="display:none;">继续上局</button>
-                <button id="help-btn-start" class="footer-btn">📖 怎么玩</button>
-                <button id="settings-btn-start" class="footer-btn">⚙️ 设置</button>
-            </div>
+            <button id="sudoku-start-btn" class="start-btn" disabled>开始游戏</button>
         </div>
     </div>
     
-    <!-- 游戏主界面 -->
+    <!-- ========== 数学配置页 ========== -->
+    <div id="math-config-screen" class="screen">
+        <div class="config-container">
+            <button id="math-config-back" class="icon-btn">←</button>
+            <h2 class="config-title">➕ 数学</h2>
+            
+            <div class="config-section">
+                <p class="config-label">选择运算：</p>
+                <div class="mode-buttons">
+                    <button class="mode-btn" data-op="add">
+                        <span class="mode-icon">➕</span>
+                        <span class="mode-name">加法</span>
+                    </button>
+                    <button class="mode-btn" data-op="sub">
+                        <span class="mode-icon">➖</span>
+                        <span class="mode-name">减法</span>
+                    </button>
+                    <button class="mode-btn" data-op="mix">
+                        <span class="mode-icon">±</span>
+                        <span class="mode-name">加减混合</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="config-section">
+                <p class="config-label">选择难度：</p>
+                <div class="difficulty-buttons">
+                    <button class="diff-btn" data-range="10" data-score="5">
+                        <span class="diff-name">入门</span>
+                        <span class="diff-size">10以内</span>
+                        <span class="diff-score">+5分</span>
+                    </button>
+                    <button class="diff-btn" data-range="20" data-score="10">
+                        <span class="diff-name">简单</span>
+                        <span class="diff-size">20以内</span>
+                        <span class="diff-score">+10分</span>
+                    </button>
+                    <button class="diff-btn" data-range="100" data-score="20">
+                        <span class="diff-name">中等</span>
+                        <span class="diff-size">100以内</span>
+                        <span class="diff-score">+20分</span>
+                    </button>
+                    <button class="diff-btn" data-range="1000" data-score="50">
+                        <span class="diff-name">困难</span>
+                        <span class="diff-size">1000以内</span>
+                        <span class="diff-score">+50分</span>
+                    </button>
+                </div>
+            </div>
+            
+            <button id="math-start-btn" class="start-btn" disabled>开始游戏</button>
+        </div>
+    </div>
+    
+    <!-- ========== 数独游戏界面（保留原有结构） ========== -->
     <div id="game-screen" class="screen">
         <div class="game-header">
             <button id="back-btn" class="icon-btn">←</button>
             <div class="game-info">
-                <span id="mode-display">🍎 水果乐园</span>
+                <span id="mode-display">🔢 数字王国</span>
                 <span id="diff-display">4×4 入门</span>
             </div>
             <div class="game-score">
@@ -110,11 +203,59 @@
         </div>
     </div>
     
+    <!-- ========== 数学游戏界面 ========== -->
+    <div id="math-game-screen" class="screen">
+        <div class="game-header">
+            <button id="math-back-btn" class="icon-btn">←</button>
+            <div class="game-info">
+                <span id="math-mode-display">➕ 加法</span>
+                <span id="math-diff-display">10以内</span>
+            </div>
+            <div class="game-score">
+                <span>⭐ <span id="math-score-display">0</span></span>
+            </div>
+        </div>
+        
+        <div class="math-game-container">
+            <div class="math-question" id="math-question">
+                <span class="math-num" id="math-num1">3</span>
+                <span class="math-op" id="math-op">+</span>
+                <span class="math-num" id="math-num2">5</span>
+                <span class="math-eq">=</span>
+                <span class="math-answer" id="math-answer">?</span>
+            </div>
+            
+            <div class="math-numpad" id="math-numpad"></div>
+            
+            <div class="math-stats">
+                <span>答对: <span id="math-correct">0</span></span>
+                <span>连对: <span id="math-streak">0</span>🔥</span>
+            </div>
+            
+            <div class="action-buttons">
+                <button id="math-hint-btn" class="action-btn hint-btn">
+                    <span class="btn-icon">💡</span>
+                    <span class="btn-text">提示</span>
+                    <span class="btn-cost">-1分</span>
+                </button>
+                <button id="math-skip-btn" class="action-btn">
+                    <span class="btn-icon">⏭️</span>
+                    <span class="btn-text">跳过</span>
+                </button>
+                <button id="math-help-btn" class="action-btn">
+                    <span class="btn-icon">❓</span>
+                    <span class="btn-text">帮助</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ========== 弹窗（共用） ========== -->
     <!-- 教学弹窗 -->
     <div id="tutorial-overlay" class="overlay">
         <div class="modal tutorial-modal">
-            <h2>🎓 果果数独怎么玩？</h2>
-            <div class="tutorial-content">
+            <h2>🎓 怎么玩？</h2>
+            <div class="tutorial-content" id="tutorial-content">
                 <div class="tutorial-step">
                     <span class="step-num">1</span>
                     <p>每一行、每一列都不能有重复的图案哦！</p>
@@ -157,7 +298,7 @@
         <div class="modal error-modal">
             <div class="error-icon">❌</div>
             <h2>不对哦！</h2>
-            <p id="error-message">这里不能放这个图案，再想一想吧！</p>
+            <p id="error-message">再想一想吧！</p>
             <button id="error-close" class="modal-btn">确定</button>
         </div>
     </div>
@@ -167,7 +308,7 @@
         <div class="modal hint-modal">
             <div class="hint-icon">💡</div>
             <h2>小提示</h2>
-            <p id="hint-message">这个格子应该放...</p>
+            <p id="hint-message">答案是...</p>
             <div id="hint-display" class="hint-display"></div>
             <button id="hint-close" class="modal-btn">知道啦</button>
         </div>
@@ -178,7 +319,7 @@
         <div class="modal win-modal">
             <div class="win-icon">🎉</div>
             <h2>太棒了！</h2>
-            <p>你完成啦！</p>
+            <p id="win-message">你完成啦！</p>
             <p class="win-score">获得 <span id="win-score">0</span> 分！</p>
             <button id="win-close" class="modal-btn">再来一局</button>
         </div>
@@ -196,7 +337,7 @@
         </div>
     </div>
 
-    <script src="js/sudoku.js?v=2"></script>
-    <script src="js/app.js?v=2"></script>
+    <script src="js/sudoku.js?v=3"></script>
+    <script src="js/app.js?v=3"></script>
 </body>
 </html>

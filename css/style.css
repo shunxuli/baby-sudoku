@@ -52,7 +52,279 @@ html, body {
     justify-content: center;
 }
 
-/* ========== 启动页 ========== */
+/* ========== 游戏大厅 ========== */
+#lobby-screen {
+    padding: 20px;
+}
+
+.lobby-container {
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+}
+
+.lobby-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--primary);
+    text-shadow: 2px 2px 0px rgba(255,140,66,0.2);
+    margin-bottom: 6px;
+    letter-spacing: 2px;
+}
+
+.lobby-subtitle {
+    font-size: 1rem;
+    color: var(--text-light);
+    margin-bottom: 24px;
+}
+
+.game-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-bottom: 24px;
+}
+
+.game-card {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: 20px 14px;
+    box-shadow: var(--shadow-soft);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    border: 3px solid transparent;
+    position: relative;
+}
+
+.game-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+}
+
+.game-card[data-game="sudoku"] {
+    background: linear-gradient(135deg, #E8F5E9, #C8E6C9);
+    border-color: #81C784;
+}
+
+.game-card[data-game="math"] {
+    background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
+    border-color: #64B5F6;
+}
+
+.game-card.coming-soon {
+    background: #F5F5F5;
+    border-color: #E0E0E0;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.game-card.coming-soon .card-icon,
+.game-card.coming-soon .card-name {
+    filter: grayscale(0.6);
+}
+
+.card-icon {
+    font-size: 2.8rem;
+    margin-bottom: 4px;
+}
+
+.card-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.card-desc {
+    font-size: 0.8rem;
+    color: var(--text-light);
+}
+
+.card-progress {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--success);
+    background: rgba(255,255,255,0.7);
+    padding: 3px 10px;
+    border-radius: 12px;
+    margin-top: 4px;
+}
+
+.lobby-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.total-score {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--warning);
+    background: rgba(255,165,2,0.1);
+    padding: 10px 20px;
+    border-radius: 30px;
+}
+
+/* ========== 配置页 ========== */
+.config-container {
+    width: 100%;
+    max-width: 500px;
+    padding: 20px;
+    text-align: center;
+}
+
+.config-title {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+
+.config-section {
+    margin-bottom: 20px;
+}
+
+.config-label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 12px;
+}
+
+/* ========== 数学游戏 ========== */
+#math-game-screen {
+    padding: 10px;
+    justify-content: flex-start;
+}
+
+.math-game-container {
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    flex: 1;
+    padding: 10px 0;
+}
+
+.math-question {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 30px 20px;
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft);
+    width: 100%;
+    max-width: 400px;
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.math-num {
+    min-width: 60px;
+    text-align: center;
+}
+
+.math-op {
+    color: var(--primary);
+    font-size: 2.5rem;
+    font-weight: 800;
+}
+
+.math-eq {
+    color: var(--text-light);
+    font-size: 2.5rem;
+}
+
+.math-answer {
+    min-width: 60px;
+    text-align: center;
+    color: var(--secondary);
+    border-bottom: 4px dashed var(--secondary);
+    padding-bottom: 4px;
+}
+
+.math-answer.filled {
+    border-bottom: 4px solid var(--success);
+    color: var(--success);
+}
+
+.math-answer.error {
+    border-bottom: 4px solid var(--danger);
+    color: var(--danger);
+    animation: shake 0.5s ease;
+}
+
+.math-numpad {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    width: 100%;
+    max-width: 400px;
+}
+
+.math-num-btn {
+    aspect-ratio: 1;
+    font-size: 1.6rem;
+    font-weight: 700;
+    background: var(--card-bg);
+    border: 2px solid #E8E8E8;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    box-shadow: 0 3px 0 #D0D0D0, 0 4px 8px rgba(0,0,0,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.math-num-btn:active {
+    transform: translateY(3px);
+    box-shadow: 0 0 0 #D0D0D0, 0 2px 4px rgba(0,0,0,0.08);
+}
+
+.math-num-btn:hover {
+    border-color: var(--primary);
+}
+
+.math-num-btn.correct {
+    background: #E8F5E9;
+    border-color: var(--success);
+    color: var(--success);
+}
+
+.math-num-btn.wrong {
+    background: #FFEBEE;
+    border-color: var(--danger);
+    color: var(--danger);
+}
+
+.math-stats {
+    display: flex;
+    gap: 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-light);
+}
+
+.math-stats span {
+    background: var(--card-bg);
+    padding: 8px 16px;
+    border-radius: 20px;
+    box-shadow: var(--shadow-soft);
+}
+
+/* ========== 原有数独样式（保持不变） ========== */
 .start-container {
     width: 100%;
     max-width: 500px;
@@ -82,7 +354,6 @@ html, body {
     margin-bottom: 12px;
 }
 
-/* 模式选择 */
 .mode-select {
     margin-bottom: 20px;
 }
@@ -130,7 +401,6 @@ html, body {
     box-shadow: 0 0 0 3px rgba(255,140,66,0.2), var(--shadow-soft);
 }
 
-/* 难度选择 */
 .difficulty-select {
     margin-bottom: 24px;
 }
@@ -184,7 +454,6 @@ html, body {
     box-shadow: 0 0 0 3px rgba(108,92,231,0.2), var(--shadow-soft);
 }
 
-/* 开始按钮 */
 .start-btn {
     width: 100%;
     max-width: 280px;
@@ -211,13 +480,6 @@ html, body {
     cursor: not-allowed;
 }
 
-.start-footer {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
 .footer-btn {
     padding: 10px 18px;
     font-size: 0.9rem;
@@ -236,7 +498,6 @@ html, body {
     color: var(--primary);
 }
 
-/* ========== 游戏界面 ========== */
 #game-screen {
     padding: 10px;
     justify-content: flex-start;
@@ -304,7 +565,6 @@ html, body {
     border-radius: 20px;
 }
 
-/* 游戏棋盘 */
 .game-board-container {
     width: 100%;
     max-width: 500px;
@@ -376,7 +636,6 @@ html, body {
     box-shadow: inset 0 0 0 3px var(--warning);
 }
 
-/* 宫格粗边框 */
 .cell.border-right {
     border-right: 2px solid #808080;
 }
@@ -399,7 +658,6 @@ html, body {
     100% { transform: scale(1); }
 }
 
-/* ========== 控制区 ========== */
 .game-controls {
     width: 100%;
     max-width: 500px;
@@ -608,7 +866,6 @@ html, body {
     box-shadow: var(--shadow-3d-active);
 }
 
-/* 教学弹窗 */
 .tutorial-content {
     text-align: left;
     margin-bottom: 20px;
@@ -641,7 +898,6 @@ html, body {
     padding-top: 4px;
 }
 
-/* 设置弹窗 */
 .setting-item {
     display: flex;
     justify-content: space-between;
@@ -678,7 +934,6 @@ html, body {
     background: linear-gradient(135deg, var(--success), #00B894);
 }
 
-/* 错误弹窗 */
 .error-icon {
     font-size: 3rem;
     margin-bottom: 8px;
@@ -688,7 +943,6 @@ html, body {
     color: var(--danger);
 }
 
-/* 提示弹窗 */
 .hint-icon {
     font-size: 3rem;
     margin-bottom: 8px;
@@ -703,7 +957,6 @@ html, body {
     border: 2px dashed var(--warning);
 }
 
-/* 完成弹窗 */
 .win-icon {
     font-size: 3.5rem;
     margin-bottom: 8px;
@@ -721,7 +974,6 @@ html, body {
     color: var(--warning);
 }
 
-/* 确认弹窗 */
 .confirm-buttons {
     display: flex;
     gap: 10px;
@@ -737,6 +989,31 @@ html, body {
 
 /* ========== 响应式适配 ========== */
 @media (max-width: 380px) {
+    .lobby-title {
+        font-size: 1.8rem;
+    }
+    
+    .game-cards {
+        gap: 10px;
+    }
+    
+    .game-card {
+        padding: 16px 10px;
+    }
+    
+    .card-icon {
+        font-size: 2.2rem;
+    }
+    
+    .math-question {
+        font-size: 2.2rem;
+        padding: 20px 14px;
+    }
+    
+    .math-num {
+        min-width: 40px;
+    }
+    
     .game-title {
         font-size: 2rem;
     }
@@ -766,6 +1043,22 @@ html, body {
 }
 
 @media (min-width: 768px) {
+    .lobby-title {
+        font-size: 2.8rem;
+    }
+    
+    .game-card {
+        padding: 28px 20px;
+    }
+    
+    .card-icon {
+        font-size: 3.5rem;
+    }
+    
+    .math-question {
+        font-size: 4rem;
+    }
+    
     .game-title {
         font-size: 3rem;
     }
@@ -793,7 +1086,6 @@ html, body {
     }
 }
 
-/* 横屏优化 */
 @media (orientation: landscape) and (max-height: 500px) {
     #game-screen {
         flex-direction: row;
@@ -828,5 +1120,17 @@ html, body {
     
     .action-buttons {
         flex-direction: column;
+    }
+    
+    #math-game-screen {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .math-game-container {
+        flex-direction: row;
+        flex-wrap: wrap;
     }
 }
