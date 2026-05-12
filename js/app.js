@@ -1153,14 +1153,14 @@ class PuzzleGame {
         };
         this.patterns = [
             { id: 0, name: '彩虹条纹', type: 'stripes', dir: 'diagonal', colors: ['#FF0000','#FF7F00','#FFFF00','#00FF00','#0000FF','#4B0082','#9400D3'] },
-            { id: 1, name: '蓝天白云', type: 'gradient', bg: ['#87CEEB','#E0F7FA'], elements: 'clouds' },
+            { id: 1, name: '风筝', type: 'custom', shape: 'kite' },
             { id: 2, name: '小猫', type: 'custom', shape: 'cat' },
-            { id: 3, name: '星空', type: 'gradient', bg: '#0D1B2A', elements: 'stars2' },
+            { id: 3, name: '月亮兔子', type: 'custom', shape: 'moonrabbit' },
             { id: 4, name: '小鸟', type: 'custom', shape: 'bird' },
             { id: 5, name: '小狗', type: 'custom', shape: 'dog' },
             { id: 6, name: '小房子', type: 'custom', shape: 'house' },
-            { id: 7, name: '螺旋迷宫', type: 'radial', style: 'spiral', colors: ['#6C5CE7','#A29BFE'] },
-            { id: 8, name: '锯齿山脉', type: 'waves', style: 'zigzag', colors: ['#228B22','#8B4513','#87CEEB'] },
+            { id: 7, name: '螺旋迷宫', type: 'radial', style: 'spiral', colors: ['#6C5CE7','#A29BFE','#00CED1','#FFD700','#FF69B4'] },
+            { id: 8, name: '锯齿山脉', type: 'waves', style: 'zigzag', colors: ['#2E7D32','#8D6E63','#29B6F6','#FFB300','#E53935'] },
             { id: 9, name: '放射光芒', type: 'radial', style: 'rays', colors: ['#FFD700','#FF8C00'] },
             { id: 10, name: '小雨伞', type: 'custom', shape: 'umbrella' },
             { id: 11, name: '礼物盒', type: 'custom', shape: 'gift' },
@@ -2228,6 +2228,8 @@ class PuzzleGame {
 
     drawCustom(ctx, w, h, pattern) {
         switch(pattern.shape) {
+            case 'kite': this.drawCustomKite(ctx, w, h); break;
+            case 'moonrabbit': this.drawCustomMoonRabbit(ctx, w, h); break;
             case 'cat': this.drawCustomCat(ctx, w, h); break;
             case 'bird': this.drawCustomBird(ctx, w, h); break;
             case 'dog': this.drawCustomDog(ctx, w, h); break;
@@ -2302,7 +2304,8 @@ class PuzzleGame {
         // 爪子
         ctx.fillStyle = '#FFB6C1'; ctx.beginPath(); ctx.arc(cx - 24, cy + 88, 8, 0, Math.PI * 2); ctx.fill();
         ctx.beginPath(); ctx.arc(cx + 36, cy + 88, 8, 0, Math.PI * 2); ctx.fill();
-    }
+            this.drawSurroundings(ctx, w, h, 'cat');
+}
 
     drawCustomBird(ctx, w, h) {
         ctx.fillStyle = '#E0F7FA';
@@ -2338,7 +2341,8 @@ class PuzzleGame {
         // 脚
         ctx.beginPath(); ctx.moveTo(cx - 8, cy + 30); ctx.lineTo(cx - 12, cy + 48); ctx.strokeStyle = '#FF8C00'; ctx.lineWidth = 4; ctx.stroke();
         ctx.beginPath(); ctx.moveTo(cx + 8, cy + 30); ctx.lineTo(cx + 12, cy + 48); ctx.stroke();
-    }
+            this.drawSurroundings(ctx, w, h, 'bird');
+}
 
     drawCustomDog(ctx, w, h) {
         ctx.fillStyle = '#F5F5DC';
@@ -2377,7 +2381,8 @@ class PuzzleGame {
         ctx.beginPath(); ctx.arc(cx + 65, cy - 45, 6, 0, Math.PI * 2); ctx.fillStyle = '#D2691E'; ctx.fill();
         // 草地
         ctx.fillStyle = '#90EE90'; ctx.fillRect(0, h * 0.88, w, h * 0.12);
-    }
+            this.drawSurroundings(ctx, w, h, 'dog');
+}
 
     drawCustomHouse(ctx, w, h) {
         ctx.fillStyle = '#87CEEB';
@@ -2413,7 +2418,8 @@ class PuzzleGame {
         ctx.fillStyle = 'rgba(200,200,200,0.5)';
         ctx.beginPath(); ctx.arc(cx + 42, cy - 85, 8, 0, Math.PI * 2); ctx.fill();
         ctx.beginPath(); ctx.arc(cx + 50, cy - 95, 10, 0, Math.PI * 2); ctx.fill();
-    }
+            this.drawSurroundings(ctx, w, h, 'house');
+}
 
     drawCustomUmbrella(ctx, w, h) {
         ctx.fillStyle = '#E0F7FA';
@@ -2436,7 +2442,8 @@ class PuzzleGame {
         ctx.beginPath(); ctx.arc(cx, cy + 90, 10, 0, Math.PI); ctx.strokeStyle = '#333'; ctx.lineWidth = 4; ctx.stroke();
         // 水坑
         ctx.beginPath(); ctx.ellipse(cx, h * 0.85, 50, 12, 0, 0, Math.PI * 2); ctx.fillStyle = 'rgba(100,150,200,0.25)'; ctx.fill();
-    }
+            this.drawSurroundings(ctx, w, h, 'umbrella');
+}
 
     drawCustomGift(ctx, w, h) {
         ctx.fillStyle = '#FFF8F0';
@@ -2455,7 +2462,8 @@ class PuzzleGame {
         ctx.beginPath(); ctx.moveTo(cx + 5, cy - boxH/2 + 5); ctx.quadraticCurveTo(cx + 20, cy + 10, cx + 15, cy + 25); ctx.strokeStyle = '#FF1493'; ctx.lineWidth = 6; ctx.stroke();
         // 小爱心
         ctx.fillStyle = '#FFD700'; this.drawHeart(ctx, cx - 35, cy - 5, 12); this.drawHeart(ctx, cx + 35, cy + 5, 10);
-    }
+            this.drawSurroundings(ctx, w, h, 'gift');
+}
 
     drawCustomCandle(ctx, w, h) {
         ctx.fillStyle = '#1a1a2e';
@@ -2478,7 +2486,8 @@ class PuzzleGame {
             const x = Math.random() * w, y = Math.random() * h;
             ctx.beginPath(); ctx.arc(x, y, Math.random() * 2 + 1, 0, Math.PI * 2); ctx.fillStyle = 'rgba(255,255,255,0.6)'; ctx.fill();
         }
-    }
+            this.drawSurroundings(ctx, w, h, 'candle');
+}
 
     drawCustomSnowman(ctx, w, h) {
         ctx.fillStyle = '#B0C4DE';
@@ -2514,7 +2523,8 @@ class PuzzleGame {
         ctx.beginPath(); ctx.arc(cx, cy + 10, 4, 0, Math.PI * 2); ctx.fillStyle = '#333'; ctx.fill();
         // 地
         ctx.fillStyle = '#FFF'; ctx.fillRect(0, h * 0.88, w, h * 0.12);
-    }
+            this.drawSurroundings(ctx, w, h, 'snowman');
+}
 
     drawCustomAppleTree(ctx, w, h) {
         ctx.fillStyle = '#87CEEB';
@@ -2537,7 +2547,8 @@ class PuzzleGame {
         // 云
         ctx.fillStyle = 'rgba(255,255,255,0.9)';
         ctx.beginPath(); ctx.arc(w * 0.15, h * 0.2, 18, 0, Math.PI * 2); ctx.arc(w * 0.22, h * 0.17, 22, 0, Math.PI * 2); ctx.arc(w * 0.28, h * 0.2, 16, 0, Math.PI * 2); ctx.fill();
-    }
+            this.drawSurroundings(ctx, w, h, 'appletree');
+}
 
     drawCustomWatermelon(ctx, w, h) {
         ctx.fillStyle = '#E8F5E9';
@@ -2555,7 +2566,8 @@ class PuzzleGame {
         ctx.beginPath(); ctx.ellipse(cx, cy + rh + 15, rw * 0.8, 12, 0, 0, Math.PI * 2); ctx.fillStyle = '#DDD'; ctx.fill();
         // 小刀
         ctx.fillStyle = '#AAA'; ctx.fillRect(cx + rw + 10, cy - 20, 8, 60); ctx.fillStyle = '#DDD'; ctx.fillRect(cx + rw + 8, cy - 25, 12, 10);
-    }
+            this.drawSurroundings(ctx, w, h, 'watermelon');
+}
 
     drawCustomOrange(ctx, w, h) {
         ctx.fillStyle = '#FFF8E1';
@@ -2579,7 +2591,8 @@ class PuzzleGame {
         // 籽
         ctx.beginPath(); ctx.arc(cx + 5, cy + 5, 2, 0, Math.PI * 2); ctx.fillStyle = '#FFF'; ctx.fill();
         ctx.beginPath(); ctx.arc(cx - 8, cy - 5, 2, 0, Math.PI * 2); ctx.fillStyle = '#FFF'; ctx.fill();
-    }
+            this.drawSurroundings(ctx, w, h, 'orange');
+}
 
     drawCustomLemon(ctx, w, h) {
         ctx.fillStyle = '#FFFFE0';
@@ -2596,7 +2609,8 @@ class PuzzleGame {
             ctx.strokeStyle = '#FFFFE0'; ctx.lineWidth = 2; ctx.stroke();
         }
         ctx.beginPath(); ctx.ellipse(cx + r * 0.4, cy - r * 0.5, 12, 6, 0.3, 0, Math.PI * 2); ctx.fillStyle = '#228B22'; ctx.fill();
-    }
+            this.drawSurroundings(ctx, w, h, 'lemon');
+}
 
     drawCustomStrawberry(ctx, w, h) {
         ctx.fillStyle = '#FFF0F5';
@@ -2621,7 +2635,8 @@ class PuzzleGame {
         seeds.forEach(([x, y]) => { ctx.beginPath(); ctx.arc(x, y, 2.5, 0, Math.PI * 2); ctx.fillStyle = '#FFD700'; ctx.fill(); });
         // 盘子
         ctx.beginPath(); ctx.ellipse(cx, cy + 65, 50, 10, 0, 0, Math.PI * 2); ctx.fillStyle = '#DDD'; ctx.fill();
-    }
+            this.drawSurroundings(ctx, w, h, 'strawberry');
+}
 
     drawCustomFish(ctx, w, h) {
         ctx.fillStyle = '#00BFFF';
@@ -2660,7 +2675,8 @@ class PuzzleGame {
         ctx.beginPath(); ctx.arc(cx + 37, cy - 8, 3.5, 0, Math.PI * 2); ctx.fillStyle = '#000'; ctx.fill();
         // 嘴巴
         ctx.beginPath(); ctx.arc(cx + 50, cy + 3, 4, 0, Math.PI); ctx.strokeStyle = '#000'; ctx.lineWidth = 1.5; ctx.stroke();
-    }
+            this.drawSurroundings(ctx, w, h, 'fish');
+}
 
     drawCustomButterfly(ctx, w, h) {
         ctx.fillStyle = '#E6F3FF';
@@ -2695,7 +2711,8 @@ class PuzzleGame {
         // 触角球
         ctx.beginPath(); ctx.arc(cx - 8, cy - 58, 3, 0, Math.PI * 2); ctx.fillStyle = '#333'; ctx.fill();
         ctx.beginPath(); ctx.arc(cx + 8, cy - 58, 3, 0, Math.PI * 2); ctx.fillStyle = '#333'; ctx.fill();
-    }
+            this.drawSurroundings(ctx, w, h, 'butterfly');
+}
 
     drawCustomGoldfish(ctx, w, h) {
         ctx.fillStyle = '#1E3A5F';
@@ -2729,7 +2746,8 @@ class PuzzleGame {
         ctx.beginPath(); ctx.arc(cx + 37, cy - 8, 5, 0, Math.PI * 2); ctx.fillStyle = '#000'; ctx.fill();
         // 嘴巴
         ctx.beginPath(); ctx.arc(cx + 48, cy + 3, 4, 0, Math.PI); ctx.strokeStyle = '#000'; ctx.lineWidth = 1.5; ctx.stroke();
-    }
+            this.drawSurroundings(ctx, w, h, 'goldfish');
+}
 
     drawCustomBee(ctx, w, h) {
         ctx.fillStyle = '#E8F5E9';
@@ -2760,7 +2778,8 @@ class PuzzleGame {
         ctx.beginPath(); ctx.moveTo(cx + 32, cy + 2); ctx.quadraticCurveTo(cx + 42, cy + 8, cx + 38, cy + 15); ctx.stroke();
         // 尾刺
         ctx.beginPath(); ctx.moveTo(cx - 28, cy); ctx.lineTo(cx - 40, cy - 5); ctx.lineTo(cx - 40, cy + 5); ctx.closePath(); ctx.fillStyle = '#333'; ctx.fill();
-    }
+            this.drawSurroundings(ctx, w, h, 'bee');
+}
 
     drawCustomCastle(ctx, w, h) {
         ctx.fillStyle = '#87CEEB';
@@ -2799,7 +2818,8 @@ class PuzzleGame {
         ctx.fillStyle = '#D3D3D3'; ctx.fillRect(cx - 80, cy + 30, 160, 15);
         // 护城河
         ctx.fillStyle = '#4682B4'; ctx.fillRect(0, h * 0.88, w, h * 0.12);
-    }
+            this.drawSurroundings(ctx, w, h, 'castle');
+}
 
     drawCustomZebra(ctx, w, h) {
         ctx.fillStyle = '#90EE90';
@@ -2846,7 +2866,8 @@ class PuzzleGame {
         // 尾巴
         ctx.beginPath(); ctx.moveTo(cx - 50, cy); ctx.quadraticCurveTo(cx - 75, cy - 20, cx - 70, cy - 45); ctx.strokeStyle = '#000'; ctx.lineWidth = 5; ctx.stroke();
         ctx.beginPath(); ctx.arc(cx - 70, cy - 45, 6, 0, Math.PI * 2); ctx.fillStyle = '#000'; ctx.fill();
-    }
+            this.drawSurroundings(ctx, w, h, 'zebra');
+}
 
     drawCustomLeopard(ctx, w, h) {
         ctx.fillStyle = '#D2B48C';
@@ -2877,7 +2898,8 @@ class PuzzleGame {
         ctx.fillRect(cx + 15, cy + 45, 10, 32); ctx.fillRect(cx + 35, cy + 45, 10, 32);
         // 尾巴
         ctx.beginPath(); ctx.moveTo(cx - 48, cy + 5); ctx.quadraticCurveTo(cx - 75, cy - 15, cx - 68, cy - 40); ctx.strokeStyle = '#FFD700'; ctx.lineWidth = 8; ctx.stroke();
-    }
+            this.drawSurroundings(ctx, w, h, 'leopard');
+}
 
     drawCustomCow(ctx, w, h) {
         ctx.fillStyle = '#87CEEB';
@@ -2922,7 +2944,8 @@ class PuzzleGame {
         ctx.beginPath(); ctx.arc(cx - 72, cy - 35, 5, 0, Math.PI * 2); ctx.fillStyle = '#000'; ctx.fill();
         // 铃铛
         ctx.beginPath(); ctx.arc(cx + 48, cy + 8, 6, 0, Math.PI * 2); ctx.fillStyle = '#FFD700'; ctx.fill();
-    }
+            this.drawSurroundings(ctx, w, h, 'cow');
+}
 
     drawCustomPeacock(ctx, w, h) {
         ctx.fillStyle = '#E0F7FA';
@@ -2963,6 +2986,350 @@ class PuzzleGame {
         ctx.beginPath(); ctx.moveTo(cx + 8, cy + 30); ctx.lineTo(cx + 10, cy + 55); ctx.strokeStyle = '#FF8C00'; ctx.lineWidth = 3; ctx.stroke();
         // 草地
         ctx.fillStyle = '#90EE90'; ctx.fillRect(0, h * 0.88, w, h * 0.12);
+            this.drawSurroundings(ctx, w, h, 'peacock');
+}
+
+
+// ========== 通用环境装饰系统 ==========
+    drawSurroundings(ctx, w, h, name) {
+        const configs = {
+            kite: [
+                {t:'sun',x:0.12,y:0.12,s:0.1,c:'#FFD700'},
+                {t:'cloud',x:0.82,y:0.18,s:0.08,c:'#FFF'},
+                {t:'bird',x:0.88,y:0.08,s:0.05,c:'#FF6347'},
+                {t:'grass',x:0.15,y:0.92,s:0.06,c:'#228B22'},
+                {t:'flower',x:0.85,y:0.88,s:0.05,c:'#FF69B4'},
+                {t:'cloud',x:0.2,y:0.35,s:0.06,c:'#FFF'},
+            ],
+            moonrabbit: [
+                {t:'star',x:0.08,y:0.12,s:0.04,c:'#FFD700'},
+                {t:'star',x:0.88,y:0.08,s:0.035,c:'#FFF'},
+                {t:'star',x:0.92,y:0.28,s:0.04,c:'#FFD700'},
+                {t:'star',x:0.12,y:0.32,s:0.03,c:'#FFF'},
+                {t:'cloud',x:0.75,y:0.38,s:0.05,c:'rgba(255,255,255,0.15)'},
+                {t:'star',x:0.5,y:0.08,s:0.025,c:'#FFD700'},
+                {t:'star',x:0.3,y:0.15,s:0.02,c:'#FFF'},
+            ],
+            cat: [
+                {t:'grass',x:0.1,y:0.92,s:0.06,c:'#228B22'},
+                {t:'flower',x:0.88,y:0.88,s:0.05,c:'#FF69B4'},
+                {t:'ball',x:0.12,y:0.72,s:0.05,c:'#FF6347'},
+                {t:'sun',x:0.85,y:0.12,s:0.08,c:'#FFD700'},
+                {t:'grass',x:0.7,y:0.92,s:0.05,c:'#32CD32'},
+                {t:'flower',x:0.2,y:0.82,s:0.04,c:'#9370DB'},
+            ],
+            bird: [
+                {t:'cloud',x:0.1,y:0.18,s:0.07,c:'#FFF'},
+                {t:'cloud',x:0.85,y:0.12,s:0.06,c:'#FFF'},
+                {t:'leaf',x:0.12,y:0.75,s:0.05,c:'#228B22'},
+                {t:'leaf',x:0.88,y:0.78,s:0.05,c:'#32CD32'},
+                {t:'flower',x:0.5,y:0.9,s:0.05,c:'#FF69B4'},
+                {t:'sun',x:0.15,y:0.1,s:0.07,c:'#FFD700'},
+            ],
+            dog: [
+                {t:'bone',x:0.12,y:0.2,s:0.06,c:'#FFF'},
+                {t:'ball',x:0.85,y:0.82,s:0.05,c:'#FF6347'},
+                {t:'sun',x:0.88,y:0.12,s:0.08,c:'#FFD700'},
+                {t:'grass',x:0.15,y:0.92,s:0.06,c:'#228B22'},
+                {t:'flower',x:0.75,y:0.88,s:0.05,c:'#FFD700'},
+                {t:'grass',x:0.5,y:0.92,s:0.05,c:'#32CD32'},
+            ],
+            house: [
+                {t:'sun',x:0.88,y:0.12,s:0.08,c:'#FFD700'},
+                {t:'cloud',x:0.15,y:0.15,s:0.07,c:'#FFF'},
+                {t:'flower',x:0.1,y:0.85,s:0.05,c:'#FF69B4'},
+                {t:'flower',x:0.88,y:0.85,s:0.05,c:'#FFD700'},
+                {t:'grass',x:0.5,y:0.92,s:0.05,c:'#228B22'},
+                {t:'stone',x:0.75,y:0.88,s:0.04,c:'#AAA'},
+            ],
+            umbrella: [
+                {t:'drop',x:0.12,y:0.15,s:0.04,c:'rgba(100,150,200,0.5)'},
+                {t:'drop',x:0.85,y:0.22,s:0.03,c:'rgba(100,150,200,0.4)'},
+                {t:'drop',x:0.2,y:0.35,s:0.035,c:'rgba(100,150,200,0.45)'},
+                {t:'cloud',x:0.75,y:0.12,s:0.06,c:'rgba(255,255,255,0.7)'},
+                {t:'stone',x:0.15,y:0.9,s:0.05,c:'#AAA'},
+                {t:'leaf',x:0.88,y:0.85,s:0.04,c:'#228B22'},
+            ],
+            gift: [
+                {t:'star',x:0.12,y:0.15,s:0.04,c:'#FFD700'},
+                {t:'star',x:0.88,y:0.12,s:0.035,c:'#FFD700'},
+                {t:'star',x:0.85,y:0.85,s:0.04,c:'#FF69B4'},
+                {t:'star',x:0.15,y:0.82,s:0.03,c:'#00CED1'},
+                {t:'ball',x:0.5,y:0.12,s:0.04,c:'#FF6347'},
+                {t:'flower',x:0.5,y:0.88,s:0.05,c:'#9370DB'},
+            ],
+            candle: [
+                {t:'star',x:0.1,y:0.15,s:0.035,c:'#FFD700'},
+                {t:'star',x:0.88,y:0.12,s:0.03,c:'#FFF'},
+                {t:'star',x:0.85,y:0.82,s:0.035,c:'#FFD700'},
+                {t:'star',x:0.15,y:0.78,s:0.025,c:'#FFF'},
+                {t:'ball',x:0.5,y:0.88,s:0.04,c:'#FF6347'},
+                {t:'star',x:0.5,y:0.1,s:0.02,c:'#FFD700'},
+            ],
+            snowman: [
+                {t:'star',x:0.1,y:0.12,s:0.03,c:'#FFD700'},
+                {t:'star',x:0.88,y:0.15,s:0.025,c:'#FFF'},
+                {t:'star',x:0.85,y:0.35,s:0.03,c:'#FFD700'},
+                {t:'tree',x:0.12,y:0.55,s:0.08,c:'#228B22'},
+                {t:'gift',x:0.88,y:0.72,s:0.06,c:'#FF6347'},
+                {t:'star',x:0.5,y:0.08,s:0.02,c:'#FFF'},
+            ],
+            appletree: [
+                {t:'sun',x:0.88,y:0.15,s:0.08,c:'#FFD700'},
+                {t:'cloud',x:0.15,y:0.18,s:0.06,c:'#FFF'},
+                {t:'flower',x:0.1,y:0.88,s:0.05,c:'#FF69B4'},
+                {t:'flower',x:0.88,y:0.88,s:0.05,c:'#FFD700'},
+                {t:'grass',x:0.5,y:0.92,s:0.05,c:'#32CD32'},
+                {t:'butterfly',x:0.75,y:0.25,s:0.04,c:'#9370DB'},
+            ],
+            watermelon: [
+                {t:'leaf',x:0.12,y:0.15,s:0.05,c:'#228B22'},
+                {t:'leaf',x:0.85,y:0.18,s:0.05,c:'#32CD32'},
+                {t:'drop',x:0.2,y:0.3,s:0.03,c:'rgba(100,200,255,0.5)'},
+                {t:'drop',x:0.8,y:0.35,s:0.025,c:'rgba(100,200,255,0.4)'},
+                {t:'flower',x:0.15,y:0.85,s:0.04,c:'#FF69B4'},
+                {t:'flower',x:0.82,y:0.82,s:0.04,c:'#FFD700'},
+            ],
+            orange: [
+                {t:'leaf',x:0.15,y:0.15,s:0.05,c:'#228B22'},
+                {t:'leaf',x:0.82,y:0.18,s:0.05,c:'#32CD32'},
+                {t:'drop',x:0.25,y:0.25,s:0.03,c:'rgba(255,200,0,0.4)'},
+                {t:'drop',x:0.78,y:0.3,s:0.025,c:'rgba(255,200,0,0.3)'},
+                {t:'flower',x:0.12,y:0.82,s:0.04,c:'#FF69B4'},
+                {t:'flower',x:0.85,y:0.8,s:0.04,c:'#FFD700'},
+            ],
+            lemon: [
+                {t:'leaf',x:0.18,y:0.15,s:0.05,c:'#228B22'},
+                {t:'leaf',x:0.8,y:0.18,s:0.05,c:'#32CD32'},
+                {t:'drop',x:0.22,y:0.28,s:0.03,c:'rgba(255,255,0,0.4)'},
+                {t:'drop',x:0.75,y:0.32,s:0.025,c:'rgba(255,255,0,0.3)'},
+                {t:'flower',x:0.15,y:0.82,s:0.04,c:'#FF69B4'},
+                {t:'flower',x:0.82,y:0.8,s:0.04,c:'#9370DB'},
+            ],
+            strawberry: [
+                {t:'leaf',x:0.12,y:0.15,s:0.05,c:'#228B22'},
+                {t:'leaf',x:0.85,y:0.18,s:0.05,c:'#32CD32'},
+                {t:'drop',x:0.2,y:0.25,s:0.03,c:'rgba(255,100,100,0.4)'},
+                {t:'drop',x:0.8,y:0.3,s:0.025,c:'rgba(255,100,100,0.3)'},
+                {t:'flower',x:0.12,y:0.82,s:0.04,c:'#FFD700'},
+                {t:'flower',x:0.85,y:0.8,s:0.04,c:'#FF69B4'},
+            ],
+            fish: [
+                {t:'bubble',x:0.15,y:0.15,s:0.05,c:'#FFF'},
+                {t:'bubble',x:0.82,y:0.22,s:0.04,c:'#FFF'},
+                {t:'bubble',x:0.2,y:0.35,s:0.035,c:'#FFF'},
+                {t:'seaweed',x:0.1,y:0.75,s:0.08,c:'#228B22'},
+                {t:'seaweed',x:0.88,y:0.7,s:0.07,c:'#32CD32'},
+                {t:'star',x:0.5,y:0.1,s:0.03,c:'#FFD700'},
+            ],
+            butterfly: [
+                {t:'flower',x:0.12,y:0.15,s:0.05,c:'#FF69B4'},
+                {t:'flower',x:0.85,y:0.18,s:0.05,c:'#FFD700'},
+                {t:'flower',x:0.15,y:0.82,s:0.05,c:'#9370DB'},
+                {t:'flower',x:0.82,y:0.8,s:0.05,c:'#FF6347'},
+                {t:'leaf',x:0.5,y:0.1,s:0.04,c:'#228B22'},
+                {t:'leaf',x:0.5,y:0.9,s:0.04,c:'#32CD32'},
+            ],
+            goldfish: [
+                {t:'bubble',x:0.12,y:0.18,s:0.05,c:'#FFF'},
+                {t:'bubble',x:0.85,y:0.25,s:0.04,c:'#FFF'},
+                {t:'bubble',x:0.2,y:0.38,s:0.035,c:'#FFF'},
+                {t:'seaweed',x:0.08,y:0.72,s:0.08,c:'#228B22'},
+                {t:'seaweed',x:0.9,y:0.68,s:0.07,c:'#32CD32'},
+                {t:'stone',x:0.5,y:0.9,s:0.06,c:'#AAA'},
+            ],
+            bee: [
+                {t:'flower',x:0.12,y:0.15,s:0.05,c:'#FF69B4'},
+                {t:'flower',x:0.85,y:0.18,s:0.05,c:'#FFD700'},
+                {t:'flower',x:0.15,y:0.82,s:0.05,c:'#9370DB'},
+                {t:'flower',x:0.82,y:0.8,s:0.05,c:'#FF6347'},
+                {t:'leaf',x:0.5,y:0.1,s:0.04,c:'#228B22'},
+                {t:'leaf',x:0.5,y:0.9,s:0.04,c:'#32CD32'},
+            ],
+            castle: [
+                {t:'sun',x:0.88,y:0.12,s:0.08,c:'#FFD700'},
+                {t:'cloud',x:0.15,y:0.18,s:0.06,c:'#FFF'},
+                {t:'flower',x:0.1,y:0.85,s:0.05,c:'#FF69B4'},
+                {t:'flower',x:0.88,y:0.85,s:0.05,c:'#FFD700'},
+                {t:'grass',x:0.5,y:0.92,s:0.05,c:'#228B22'},
+                {t:'bird',x:0.75,y:0.15,s:0.04,c:'#FF6347'},
+            ],
+            zebra: [
+                {t:'sun',x:0.88,y:0.12,s:0.08,c:'#FFD700'},
+                {t:'cloud',x:0.15,y:0.18,s:0.06,c:'#FFF'},
+                {t:'grass',x:0.1,y:0.88,s:0.06,c:'#228B22'},
+                {t:'grass',x:0.85,y:0.88,s:0.06,c:'#32CD32'},
+                {t:'flower',x:0.5,y:0.88,s:0.05,c:'#FF69B4'},
+                {t:'tree',x:0.12,y:0.5,s:0.08,c:'#228B22'},
+            ],
+            leopard: [
+                {t:'sun',x:0.88,y:0.12,s:0.08,c:'#FFD700'},
+                {t:'cloud',x:0.15,y:0.18,s:0.06,c:'#FFF'},
+                {t:'grass',x:0.1,y:0.88,s:0.06,c:'#228B22'},
+                {t:'grass',x:0.85,y:0.88,s:0.06,c:'#32CD32'},
+                {t:'stone',x:0.5,y:0.88,s:0.05,c:'#AAA'},
+                {t:'tree',x:0.88,y:0.5,s:0.08,c:'#228B22'},
+            ],
+            cow: [
+                {t:'sun',x:0.88,y:0.12,s:0.08,c:'#FFD700'},
+                {t:'cloud',x:0.15,y:0.18,s:0.06,c:'#FFF'},
+                {t:'grass',x:0.1,y:0.88,s:0.06,c:'#228B22'},
+                {t:'grass',x:0.85,y:0.88,s:0.06,c:'#32CD32'},
+                {t:'flower',x:0.3,y:0.88,s:0.05,c:'#FF69B4'},
+                {t:'flower',x:0.7,y:0.88,s:0.05,c:'#FFD700'},
+            ],
+            peacock: [
+                {t:'sun',x:0.88,y:0.12,s:0.08,c:'#FFD700'},
+                {t:'flower',x:0.12,y:0.85,s:0.05,c:'#FF69B4'},
+                {t:'flower',x:0.85,y:0.85,s:0.05,c:'#FFD700'},
+                {t:'grass',x:0.5,y:0.92,s:0.05,c:'#228B22'},
+                {t:'flower',x:0.15,y:0.2,s:0.04,c:'#9370DB'},
+                {t:'butterfly',x:0.82,y:0.25,s:0.04,c:'#FF6347'},
+            ],
+        };
+        const list = configs[name] || [];
+        list.forEach(d => this.drawDeco(ctx, d.x*w, d.y*h, d.t, d.s*Math.min(w,h), d.c));
     }
+
+    drawDeco(ctx, x, y, type, size, color) {
+        ctx.save();
+        switch(type) {
+            case 'grass':
+                ctx.strokeStyle = color; ctx.lineWidth = Math.max(2, size*0.15);
+                for(let i=0;i<3;i++){
+                    ctx.beginPath(); ctx.moveTo(x+i*size*0.3-size*0.3, y);
+                    ctx.lineTo(x+i*size*0.3-size*0.45, y-size*0.8); ctx.stroke();
+                }
+                break;
+            case 'flower':
+                for(let i=0;i<5;i++){
+                    const a=(i/5)*Math.PI*2;
+                    ctx.beginPath(); ctx.arc(x+Math.cos(a)*size*0.35, y+Math.sin(a)*size*0.35, size*0.25, 0, Math.PI*2);
+                    ctx.fillStyle = color; ctx.fill();
+                }
+                ctx.beginPath(); ctx.arc(x, y, size*0.18, 0, Math.PI*2); ctx.fillStyle = '#FFD700'; ctx.fill();
+                break;
+            case 'sun':
+                ctx.fillStyle = color; ctx.beginPath(); ctx.arc(x, y, size*0.45, 0, Math.PI*2); ctx.fill();
+                ctx.strokeStyle = color; ctx.lineWidth = Math.max(2, size*0.08);
+                for(let i=0;i<8;i++){
+                    const a=(i/8)*Math.PI*2;
+                    ctx.beginPath(); ctx.moveTo(x+Math.cos(a)*size*0.55, y+Math.sin(a)*size*0.55);
+                    ctx.lineTo(x+Math.cos(a)*size*0.85, y+Math.sin(a)*size*0.85); ctx.stroke();
+                }
+                break;
+            case 'cloud':
+                ctx.fillStyle = color;
+                ctx.beginPath(); ctx.arc(x, y, size*0.45, 0, Math.PI*2);
+                ctx.arc(x+size*0.35, y-size*0.12, size*0.55, 0, Math.PI*2);
+                ctx.arc(x+size*0.6, y, size*0.4, 0, Math.PI*2); ctx.fill();
+                break;
+            case 'star':
+                ctx.fillStyle = color;
+                this.drawSingleStar(ctx, x, y, 4, size*0.55, size*0.22);
+                ctx.fill();
+                break;
+            case 'bird':
+                ctx.fillStyle = color;
+                ctx.beginPath(); ctx.ellipse(x, y, size*0.45, size*0.18, -0.3, 0, Math.PI*2); ctx.fill();
+                ctx.beginPath(); ctx.moveTo(x-size*0.25, y); ctx.lineTo(x-size*0.55, y-size*0.18); ctx.lineTo(x-size*0.45, y+size*0.08); ctx.closePath(); ctx.fill();
+                break;
+            case 'bubble':
+                ctx.beginPath(); ctx.arc(x, y, size*0.35, 0, Math.PI*2);
+                ctx.fillStyle = 'rgba(255,255,255,0.2)'; ctx.fill();
+                ctx.strokeStyle = 'rgba(255,255,255,0.35)'; ctx.lineWidth = 1; ctx.stroke();
+                break;
+            case 'stone':
+                ctx.beginPath(); ctx.ellipse(x, y, size*0.45, size*0.28, Math.random(), 0, Math.PI*2);
+                ctx.fillStyle = color; ctx.fill();
+                break;
+            case 'drop':
+                ctx.beginPath(); ctx.arc(x, y, size*0.18, 0, Math.PI*2); ctx.fillStyle = color; ctx.fill();
+                break;
+            case 'leaf':
+                ctx.beginPath(); ctx.ellipse(x, y, size*0.4, size*0.18, Math.random()*Math.PI, 0, Math.PI*2);
+                ctx.fillStyle = color; ctx.fill();
+                break;
+            case 'ball':
+                ctx.beginPath(); ctx.arc(x, y, size*0.35, 0, Math.PI*2); ctx.fillStyle = color; ctx.fill();
+                ctx.beginPath(); ctx.arc(x-size*0.1, y-size*0.1, size*0.1, 0, Math.PI*2); ctx.fillStyle = 'rgba(255,255,255,0.4)'; ctx.fill();
+                break;
+            case 'bone':
+                ctx.strokeStyle = color; ctx.lineWidth = size*0.22;
+                ctx.beginPath(); ctx.moveTo(x-size*0.35, y); ctx.lineTo(x+size*0.35, y); ctx.stroke();
+                ctx.beginPath(); ctx.arc(x-size*0.35, y-size*0.08, size*0.12, 0, Math.PI*2); ctx.fillStyle = color; ctx.fill();
+                ctx.beginPath(); ctx.arc(x-size*0.35, y+size*0.08, size*0.12, 0, Math.PI*2); ctx.fill();
+                ctx.beginPath(); ctx.arc(x+size*0.35, y-size*0.08, size*0.12, 0, Math.PI*2); ctx.fill();
+                ctx.beginPath(); ctx.arc(x+size*0.35, y+size*0.08, size*0.12, 0, Math.PI*2); ctx.fill();
+                break;
+            case 'tree':
+                ctx.fillStyle = '#8B4513'; ctx.fillRect(x-size*0.08, y, size*0.16, size*0.5);
+                ctx.beginPath(); ctx.arc(x, y-size*0.15, size*0.35, 0, Math.PI*2); ctx.fillStyle = color; ctx.fill();
+                ctx.beginPath(); ctx.arc(x-size*0.2, y, size*0.25, 0, Math.PI*2); ctx.fillStyle = color; ctx.fill();
+                ctx.beginPath(); ctx.arc(x+size*0.2, y, size*0.25, 0, Math.PI*2); ctx.fillStyle = color; ctx.fill();
+                break;
+            case 'seaweed':
+                ctx.strokeStyle = color; ctx.lineWidth = Math.max(2, size*0.15);
+                ctx.beginPath(); ctx.moveTo(x, y+size*0.4); ctx.quadraticCurveTo(x+size*0.2, y, x-size*0.1, y-size*0.4); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(x+size*0.15, y+size*0.4); ctx.quadraticCurveTo(x-size*0.1, y, x+size*0.25, y-size*0.3); ctx.stroke();
+                break;
+            case 'butterfly':
+                ctx.fillStyle = color;
+                ctx.beginPath(); ctx.ellipse(x-size*0.15, y-size*0.08, size*0.2, size*0.15, -0.3, 0, Math.PI*2); ctx.fill();
+                ctx.beginPath(); ctx.ellipse(x+size*0.15, y-size*0.08, size*0.2, size*0.15, 0.3, 0, Math.PI*2); ctx.fill();
+                ctx.beginPath(); ctx.ellipse(x, y, size*0.04, size*0.15, 0, 0, Math.PI*2); ctx.fillStyle = '#333'; ctx.fill();
+                break;
+            case 'gift':
+                ctx.fillStyle = color; ctx.fillRect(x-size*0.2, y-size*0.15, size*0.4, size*0.3);
+                ctx.fillStyle = '#FFD700'; ctx.fillRect(x-size*0.03, y-size*0.15, size*0.06, size*0.3); ctx.fillRect(x-size*0.2, y-size*0.03, size*0.4, size*0.06);
+                ctx.beginPath(); ctx.arc(x, y-size*0.18, size*0.1, 0, Math.PI*2); ctx.fillStyle = '#FF0000'; ctx.fill();
+                break;
+        }
+        ctx.restore();
+    }
+
+    drawCustomKite(ctx, w, h) {
+        ctx.fillStyle = '#87CEEB';
+        ctx.fillRect(0, 0, w, h);
+        const cx = w * 0.45, cy = h * 0.35;
+        ctx.beginPath(); ctx.moveTo(cx, cy - 60); ctx.lineTo(cx + 45, cy); ctx.lineTo(cx, cy + 60); ctx.lineTo(cx - 45, cy); ctx.closePath();
+        ctx.fillStyle = '#FF6347'; ctx.fill(); ctx.strokeStyle = '#333'; ctx.lineWidth = 2; ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(cx, cy - 60); ctx.lineTo(cx, cy + 60); ctx.strokeStyle = '#FFD700'; ctx.lineWidth = 3; ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(cx - 45, cy); ctx.lineTo(cx + 45, cy); ctx.stroke();
+        ctx.strokeStyle = '#333'; ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.moveTo(cx, cy + 60); ctx.lineTo(cx - 10, cy + 90); ctx.lineTo(cx + 10, cy + 120); ctx.lineTo(cx - 5, cy + 150); ctx.stroke();
+        ctx.fillStyle = '#FF69B4';
+        ctx.beginPath(); ctx.arc(cx - 10, cy + 90, 6, 0, Math.PI*2); ctx.fill();
+        ctx.beginPath(); ctx.arc(cx + 10, cy + 120, 6, 0, Math.PI*2); ctx.fill();
+        ctx.beginPath(); ctx.arc(cx - 5, cy + 150, 6, 0, Math.PI*2); ctx.fill();
+        ctx.beginPath(); ctx.moveTo(cx, cy + 60); ctx.quadraticCurveTo(cx + 30, cy + 100, cx + 80, cy + 140); ctx.strokeStyle = '#FFF'; ctx.lineWidth = 2; ctx.stroke();
+        this.drawSurroundings(ctx, w, h, 'kite');
+            this.drawSurroundings(ctx, w, h, 'kite');
+}
+
+    drawCustomMoonRabbit(ctx, w, h) {
+        ctx.fillStyle = '#0D1B2A';
+        ctx.fillRect(0, 0, w, h);
+        const cx = w * 0.5, cy = h * 0.45;
+        ctx.beginPath(); ctx.arc(cx, cy, 70, 0, Math.PI * 2); ctx.fillStyle = '#FFFACD'; ctx.fill();
+        ctx.beginPath(); ctx.arc(cx + 25, cy - 10, 55, 0, Math.PI * 2); ctx.fillStyle = '#0D1B2A'; ctx.fill();
+        const rx = cx - 15, ry = cy - 5;
+        ctx.beginPath(); ctx.ellipse(rx, ry, 18, 22, 0, 0, Math.PI * 2); ctx.fillStyle = '#FFF'; ctx.fill();
+        ctx.beginPath(); ctx.arc(rx, ry - 22, 14, 0, Math.PI * 2); ctx.fillStyle = '#FFF'; ctx.fill();
+        ctx.beginPath(); ctx.ellipse(rx - 6, ry - 38, 4, 14, -0.3, 0, Math.PI * 2); ctx.fillStyle = '#FFF'; ctx.fill();
+        ctx.beginPath(); ctx.ellipse(rx + 6, ry - 38, 4, 14, 0.3, 0, Math.PI * 2); ctx.fillStyle = '#FFF'; ctx.fill();
+        ctx.beginPath(); ctx.ellipse(rx - 6, ry - 38, 2, 10, -0.3, 0, Math.PI * 2); ctx.fillStyle = '#FFB6C1'; ctx.fill();
+        ctx.beginPath(); ctx.ellipse(rx + 6, ry - 38, 2, 10, 0.3, 0, Math.PI * 2); ctx.fillStyle = '#FFB6C1'; ctx.fill();
+        ctx.beginPath(); ctx.arc(rx - 4, ry - 24, 2.5, 0, Math.PI * 2); ctx.fillStyle = '#000'; ctx.fill();
+        ctx.beginPath(); ctx.arc(rx + 4, ry - 24, 2.5, 0, Math.PI * 2); ctx.fillStyle = '#000'; ctx.fill();
+        ctx.beginPath(); ctx.arc(rx, ry - 19, 2, 0, Math.PI * 2); ctx.fillStyle = '#FF69B4'; ctx.fill();
+        ctx.beginPath(); ctx.ellipse(rx - 12, ry - 5, 6, 4, 0.5, 0, Math.PI * 2); ctx.fillStyle = '#FFF'; ctx.fill();
+        ctx.beginPath(); ctx.ellipse(rx + 12, ry - 5, 6, 4, -0.5, 0, Math.PI * 2); ctx.fillStyle = '#FFF'; ctx.fill();
+        ctx.beginPath(); ctx.arc(rx, ry + 2, 10, 0, Math.PI * 2); ctx.fillStyle = '#D2691E'; ctx.fill();
+        ctx.strokeStyle = '#8B4513'; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.arc(rx, ry + 2, 7, 0, Math.PI * 2); ctx.stroke();
+        this.drawSurroundings(ctx, w, h, 'moonrabbit');
+            this.drawSurroundings(ctx, w, h, 'moonrabbit');
+}
 
 }
