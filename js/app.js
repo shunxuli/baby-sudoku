@@ -1150,32 +1150,32 @@ class PuzzleGame {
         this.patterns = [
             { id: 0, name: '彩虹条纹', type: 'stripes', dir: 'diagonal', colors: ['#FF0000','#FF7F00','#FFFF00','#00FF00','#0000FF','#4B0082','#9400D3'] },
             { id: 1, name: '蓝天白云', type: 'gradient', bg: ['#87CEEB','#E0F7FA'], elements: 'clouds' },
-            { id: 2, name: '太阳花田', type: 'dots', density: 'medium', bg: '#87CEEB', colors: ['#FFD700','#FF8C00','#228B22'] },
-            { id: 3, name: '星空', type: 'dots', density: 'sparse', bg: '#0D1B2A', colors: ['#FFFFFF','#FFD700'] },
-            { id: 4, name: '气球天空', type: 'organic', shape: 'balloons', bg: ['#87CEEB','#E0F7FA'], colors: ['#FF6B6B','#4ECDC4','#45B7D1'] },
-            { id: 5, name: '糖果圆点', type: 'dots', density: 'dense', bg: '#FFF0F5', colors: ['#FF69B4','#00CED1','#FFD700','#FF6347'] },
-            { id: 6, name: '棋盘格', type: 'grid', style: 'checker', colors: ['#FF6347','#FFD700'] },
+            { id: 2, name: '小猫', type: 'custom', shape: 'cat' },
+            { id: 3, name: '星空', type: 'gradient', bg: '#0D1B2A', elements: 'stars2' },
+            { id: 4, name: '小鸟', type: 'custom', shape: 'bird' },
+            { id: 5, name: '小狗', type: 'custom', shape: 'dog' },
+            { id: 6, name: '小房子', type: 'custom', shape: 'house' },
             { id: 7, name: '螺旋迷宫', type: 'radial', style: 'spiral', colors: ['#6C5CE7','#A29BFE'] },
             { id: 8, name: '锯齿山脉', type: 'waves', style: 'zigzag', colors: ['#228B22','#8B4513','#87CEEB'] },
             { id: 9, name: '放射光芒', type: 'radial', style: 'rays', colors: ['#FFD700','#FF8C00'] },
-            { id: 10, name: '雨滴', type: 'organic', shape: 'raindrops', bg: '#2C3E50', colors: ['#4682B4','#87CEEB'] },
-            { id: 11, name: '爱心泡泡', type: 'organic', shape: 'hearts', bg: '#FFF0F5', colors: ['#FF69B4','#FFB6C1'] },
-            { id: 12, name: '火焰', type: 'waves', style: 'flame', colors: ['#FF4500','#FFD700','#FF6347'] },
-            { id: 13, name: '雪花', type: 'organic', shape: 'snowflakes', bg: '#E0F7FA', colors: ['#87CEEB','#FFFFFF'] },
-            { id: 14, name: '树叶', type: 'organic', shape: 'leaves', bg: '#F0FFF0', colors: ['#228B22','#90EE90','#FFD700'] },
-            { id: 15, name: '西瓜', type: 'organic', shape: 'watermelon', colors: ['#FF6347','#228B22','#000000'] },
-            { id: 16, name: '橙子', type: 'organic', shape: 'orange', colors: ['#FF8C00','#FFD700'] },
-            { id: 17, name: '柠檬', type: 'organic', shape: 'lemon', colors: ['#FFFF00','#FFD700'] },
-            { id: 18, name: '草莓', type: 'organic', shape: 'strawberry', bg: '#FFF0F5', colors: ['#DC143C','#228B22'] },
-            { id: 19, name: '蓝莓', type: 'dots', density: 'medium', bg: '#E6E6FA', colors: ['#4169E1','#0000CD'] },
-            { id: 20, name: '蝴蝶', type: 'organic', shape: 'butterfly', bg: '#FFF8DC', colors: ['#FF69B4','#9370DB','#FFD700'] },
-            { id: 21, name: '鱼鳞', type: 'grid', style: 'scales', colors: ['#4682B4','#87CEEB'] },
-            { id: 22, name: '蜂窝', type: 'grid', style: 'hex', colors: ['#FFD700','#FF8C00'] },
-            { id: 23, name: '砖墙', type: 'grid', style: 'bricks', colors: ['#B22222','#8B4513'] },
-            { id: 24, name: '斑马纹', type: 'stripes', dir: 'diagonal', colors: ['#000000','#FFFFFF'] },
-            { id: 25, name: '豹纹', type: 'organic', shape: 'spots', bg: '#FFD700', colors: ['#FF8C00','#000000'] },
-            { id: 26, name: '奶牛纹', type: 'organic', shape: 'spots', bg: '#FFFFFF', colors: ['#000000'] },
-            { id: 27, name: '孔雀羽毛', type: 'radial', style: 'eye', colors: ['#4169E1','#00CED1','#FFD700'] },
+            { id: 10, name: '小雨伞', type: 'custom', shape: 'umbrella' },
+            { id: 11, name: '礼物盒', type: 'custom', shape: 'gift' },
+            { id: 12, name: '小蜡烛', type: 'custom', shape: 'candle' },
+            { id: 13, name: '小雪人', type: 'custom', shape: 'snowman' },
+            { id: 14, name: '苹果树', type: 'custom', shape: 'appletree' },
+            { id: 15, name: '西瓜切片', type: 'custom', shape: 'watermelon' },
+            { id: 16, name: '橙子切片', type: 'custom', shape: 'orange' },
+            { id: 17, name: '柠檬切片', type: 'custom', shape: 'lemon' },
+            { id: 18, name: '大草莓', type: 'custom', shape: 'strawberry' },
+            { id: 19, name: '小鱼', type: 'custom', shape: 'fish' },
+            { id: 20, name: '蝴蝶', type: 'custom', shape: 'butterfly' },
+            { id: 21, name: '金鱼', type: 'custom', shape: 'goldfish' },
+            { id: 22, name: '蜜蜂', type: 'custom', shape: 'bee' },
+            { id: 23, name: '城堡', type: 'custom', shape: 'castle' },
+            { id: 24, name: '斑马', type: 'custom', shape: 'zebra' },
+            { id: 25, name: '豹子', type: 'custom', shape: 'leopard' },
+            { id: 26, name: '奶牛', type: 'custom', shape: 'cow' },
+            { id: 27, name: '孔雀', type: 'custom', shape: 'peacock' },
             { id: 28, name: '彩虹漩涡', type: 'radial', style: 'swirl', colors: ['#FF0000','#FF7F00','#FFFF00','#00FF00','#0000FF','#4B0082','#9400D3'] },
             { id: 29, name: '紫色梦境', type: 'gradient', bg: ['#E6E6FA','#DDA0DD'], elements: 'stars' },
         ];
@@ -1712,6 +1712,7 @@ class PuzzleGame {
             case 'waves': this.drawWaves(ctx, w, h, pattern); break;
             case 'organic': this.drawOrganic(ctx, w, h, pattern); break;
             case 'gradient': this.drawGradientElements(ctx, w, h, pattern); break;
+            case 'custom': this.drawCustom(ctx, w, h, pattern); break;
         }
     }
 
@@ -2142,6 +2143,25 @@ class PuzzleGame {
                 ctx.fillStyle = colors[i % colors.length];
                 ctx.fill();
             }
+        } else if (elements === 'stars2') {
+            for (let i = 0; i < 50; i++) {
+                const x = Math.random() * w;
+                const y = Math.random() * h;
+                const s = Math.random() * 2.5 + 1;
+                ctx.beginPath(); ctx.arc(x, y, s, 0, Math.PI * 2);
+                ctx.fillStyle = Math.random() > 0.7 ? '#FFD700' : '#FFFFFF';
+                ctx.fill();
+                if (Math.random() > 0.6) {
+                    ctx.strokeStyle = 'rgba(255,255,255,0.25)';
+                    ctx.lineWidth = 1;
+                    ctx.beginPath(); ctx.moveTo(x - s * 3, y); ctx.lineTo(x + s * 3, y); ctx.stroke();
+                    ctx.beginPath(); ctx.moveTo(x, y - s * 3); ctx.lineTo(x, y + s * 3); ctx.stroke();
+                }
+            }
+            ctx.beginPath(); ctx.arc(w * 0.75, h * 0.2, w * 0.08, 0, Math.PI * 2);
+            ctx.fillStyle = '#FFFACD'; ctx.fill();
+            ctx.beginPath(); ctx.arc(w * 0.78, h * 0.17, w * 0.06, 0, Math.PI * 2);
+            ctx.fillStyle = '#0D1B2A'; ctx.fill();
         }
     }
 
@@ -2201,4 +2221,744 @@ class PuzzleGame {
         ctx.fillStyle = color;
         ctx.fill();
     }
+
+    drawCustom(ctx, w, h, pattern) {
+        switch(pattern.shape) {
+            case 'cat': this.drawCustomCat(ctx, w, h); break;
+            case 'bird': this.drawCustomBird(ctx, w, h); break;
+            case 'dog': this.drawCustomDog(ctx, w, h); break;
+            case 'house': this.drawCustomHouse(ctx, w, h); break;
+            case 'umbrella': this.drawCustomUmbrella(ctx, w, h); break;
+            case 'gift': this.drawCustomGift(ctx, w, h); break;
+            case 'candle': this.drawCustomCandle(ctx, w, h); break;
+            case 'snowman': this.drawCustomSnowman(ctx, w, h); break;
+            case 'appletree': this.drawCustomAppleTree(ctx, w, h); break;
+            case 'watermelon': this.drawCustomWatermelon(ctx, w, h); break;
+            case 'orange': this.drawCustomOrange(ctx, w, h); break;
+            case 'lemon': this.drawCustomLemon(ctx, w, h); break;
+            case 'strawberry': this.drawCustomStrawberry(ctx, w, h); break;
+            case 'fish': this.drawCustomFish(ctx, w, h); break;
+            case 'butterfly': this.drawCustomButterfly(ctx, w, h); break;
+            case 'goldfish': this.drawCustomGoldfish(ctx, w, h); break;
+            case 'bee': this.drawCustomBee(ctx, w, h); break;
+            case 'castle': this.drawCustomCastle(ctx, w, h); break;
+            case 'zebra': this.drawCustomZebra(ctx, w, h); break;
+            case 'leopard': this.drawCustomLeopard(ctx, w, h); break;
+            case 'cow': this.drawCustomCow(ctx, w, h); break;
+            case 'peacock': this.drawCustomPeacock(ctx, w, h); break;
+        }
+    }
+
+    drawCustomCat(ctx, w, h) {
+        ctx.fillStyle = '#FFF8DC';
+        ctx.fillRect(0, 0, w, h);
+        const cx = w * 0.5, cy = h * 0.55;
+        // 身体
+        ctx.beginPath(); ctx.ellipse(cx, cy + 15, 45, 55, 0, 0, Math.PI * 2);
+        ctx.fillStyle = '#FFA500'; ctx.fill();
+        // 头
+        ctx.beginPath(); ctx.arc(cx, cy - 45, 38, 0, Math.PI * 2);
+        ctx.fillStyle = '#FFA500'; ctx.fill();
+        // 耳朵
+        ctx.beginPath(); ctx.moveTo(cx - 28, cy - 70); ctx.lineTo(cx - 38, cy - 95); ctx.lineTo(cx - 12, cy - 78); ctx.closePath();
+        ctx.fillStyle = '#FFA500'; ctx.fill();
+        ctx.beginPath(); ctx.moveTo(cx + 28, cy - 70); ctx.lineTo(cx + 38, cy - 95); ctx.lineTo(cx + 12, cy - 78); ctx.closePath();
+        ctx.fillStyle = '#FFA500'; ctx.fill();
+        // 内耳
+        ctx.beginPath(); ctx.moveTo(cx - 26, cy - 72); ctx.lineTo(cx - 33, cy - 88); ctx.lineTo(cx - 16, cy - 78); ctx.closePath();
+        ctx.fillStyle = '#FFB6C1'; ctx.fill();
+        ctx.beginPath(); ctx.moveTo(cx + 26, cy - 72); ctx.lineTo(cx + 33, cy - 88); ctx.lineTo(cx + 16, cy - 78); ctx.closePath();
+        ctx.fillStyle = '#FFB6C1'; ctx.fill();
+        // 眼睛
+        ctx.beginPath(); ctx.arc(cx - 12, cy - 50, 6, 0, Math.PI * 2); ctx.fillStyle = '#228B22'; ctx.fill();
+        ctx.beginPath(); ctx.arc(cx + 12, cy - 50, 6, 0, Math.PI * 2); ctx.fillStyle = '#228B22'; ctx.fill();
+        ctx.beginPath(); ctx.arc(cx - 12, cy - 52, 2.5, 0, Math.PI * 2); ctx.fillStyle = '#000'; ctx.fill();
+        ctx.beginPath(); ctx.arc(cx + 12, cy - 52, 2.5, 0, Math.PI * 2); ctx.fillStyle = '#000'; ctx.fill();
+        // 鼻子
+        ctx.beginPath(); ctx.moveTo(cx, cy - 42); ctx.lineTo(cx - 4, cy - 36); ctx.lineTo(cx + 4, cy - 36); ctx.closePath();
+        ctx.fillStyle = '#FF69B4'; ctx.fill();
+        // 嘴巴
+        ctx.beginPath(); ctx.moveTo(cx, cy - 36); ctx.quadraticCurveTo(cx - 6, cy - 28, cx - 10, cy - 32); ctx.strokeStyle = '#000'; ctx.lineWidth = 2; ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(cx, cy - 36); ctx.quadraticCurveTo(cx + 6, cy - 28, cx + 10, cy - 32); ctx.stroke();
+        // 胡须
+        ctx.beginPath(); ctx.moveTo(cx - 30, cy - 40); ctx.lineTo(cx - 50, cy - 42); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(cx - 30, cy - 35); ctx.lineTo(cx - 50, cy - 32); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(cx + 30, cy - 40); ctx.lineTo(cx + 50, cy - 42); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(cx + 30, cy - 35); ctx.lineTo(cx + 50, cy - 32); ctx.stroke();
+        // 花纹
+        ctx.beginPath(); ctx.moveTo(cx, cy - 75); ctx.lineTo(cx - 5, cy - 55); ctx.lineTo(cx + 5, cy - 55); ctx.closePath();
+        ctx.fillStyle = '#FF8C00'; ctx.fill();
+        // 尾巴
+        ctx.beginPath(); ctx.moveTo(cx + 40, cy + 20); ctx.quadraticCurveTo(cx + 70, cy - 10, cx + 55, cy - 40);
+        ctx.strokeStyle = '#FFA500'; ctx.lineWidth = 10; ctx.stroke();
+        ctx.beginPath(); ctx.arc(cx + 55, cy - 40, 6, 0, Math.PI * 2); ctx.fillStyle = '#FFA500'; ctx.fill();
+        // 腿
+        ctx.fillStyle = '#FFA500'; ctx.fillRect(cx - 30, cy + 55, 12, 30); ctx.fillRect(cx - 8, cy + 55, 12, 30);
+        ctx.fillRect(cx + 8, cy + 55, 12, 30); ctx.fillRect(cx + 30, cy + 55, 12, 30);
+        // 爪子
+        ctx.fillStyle = '#FFB6C1'; ctx.beginPath(); ctx.arc(cx - 24, cy + 88, 8, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(cx + 36, cy + 88, 8, 0, Math.PI * 2); ctx.fill();
+    }
+
+    drawCustomBird(ctx, w, h) {
+        ctx.fillStyle = '#E0F7FA';
+        ctx.fillRect(0, 0, w, h);
+        // 云朵
+        ctx.fillStyle = 'rgba(255,255,255,0.85)';
+        ctx.beginPath(); ctx.arc(w * 0.2, h * 0.2, 18, 0, Math.PI * 2); ctx.arc(w * 0.27, h * 0.17, 22, 0, Math.PI * 2); ctx.arc(w * 0.33, h * 0.2, 15, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(w * 0.75, h * 0.15, 15, 0, Math.PI * 2); ctx.arc(w * 0.8, h * 0.13, 18, 0, Math.PI * 2); ctx.arc(w * 0.85, h * 0.15, 14, 0, Math.PI * 2); ctx.fill();
+        // 太阳
+        ctx.beginPath(); ctx.arc(w * 0.12, h * 0.15, 22, 0, Math.PI * 2); ctx.fillStyle = '#FFD700'; ctx.fill();
+        const cx = w * 0.5, cy = h * 0.45;
+        // 身体
+        ctx.beginPath(); ctx.ellipse(cx, cy, 50, 35, 0, 0, Math.PI * 2);
+        ctx.fillStyle = '#87CEEB'; ctx.fill();
+        // 肚子
+        ctx.beginPath(); ctx.ellipse(cx, cy + 8, 30, 22, 0, 0, Math.PI * 2);
+        ctx.fillStyle = '#E0F7FA'; ctx.fill();
+        // 头
+        ctx.beginPath(); ctx.arc(cx + 35, cy - 20, 28, 0, Math.PI * 2);
+        ctx.fillStyle = '#87CEEB'; ctx.fill();
+        // 眼睛
+        ctx.beginPath(); ctx.arc(cx + 42, cy - 25, 5, 0, Math.PI * 2); ctx.fillStyle = '#FFF'; ctx.fill();
+        ctx.beginPath(); ctx.arc(cx + 44, cy - 25, 3, 0, Math.PI * 2); ctx.fillStyle = '#000'; ctx.fill();
+        // 嘴巴
+        ctx.beginPath(); ctx.moveTo(cx + 58, cy - 18); ctx.lineTo(cx + 68, cy - 14); ctx.lineTo(cx + 58, cy - 10); ctx.closePath();
+        ctx.fillStyle = '#FF8C00'; ctx.fill();
+        // 翅膀
+        ctx.beginPath(); ctx.ellipse(cx - 10, cy - 5, 35, 18, -0.3, 0, Math.PI * 2);
+        ctx.fillStyle = '#4682B4'; ctx.fill();
+        // 尾巴
+        ctx.beginPath(); ctx.moveTo(cx - 45, cy + 5); ctx.lineTo(cx - 75, cy - 15); ctx.lineTo(cx - 70, cy + 10); ctx.closePath();
+        ctx.fillStyle = '#4682B4'; ctx.fill();
+        // 脚
+        ctx.beginPath(); ctx.moveTo(cx - 8, cy + 30); ctx.lineTo(cx - 12, cy + 48); ctx.strokeStyle = '#FF8C00'; ctx.lineWidth = 4; ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(cx + 8, cy + 30); ctx.lineTo(cx + 12, cy + 48); ctx.stroke();
+    }
+
+    drawCustomDog(ctx, w, h) {
+        ctx.fillStyle = '#F5F5DC';
+        ctx.fillRect(0, 0, w, h);
+        const cx = w * 0.5, cy = h * 0.55;
+        // 身体
+        ctx.beginPath(); ctx.ellipse(cx, cy + 10, 50, 45, 0, 0, Math.PI * 2);
+        ctx.fillStyle = '#D2691E'; ctx.fill();
+        // 头
+        ctx.beginPath(); ctx.ellipse(cx, cy - 40, 38, 42, 0, 0, Math.PI * 2);
+        ctx.fillStyle = '#D2691E'; ctx.fill();
+        // 耳朵（下垂）
+        ctx.beginPath(); ctx.ellipse(cx - 32, cy - 40, 12, 22, -0.4, 0, Math.PI * 2); ctx.fillStyle = '#8B4513'; ctx.fill();
+        ctx.beginPath(); ctx.ellipse(cx + 32, cy - 40, 12, 22, 0.4, 0, Math.PI * 2); ctx.fillStyle = '#8B4513'; ctx.fill();
+        // 眼睛
+        ctx.beginPath(); ctx.ellipse(cx - 14, cy - 48, 7, 9, 0, 0, Math.PI * 2); ctx.fillStyle = '#FFF'; ctx.fill();
+        ctx.beginPath(); ctx.ellipse(cx + 14, cy - 48, 7, 9, 0, 0, Math.PI * 2); ctx.fillStyle = '#FFF'; ctx.fill();
+        ctx.beginPath(); ctx.arc(cx - 12, cy - 48, 4, 0, Math.PI * 2); ctx.fillStyle = '#000'; ctx.fill();
+        ctx.beginPath(); ctx.arc(cx + 16, cy - 48, 4, 0, Math.PI * 2); ctx.fillStyle = '#000'; ctx.fill();
+        // 鼻子
+        ctx.beginPath(); ctx.ellipse(cx, cy - 32, 9, 7, 0, 0, Math.PI * 2); ctx.fillStyle = '#000'; ctx.fill();
+        // 嘴巴
+        ctx.beginPath(); ctx.moveTo(cx, cy - 25); ctx.quadraticCurveTo(cx - 8, cy - 15, cx - 12, cy - 18); ctx.strokeStyle = '#000'; ctx.lineWidth = 2; ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(cx, cy - 25); ctx.quadraticCurveTo(cx + 8, cy - 15, cx + 12, cy - 18); ctx.stroke();
+        // 舌头
+        ctx.beginPath(); ctx.arc(cx, cy - 15, 6, 0, Math.PI); ctx.fillStyle = '#FF69B4'; ctx.fill();
+        // 项圈
+        ctx.beginPath(); ctx.ellipse(cx, cy - 5, 38, 6, 0, 0, Math.PI * 2); ctx.fillStyle = '#FF0000'; ctx.fill();
+        // 铃铛
+        ctx.beginPath(); ctx.arc(cx, cy + 5, 7, 0, Math.PI * 2); ctx.fillStyle = '#FFD700'; ctx.fill();
+        // 腿
+        ctx.fillStyle = '#D2691E'; ctx.fillRect(cx - 35, cy + 40, 14, 35); ctx.fillRect(cx - 8, cy + 40, 14, 35);
+        ctx.fillRect(cx + 8, cy + 40, 14, 35); ctx.fillRect(cx + 35, cy + 40, 14, 35);
+        // 尾巴（翘起）
+        ctx.beginPath(); ctx.moveTo(cx + 45, cy + 10); ctx.quadraticCurveTo(cx + 75, cy - 20, cx + 65, cy - 45); ctx.strokeStyle = '#D2691E'; ctx.lineWidth = 10; ctx.stroke();
+        ctx.beginPath(); ctx.arc(cx + 65, cy - 45, 6, 0, Math.PI * 2); ctx.fillStyle = '#D2691E'; ctx.fill();
+        // 草地
+        ctx.fillStyle = '#90EE90'; ctx.fillRect(0, h * 0.88, w, h * 0.12);
+    }
+
+    drawCustomHouse(ctx, w, h) {
+        ctx.fillStyle = '#87CEEB';
+        ctx.fillRect(0, 0, w, h);
+        // 太阳
+        ctx.beginPath(); ctx.arc(w * 0.85, h * 0.12, 25, 0, Math.PI * 2); ctx.fillStyle = '#FFD700'; ctx.fill();
+        for (let i = 0; i < 8; i++) {
+            const a = (i / 8) * Math.PI * 2;
+            ctx.beginPath(); ctx.moveTo(w * 0.85 + Math.cos(a) * 30, h * 0.12 + Math.sin(a) * 30); ctx.lineTo(w * 0.85 + Math.cos(a) * 40, h * 0.12 + Math.sin(a) * 40); ctx.strokeStyle = '#FFD700'; ctx.lineWidth = 3; ctx.stroke();
+        }
+        // 云
+        ctx.fillStyle = 'rgba(255,255,255,0.9)';
+        ctx.beginPath(); ctx.arc(w * 0.15, h * 0.15, 18, 0, Math.PI * 2); ctx.arc(w * 0.22, h * 0.12, 22, 0, Math.PI * 2); ctx.arc(w * 0.28, h * 0.15, 16, 0, Math.PI * 2); ctx.fill();
+        const cx = w * 0.5, cy = h * 0.55;
+        // 草地
+        ctx.fillStyle = '#90EE90'; ctx.fillRect(0, cy + 50, w, h * 0.3);
+        // 房子主体
+        ctx.fillStyle = '#FFE4B5'; ctx.fillRect(cx - 60, cy - 30, 120, 80);
+        // 屋顶
+        ctx.beginPath(); ctx.moveTo(cx - 75, cy - 30); ctx.lineTo(cx, cy - 90); ctx.lineTo(cx + 75, cy - 30); ctx.closePath();
+        ctx.fillStyle = '#FF6347'; ctx.fill();
+        // 门
+        ctx.fillStyle = '#8B4513'; ctx.fillRect(cx - 15, cy + 10, 30, 40);
+        // 窗户
+        ctx.fillStyle = '#87CEEB'; ctx.fillRect(cx - 45, cy - 15, 25, 25); ctx.fillRect(cx + 20, cy - 15, 25, 25);
+        ctx.strokeStyle = '#FFF'; ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.moveTo(cx - 32.5, cy - 15); ctx.lineTo(cx - 32.5, cy + 10); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(cx - 45, cy - 2.5); ctx.lineTo(cx - 20, cy - 2.5); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(cx + 32.5, cy - 15); ctx.lineTo(cx + 32.5, cy + 10); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(cx + 20, cy - 2.5); ctx.lineTo(cx + 45, cy - 2.5); ctx.stroke();
+        // 烟囱
+        ctx.fillStyle = '#8B4513'; ctx.fillRect(cx + 35, cy - 75, 15, 30);
+        ctx.fillStyle = 'rgba(200,200,200,0.5)';
+        ctx.beginPath(); ctx.arc(cx + 42, cy - 85, 8, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(cx + 50, cy - 95, 10, 0, Math.PI * 2); ctx.fill();
+    }
+
+    drawCustomUmbrella(ctx, w, h) {
+        ctx.fillStyle = '#E0F7FA';
+        ctx.fillRect(0, 0, w, h);
+        // 雨滴
+        ctx.strokeStyle = 'rgba(100,150,200,0.35)'; ctx.lineWidth = 2;
+        for (let i = 0; i < 25; i++) {
+            const x = Math.random() * w, y = Math.random() * h, len = 12 + Math.random() * 15;
+            ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x - 4, y + len); ctx.stroke();
+        }
+        const cx = w * 0.5, cy = h * 0.45;
+        // 伞面
+        const uColors = ['#FF4444','#FF6666','#FF4444','#FF6666','#FF4444','#FF6666'];
+        for (let i = 0; i < 6; i++) {
+            ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, 70, Math.PI + (i / 6) * Math.PI, Math.PI + ((i + 1) / 6) * Math.PI); ctx.closePath();
+            ctx.fillStyle = uColors[i]; ctx.fill();
+        }
+        // 伞柄
+        ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx, cy + 90); ctx.strokeStyle = '#333'; ctx.lineWidth = 4; ctx.stroke();
+        ctx.beginPath(); ctx.arc(cx, cy + 90, 10, 0, Math.PI); ctx.strokeStyle = '#333'; ctx.lineWidth = 4; ctx.stroke();
+        // 水坑
+        ctx.beginPath(); ctx.ellipse(cx, h * 0.85, 50, 12, 0, 0, Math.PI * 2); ctx.fillStyle = 'rgba(100,150,200,0.25)'; ctx.fill();
+    }
+
+    drawCustomGift(ctx, w, h) {
+        ctx.fillStyle = '#FFF8F0';
+        ctx.fillRect(0, 0, w, h);
+        const cx = w * 0.5, cy = h * 0.55;
+        const boxW = 100, boxH = 80;
+        // 盒子
+        ctx.fillStyle = '#FF69B4'; ctx.fillRect(cx - boxW/2, cy - boxH/2, boxW, boxH);
+        ctx.fillStyle = '#FF1493'; ctx.fillRect(cx - 8, cy - boxH/2, 16, boxH); ctx.fillRect(cx - boxW/2, cy - 8, boxW, 16);
+        // 蝴蝶结
+        ctx.beginPath(); ctx.ellipse(cx - 20, cy - boxH/2 - 5, 20, 12, -0.3, 0, Math.PI * 2); ctx.fillStyle = '#FF1493'; ctx.fill();
+        ctx.beginPath(); ctx.ellipse(cx + 20, cy - boxH/2 - 5, 20, 12, 0.3, 0, Math.PI * 2); ctx.fillStyle = '#FF1493'; ctx.fill();
+        ctx.beginPath(); ctx.arc(cx, cy - boxH/2 - 5, 10, 0, Math.PI * 2); ctx.fillStyle = '#DC143C'; ctx.fill();
+        // 丝带尾巴
+        ctx.beginPath(); ctx.moveTo(cx - 5, cy - boxH/2 + 5); ctx.quadraticCurveTo(cx - 20, cy + 10, cx - 10, cy + 30); ctx.strokeStyle = '#FF1493'; ctx.lineWidth = 6; ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(cx + 5, cy - boxH/2 + 5); ctx.quadraticCurveTo(cx + 20, cy + 10, cx + 15, cy + 25); ctx.strokeStyle = '#FF1493'; ctx.lineWidth = 6; ctx.stroke();
+        // 小爱心
+        ctx.fillStyle = '#FFD700'; this.drawHeart(ctx, cx - 35, cy - 5, 12); this.drawHeart(ctx, cx + 35, cy + 5, 10);
+    }
+
+    drawCustomCandle(ctx, w, h) {
+        ctx.fillStyle = '#1a1a2e';
+        ctx.fillRect(0, 0, w, h);
+        const cx = w * 0.5, cy = h * 0.5;
+        // 蜡烛主体
+        ctx.fillStyle = '#FFF8DC'; ctx.fillRect(cx - 15, cy - 20, 30, 70);
+        ctx.strokeStyle = '#FF69B4'; ctx.lineWidth = 2;
+        for (let i = 0; i < 3; i++) { ctx.beginPath(); ctx.moveTo(cx - 15, cy + i * 15); ctx.lineTo(cx + 15, cy + i * 15); ctx.stroke(); }
+        // 烛芯
+        ctx.beginPath(); ctx.moveTo(cx, cy - 20); ctx.lineTo(cx, cy - 30); ctx.strokeStyle = '#333'; ctx.lineWidth = 2; ctx.stroke();
+        // 火焰
+        ctx.beginPath(); ctx.moveTo(cx, cy - 30); ctx.quadraticCurveTo(cx - 10, cy - 45, cx, cy - 55); ctx.quadraticCurveTo(cx + 10, cy - 45, cx, cy - 30); ctx.closePath();
+        ctx.fillStyle = '#FF4500'; ctx.fill();
+        ctx.beginPath(); ctx.ellipse(cx, cy - 38, 5, 8, 0, 0, Math.PI * 2); ctx.fillStyle = '#FFD700'; ctx.fill();
+        // 光晕
+        ctx.beginPath(); ctx.arc(cx, cy - 35, 45, 0, Math.PI * 2); ctx.fillStyle = 'rgba(255,200,0,0.06)'; ctx.fill();
+        // 星星背景
+        for (let i = 0; i < 20; i++) {
+            const x = Math.random() * w, y = Math.random() * h;
+            ctx.beginPath(); ctx.arc(x, y, Math.random() * 2 + 1, 0, Math.PI * 2); ctx.fillStyle = 'rgba(255,255,255,0.6)'; ctx.fill();
+        }
+    }
+
+    drawCustomSnowman(ctx, w, h) {
+        ctx.fillStyle = '#B0C4DE';
+        ctx.fillRect(0, 0, w, h);
+        for (let i = 0; i < 12; i++) {
+            const x = Math.random() * w, y = Math.random() * h;
+            ctx.beginPath(); ctx.arc(x, y, Math.random() * 3 + 1, 0, Math.PI * 2); ctx.fillStyle = 'rgba(255,255,255,0.8)'; ctx.fill();
+        }
+        const cx = w * 0.5, cy = h * 0.55;
+        // 身体下
+        ctx.beginPath(); ctx.arc(cx, cy + 30, 45, 0, Math.PI * 2); ctx.fillStyle = '#FFF'; ctx.fill();
+        // 身体上
+        ctx.beginPath(); ctx.arc(cx, cy - 20, 32, 0, Math.PI * 2); ctx.fillStyle = '#FFF'; ctx.fill();
+        // 头
+        ctx.beginPath(); ctx.arc(cx, cy - 60, 22, 0, Math.PI * 2); ctx.fillStyle = '#FFF'; ctx.fill();
+        // 眼睛
+        ctx.beginPath(); ctx.arc(cx - 8, cy - 65, 3, 0, Math.PI * 2); ctx.fillStyle = '#000'; ctx.fill();
+        ctx.beginPath(); ctx.arc(cx + 8, cy - 65, 3, 0, Math.PI * 2); ctx.fillStyle = '#000'; ctx.fill();
+        // 鼻子
+        ctx.beginPath(); ctx.moveTo(cx, cy - 60); ctx.lineTo(cx + 15, cy - 58); ctx.lineTo(cx, cy - 56); ctx.closePath(); ctx.fillStyle = '#FF8C00'; ctx.fill();
+        // 嘴巴
+        for (let i = 0; i < 5; i++) { ctx.beginPath(); ctx.arc(cx - 8 + i * 4, cy - 52, 1.5, 0, Math.PI * 2); ctx.fillStyle = '#000'; ctx.fill(); }
+        // 帽子
+        ctx.fillStyle = '#333'; ctx.fillRect(cx - 25, cy - 88, 50, 8); ctx.fillRect(cx - 15, cy - 110, 30, 25);
+        // 围巾
+        ctx.fillStyle = '#FF4444'; ctx.fillRect(cx - 25, cy - 35, 50, 10);
+        ctx.beginPath(); ctx.moveTo(cx + 15, cy - 30); ctx.lineTo(cx + 25, cy - 10); ctx.lineTo(cx + 15, cy - 10); ctx.closePath(); ctx.fill();
+        // 手臂
+        ctx.beginPath(); ctx.moveTo(cx - 32, cy - 20); ctx.lineTo(cx - 55, cy - 35); ctx.lineTo(cx - 58, cy - 32); ctx.strokeStyle = '#8B4513'; ctx.lineWidth = 3; ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(cx + 32, cy - 20); ctx.lineTo(cx + 55, cy - 10); ctx.lineTo(cx + 58, cy - 13); ctx.strokeStyle = '#8B4513'; ctx.lineWidth = 3; ctx.stroke();
+        // 纽扣
+        ctx.beginPath(); ctx.arc(cx, cy - 5, 4, 0, Math.PI * 2); ctx.fillStyle = '#333'; ctx.fill();
+        ctx.beginPath(); ctx.arc(cx, cy + 10, 4, 0, Math.PI * 2); ctx.fillStyle = '#333'; ctx.fill();
+        // 地
+        ctx.fillStyle = '#FFF'; ctx.fillRect(0, h * 0.88, w, h * 0.12);
+    }
+
+    drawCustomAppleTree(ctx, w, h) {
+        ctx.fillStyle = '#87CEEB';
+        ctx.fillRect(0, 0, w, h);
+        ctx.fillStyle = '#90EE90'; ctx.fillRect(0, h * 0.75, w, h * 0.25);
+        const cx = w * 0.5, cy = h * 0.55;
+        // 树干
+        ctx.fillStyle = '#8B4513'; ctx.fillRect(cx - 10, cy, 20, h * 0.25);
+        // 树冠（几个重叠的圆）
+        const circles = [{x: cx - 35, y: cy - 40, r: 35}, {x: cx + 35, y: cy - 35, r: 32}, {x: cx, y: cy - 60, r: 40}, {x: cx - 20, y: cy - 25, r: 30}, {x: cx + 20, y: cy - 20, r: 28}];
+        circles.forEach(c => { ctx.beginPath(); ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2); ctx.fillStyle = '#228B22'; ctx.fill(); });
+        // 苹果
+        const apples = [[cx - 30, cy - 30], [cx + 25, cy - 45], [cx - 10, cy - 70], [cx + 40, cy - 25], [cx - 45, cy - 50], [cx + 10, cy - 35], [cx, cy - 15]];
+        apples.forEach(([x, y]) => {
+            ctx.beginPath(); ctx.arc(x, y, 7, 0, Math.PI * 2); ctx.fillStyle = '#FF0000'; ctx.fill();
+            ctx.beginPath(); ctx.arc(x - 2, y - 2, 2, 0, Math.PI * 2); ctx.fillStyle = 'rgba(255,255,255,0.4)'; ctx.fill();
+        });
+        // 太阳
+        ctx.beginPath(); ctx.arc(w * 0.85, h * 0.15, 25, 0, Math.PI * 2); ctx.fillStyle = '#FFD700'; ctx.fill();
+        // 云
+        ctx.fillStyle = 'rgba(255,255,255,0.9)';
+        ctx.beginPath(); ctx.arc(w * 0.15, h * 0.2, 18, 0, Math.PI * 2); ctx.arc(w * 0.22, h * 0.17, 22, 0, Math.PI * 2); ctx.arc(w * 0.28, h * 0.2, 16, 0, Math.PI * 2); ctx.fill();
+    }
+
+    drawCustomWatermelon(ctx, w, h) {
+        ctx.fillStyle = '#E8F5E9';
+        ctx.fillRect(0, 0, w, h);
+        const cx = w * 0.5, cy = h * 0.5;
+        const rw = w * 0.35, rh = h * 0.3;
+        // 外皮
+        ctx.beginPath(); ctx.ellipse(cx, cy, rw, rh, 0, Math.PI, 0); ctx.fillStyle = '#228B22'; ctx.fill();
+        // 瓜肉
+        ctx.beginPath(); ctx.ellipse(cx, cy, rw - 12, rh - 10, 0, Math.PI, 0); ctx.fillStyle = '#FF6347'; ctx.fill();
+        // 瓜籽（不对称）
+        const seeds = [[cx - rw * 0.2, cy - rh * 0.1], [cx + rw * 0.15, cy - rh * 0.15], [cx, cy + rh * 0.05], [cx - rw * 0.1, cy + rh * 0.15], [cx + rw * 0.25, cy + rh * 0.05], [cx - rw * 0.3, cy + rh * 0.1], [cx + rw * 0.05, cy - rh * 0.2]];
+        seeds.forEach(([x, y]) => { ctx.beginPath(); ctx.ellipse(x, y, 4, 6, 0, 0, Math.PI * 2); ctx.fillStyle = '#000'; ctx.fill(); });
+        // 盘子
+        ctx.beginPath(); ctx.ellipse(cx, cy + rh + 15, rw * 0.8, 12, 0, 0, Math.PI * 2); ctx.fillStyle = '#DDD'; ctx.fill();
+        // 小刀
+        ctx.fillStyle = '#AAA'; ctx.fillRect(cx + rw + 10, cy - 20, 8, 60); ctx.fillStyle = '#DDD'; ctx.fillRect(cx + rw + 8, cy - 25, 12, 10);
+    }
+
+    drawCustomOrange(ctx, w, h) {
+        ctx.fillStyle = '#FFF8E1';
+        ctx.fillRect(0, 0, w, h);
+        const cx = w * 0.5, cy = h * 0.5;
+        const r = Math.min(w, h) * 0.3;
+        // 外皮
+        ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.fillStyle = '#FF8C00'; ctx.fill();
+        // 白瓤
+        ctx.beginPath(); ctx.arc(cx, cy, r - 8, 0, Math.PI * 2); ctx.fillStyle = '#FFF5E0'; ctx.fill();
+        // 果肉楔形
+        for (let i = 0; i < 10; i++) {
+            const a1 = (i / 10) * Math.PI * 2, a2 = ((i + 1) / 10) * Math.PI * 2;
+            ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, r - 12, a1, a2); ctx.closePath();
+            ctx.fillStyle = i % 2 === 0 ? '#FFD700' : '#FFA500'; ctx.fill();
+            ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + Math.cos(a1) * (r - 12), cy + Math.sin(a1) * (r - 12));
+            ctx.strokeStyle = '#FFF5E0'; ctx.lineWidth = 2; ctx.stroke();
+        }
+        // 叶子
+        ctx.beginPath(); ctx.ellipse(cx + r * 0.3, cy - r * 0.6, 15, 8, 0.5, 0, Math.PI * 2); ctx.fillStyle = '#228B22'; ctx.fill();
+        // 籽
+        ctx.beginPath(); ctx.arc(cx + 5, cy + 5, 2, 0, Math.PI * 2); ctx.fillStyle = '#FFF'; ctx.fill();
+        ctx.beginPath(); ctx.arc(cx - 8, cy - 5, 2, 0, Math.PI * 2); ctx.fillStyle = '#FFF'; ctx.fill();
+    }
+
+    drawCustomLemon(ctx, w, h) {
+        ctx.fillStyle = '#FFFFE0';
+        ctx.fillRect(0, 0, w, h);
+        const cx = w * 0.5, cy = h * 0.5;
+        const r = Math.min(w, h) * 0.3;
+        ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.fillStyle = '#FFD700'; ctx.fill();
+        ctx.beginPath(); ctx.arc(cx, cy, r - 8, 0, Math.PI * 2); ctx.fillStyle = '#FFFFE0'; ctx.fill();
+        for (let i = 0; i < 8; i++) {
+            const a1 = (i / 8) * Math.PI * 2, a2 = ((i + 1) / 8) * Math.PI * 2;
+            ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, r - 12, a1, a2); ctx.closePath();
+            ctx.fillStyle = i % 2 === 0 ? '#FFFF00' : '#FFFACD'; ctx.fill();
+            ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + Math.cos(a1) * (r - 12), cy + Math.sin(a1) * (r - 12));
+            ctx.strokeStyle = '#FFFFE0'; ctx.lineWidth = 2; ctx.stroke();
+        }
+        ctx.beginPath(); ctx.ellipse(cx + r * 0.4, cy - r * 0.5, 12, 6, 0.3, 0, Math.PI * 2); ctx.fillStyle = '#228B22'; ctx.fill();
+    }
+
+    drawCustomStrawberry(ctx, w, h) {
+        ctx.fillStyle = '#FFF0F5';
+        ctx.fillRect(0, 0, w, h);
+        const cx = w * 0.5, cy = h * 0.5;
+        // 草莓主体（心形）
+        ctx.beginPath();
+        ctx.moveTo(cx, cy - 70);
+        ctx.bezierCurveTo(cx + 50, cy - 40, cx + 55, cy + 20, cx + 30, cy + 50);
+        ctx.bezierCurveTo(cx + 10, cy + 70, cx - 10, cy + 70, cx - 30, cy + 50);
+        ctx.bezierCurveTo(cx - 55, cy + 20, cx - 50, cy - 40, cx, cy - 70);
+        ctx.closePath(); ctx.fillStyle = '#DC143C'; ctx.fill();
+        // 高光
+        ctx.beginPath(); ctx.ellipse(cx - 15, cy - 30, 8, 15, -0.3, 0, Math.PI * 2); ctx.fillStyle = 'rgba(255,255,255,0.25)'; ctx.fill();
+        // 叶子
+        ctx.fillStyle = '#228B22';
+        ctx.beginPath(); ctx.ellipse(cx - 15, cy - 72, 12, 6, -0.5, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.ellipse(cx + 10, cy - 75, 10, 5, 0.3, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.ellipse(cx, cy - 78, 8, 4, 0, 0, Math.PI * 2); ctx.fill();
+        // 籽
+        const seeds = [[cx - 15, cy - 40], [cx + 10, cy - 35], [cx - 5, cy - 15], [cx + 20, cy - 10], [cx - 25, cy - 5], [cx + 5, cy + 5], [cx - 15, cy + 15], [cx + 18, cy + 20], [cx, cy + 30], [cx - 20, cy + 35], [cx + 12, cy + 40], [cx - 8, cy + 48]];
+        seeds.forEach(([x, y]) => { ctx.beginPath(); ctx.arc(x, y, 2.5, 0, Math.PI * 2); ctx.fillStyle = '#FFD700'; ctx.fill(); });
+        // 盘子
+        ctx.beginPath(); ctx.ellipse(cx, cy + 65, 50, 10, 0, 0, Math.PI * 2); ctx.fillStyle = '#DDD'; ctx.fill();
+    }
+
+    drawCustomFish(ctx, w, h) {
+        ctx.fillStyle = '#00BFFF';
+        ctx.fillRect(0, 0, w, h);
+        // 水泡
+        for (let i = 0; i < 6; i++) {
+            const x = Math.random() * w, y = Math.random() * h * 0.4, br = Math.random() * 5 + 3;
+            ctx.beginPath(); ctx.arc(x, y, br, 0, Math.PI * 2); ctx.fillStyle = 'rgba(255,255,255,0.25)'; ctx.fill();
+        }
+        // 海草
+        ctx.strokeStyle = '#228B22'; ctx.lineWidth = 4;
+        for (let i = 0; i < 4; i++) {
+            const x = w * 0.15 + i * w * 0.25;
+            ctx.beginPath(); ctx.moveTo(x, h); ctx.quadraticCurveTo(x + 10, h * 0.7, x - 5, h * 0.5); ctx.stroke();
+        }
+        const cx = w * 0.5, cy = h * 0.5;
+        // 鱼身
+        ctx.beginPath(); ctx.ellipse(cx, cy, 55, 30, 0, 0, Math.PI * 2); ctx.fillStyle = '#FF8C00'; ctx.fill();
+        // 鱼鳞纹理
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 2; j++) {
+                ctx.beginPath(); ctx.arc(cx - 15 + i * 18, cy - 8 + j * 16, 8, 0, Math.PI, true);
+                ctx.strokeStyle = '#E6732E'; ctx.lineWidth = 2; ctx.stroke();
+            }
+        }
+        // 尾巴
+        ctx.beginPath(); ctx.moveTo(cx - 50, cy); ctx.lineTo(cx - 80, cy - 20); ctx.lineTo(cx - 80, cy + 20); ctx.closePath();
+        ctx.fillStyle = '#FF8C00'; ctx.fill();
+        // 鳍
+        ctx.beginPath(); ctx.moveTo(cx, cy - 25); ctx.lineTo(cx - 15, cy - 45); ctx.lineTo(cx + 10, cy - 35); ctx.closePath();
+        ctx.fillStyle = '#FFA500'; ctx.fill();
+        ctx.beginPath(); ctx.moveTo(cx, cy + 25); ctx.lineTo(cx - 10, cy + 40); ctx.lineTo(cx + 10, cy + 35); ctx.closePath();
+        ctx.fillStyle = '#FFA500'; ctx.fill();
+        // 眼睛
+        ctx.beginPath(); ctx.arc(cx + 35, cy - 8, 7, 0, Math.PI * 2); ctx.fillStyle = '#FFF'; ctx.fill();
+        ctx.beginPath(); ctx.arc(cx + 37, cy - 8, 3.5, 0, Math.PI * 2); ctx.fillStyle = '#000'; ctx.fill();
+        // 嘴巴
+        ctx.beginPath(); ctx.arc(cx + 50, cy + 3, 4, 0, Math.PI); ctx.strokeStyle = '#000'; ctx.lineWidth = 1.5; ctx.stroke();
+    }
+
+    drawCustomButterfly(ctx, w, h) {
+        ctx.fillStyle = '#E6F3FF';
+        ctx.fillRect(0, 0, w, h);
+        const cx = w * 0.5, cy = h * 0.5;
+        // 上左翅膀
+        ctx.beginPath(); ctx.moveTo(cx, cy); ctx.bezierCurveTo(cx - 20, cy - 60, cx - 70, cy - 70, cx - 60, cy - 20); ctx.bezierCurveTo(cx - 55, cy + 5, cx - 30, cy + 5, cx, cy); ctx.closePath();
+        ctx.fillStyle = '#FF69B4'; ctx.fill();
+        ctx.strokeStyle = '#333'; ctx.lineWidth = 2; ctx.stroke();
+        // 上右翅膀
+        ctx.beginPath(); ctx.moveTo(cx, cy); ctx.bezierCurveTo(cx + 20, cy - 60, cx + 70, cy - 70, cx + 60, cy - 20); ctx.bezierCurveTo(cx + 55, cy + 5, cx + 30, cy + 5, cx, cy); ctx.closePath();
+        ctx.fillStyle = '#9370DB'; ctx.fill(); ctx.stroke();
+        // 下左翅膀
+        ctx.beginPath(); ctx.moveTo(cx, cy); ctx.bezierCurveTo(cx - 15, cy + 40, cx - 50, cy + 50, cx - 40, cy + 15); ctx.bezierCurveTo(cx - 35, cy + 5, cx - 20, cy + 5, cx, cy); ctx.closePath();
+        ctx.fillStyle = '#FF1493'; ctx.fill(); ctx.stroke();
+        // 下右翅膀
+        ctx.beginPath(); ctx.moveTo(cx, cy); ctx.bezierCurveTo(cx + 15, cy + 40, cx + 50, cy + 50, cx + 40, cy + 15); ctx.bezierCurveTo(cx + 35, cy + 5, cx + 20, cy + 5, cx, cy); ctx.closePath();
+        ctx.fillStyle = '#8A2BE2'; ctx.fill(); ctx.stroke();
+        // 翅膀花纹
+        ctx.fillStyle = '#FFD700';
+        ctx.beginPath(); ctx.arc(cx - 40, cy - 35, 5, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(cx + 40, cy - 35, 5, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(cx - 25, cy + 20, 3, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(cx + 25, cy + 20, 3, 0, Math.PI * 2); ctx.fill();
+        // 身体
+        ctx.beginPath(); ctx.ellipse(cx, cy, 5, 30, 0, 0, Math.PI * 2); ctx.fillStyle = '#333'; ctx.fill();
+        // 头
+        ctx.beginPath(); ctx.arc(cx, cy - 32, 8, 0, Math.PI * 2); ctx.fillStyle = '#333'; ctx.fill();
+        // 触角
+        ctx.beginPath(); ctx.moveTo(cx - 3, cy - 38); ctx.quadraticCurveTo(cx - 12, cy - 50, cx - 8, cy - 58); ctx.strokeStyle = '#333'; ctx.lineWidth = 2; ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(cx + 3, cy - 38); ctx.quadraticCurveTo(cx + 12, cy - 50, cx + 8, cy - 58); ctx.stroke();
+        // 触角球
+        ctx.beginPath(); ctx.arc(cx - 8, cy - 58, 3, 0, Math.PI * 2); ctx.fillStyle = '#333'; ctx.fill();
+        ctx.beginPath(); ctx.arc(cx + 8, cy - 58, 3, 0, Math.PI * 2); ctx.fillStyle = '#333'; ctx.fill();
+    }
+
+    drawCustomGoldfish(ctx, w, h) {
+        ctx.fillStyle = '#1E3A5F';
+        ctx.fillRect(0, 0, w, h);
+        // 水泡
+        for (let i = 0; i < 5; i++) {
+            const x = Math.random() * w, y = Math.random() * h;
+            ctx.beginPath(); ctx.arc(x, y, Math.random() * 5 + 3, 0, Math.PI * 2); ctx.fillStyle = 'rgba(255,255,255,0.15)'; ctx.fill();
+        }
+        const cx = w * 0.5, cy = h * 0.5;
+        // 鱼身
+        ctx.beginPath(); ctx.ellipse(cx, cy, 50, 30, 0, 0, Math.PI * 2); ctx.fillStyle = '#FF4500'; ctx.fill();
+        // 鱼鳞
+        for (let i = 0; i < 4; i++) {
+            for (let j = 0; j < 2; j++) {
+                ctx.beginPath(); ctx.arc(cx - 20 + i * 16, cy - 10 + j * 20, 7, 0, Math.PI, true);
+                ctx.strokeStyle = '#FFD700'; ctx.lineWidth = 1.5; ctx.stroke();
+            }
+        }
+        // 尾巴（飘逸）
+        ctx.beginPath(); ctx.moveTo(cx - 45, cy); ctx.quadraticCurveTo(cx - 80, cy - 30, cx - 75, cy); ctx.quadraticCurveTo(cx - 80, cy + 30, cx - 45, cy);
+        ctx.fillStyle = '#FF6347'; ctx.fill();
+        // 背鳍
+        ctx.beginPath(); ctx.moveTo(cx - 10, cy - 28); ctx.quadraticCurveTo(cx + 10, cy - 55, cx + 30, cy - 25); ctx.closePath();
+        ctx.fillStyle = '#FF6347'; ctx.fill();
+        // 腹鳍
+        ctx.beginPath(); ctx.moveTo(cx - 5, cy + 25); ctx.quadraticCurveTo(cx + 5, cy + 45, cx + 20, cy + 28); ctx.closePath();
+        ctx.fillStyle = '#FF6347'; ctx.fill();
+        // 眼睛（突出）
+        ctx.beginPath(); ctx.arc(cx + 35, cy - 8, 9, 0, Math.PI * 2); ctx.fillStyle = '#FFF'; ctx.fill();
+        ctx.beginPath(); ctx.arc(cx + 37, cy - 8, 5, 0, Math.PI * 2); ctx.fillStyle = '#000'; ctx.fill();
+        // 嘴巴
+        ctx.beginPath(); ctx.arc(cx + 48, cy + 3, 4, 0, Math.PI); ctx.strokeStyle = '#000'; ctx.lineWidth = 1.5; ctx.stroke();
+    }
+
+    drawCustomBee(ctx, w, h) {
+        ctx.fillStyle = '#E8F5E9';
+        ctx.fillRect(0, 0, w, h);
+        // 花朵背景
+        for (let i = 0; i < 5; i++) {
+            const x = w * 0.15 + i * w * 0.18, y = h * (0.75 + Math.random() * 0.15);
+            ctx.beginPath(); ctx.arc(x, y, 8, 0, Math.PI * 2); ctx.fillStyle = '#FF69B4'; ctx.fill();
+            ctx.beginPath(); ctx.arc(x, y, 3, 0, Math.PI * 2); ctx.fillStyle = '#FFD700'; ctx.fill();
+            ctx.strokeStyle = '#228B22'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(x, y + 8); ctx.lineTo(x, y + 25); ctx.stroke();
+        }
+        const cx = w * 0.5, cy = h * 0.4;
+        // 身体
+        ctx.beginPath(); ctx.ellipse(cx, cy, 28, 20, 0, 0, Math.PI * 2); ctx.fillStyle = '#FFD700'; ctx.fill();
+        ctx.strokeStyle = '#333'; ctx.lineWidth = 1.5; ctx.stroke();
+        // 条纹
+        ctx.fillStyle = '#333'; ctx.fillRect(cx - 20, cy - 15, 6, 30); ctx.fillRect(cx - 5, cy - 18, 6, 36); ctx.fillRect(cx + 10, cy - 15, 6, 30);
+        // 头
+        ctx.beginPath(); ctx.arc(cx + 25, cy, 14, 0, Math.PI * 2); ctx.fillStyle = '#333'; ctx.fill();
+        // 眼睛
+        ctx.beginPath(); ctx.arc(cx + 28, cy - 4, 4, 0, Math.PI * 2); ctx.fillStyle = '#FFF'; ctx.fill();
+        ctx.beginPath(); ctx.arc(cx + 29, cy - 4, 2, 0, Math.PI * 2); ctx.fillStyle = '#000'; ctx.fill();
+        // 翅膀（透明）
+        ctx.beginPath(); ctx.ellipse(cx - 5, cy - 18, 18, 10, -0.5, 0, Math.PI * 2); ctx.fillStyle = 'rgba(200,230,255,0.6)'; ctx.fill(); ctx.strokeStyle = 'rgba(100,150,200,0.4)'; ctx.lineWidth = 1; ctx.stroke();
+        ctx.beginPath(); ctx.ellipse(cx + 5, cy - 18, 18, 10, 0.5, 0, Math.PI * 2); ctx.fillStyle = 'rgba(200,230,255,0.6)'; ctx.fill(); ctx.stroke();
+        // 触角
+        ctx.beginPath(); ctx.moveTo(cx + 32, cy - 8); ctx.quadraticCurveTo(cx + 42, cy - 18, cx + 38, cy - 25); ctx.strokeStyle = '#333'; ctx.lineWidth = 1.5; ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(cx + 32, cy + 2); ctx.quadraticCurveTo(cx + 42, cy + 8, cx + 38, cy + 15); ctx.stroke();
+        // 尾刺
+        ctx.beginPath(); ctx.moveTo(cx - 28, cy); ctx.lineTo(cx - 40, cy - 5); ctx.lineTo(cx - 40, cy + 5); ctx.closePath(); ctx.fillStyle = '#333'; ctx.fill();
+    }
+
+    drawCustomCastle(ctx, w, h) {
+        ctx.fillStyle = '#87CEEB';
+        ctx.fillRect(0, 0, w, h);
+        // 太阳
+        ctx.beginPath(); ctx.arc(w * 0.88, h * 0.12, 20, 0, Math.PI * 2); ctx.fillStyle = '#FFD700'; ctx.fill();
+        // 云
+        ctx.fillStyle = 'rgba(255,255,255,0.85)';
+        ctx.beginPath(); ctx.arc(w * 0.18, h * 0.18, 15, 0, Math.PI * 2); ctx.arc(w * 0.24, h * 0.15, 18, 0, Math.PI * 2); ctx.arc(w * 0.29, h * 0.18, 13, 0, Math.PI * 2); ctx.fill();
+        const cx = w * 0.5, cy = h * 0.6;
+        // 主塔楼
+        ctx.fillStyle = '#D3D3D3'; ctx.fillRect(cx - 30, cy - 60, 60, 90);
+        // 屋顶
+        ctx.beginPath(); ctx.moveTo(cx - 38, cy - 60); ctx.lineTo(cx, cy - 105); ctx.lineTo(cx + 38, cy - 60); ctx.closePath();
+        ctx.fillStyle = '#4169E1'; ctx.fill();
+        // 旗帜
+        ctx.beginPath(); ctx.moveTo(cx, cy - 105); ctx.lineTo(cx + 25, cy - 95); ctx.lineTo(cx, cy - 90); ctx.closePath();
+        ctx.fillStyle = '#FF0000'; ctx.fill();
+        ctx.beginPath(); ctx.moveTo(cx, cy - 105); ctx.lineTo(cx, cy - 115); ctx.strokeStyle = '#333'; ctx.lineWidth = 2; ctx.stroke();
+        // 左塔
+        ctx.fillStyle = '#C0C0C0'; ctx.fillRect(cx - 65, cy - 20, 35, 50);
+        ctx.beginPath(); ctx.moveTo(cx - 72, cy - 20); ctx.lineTo(cx - 47.5, cy - 55); ctx.lineTo(cx - 23, cy - 20); ctx.closePath();
+        ctx.fillStyle = '#4169E1'; ctx.fill();
+        // 右塔
+        ctx.fillStyle = '#C0C0C0'; ctx.fillRect(cx + 30, cy - 20, 35, 50);
+        ctx.beginPath(); ctx.moveTo(cx + 23, cy - 20); ctx.lineTo(cx + 47.5, cy - 55); ctx.lineTo(cx + 72, cy - 20); ctx.closePath();
+        ctx.fillStyle = '#4169E1'; ctx.fill();
+        // 大门
+        ctx.beginPath(); ctx.arc(cx, cy + 30, 18, Math.PI, 0); ctx.fillStyle = '#8B4513'; ctx.fill();
+        ctx.fillStyle = '#8B4513'; ctx.fillRect(cx - 18, cy + 30, 36, 25);
+        // 窗户
+        ctx.fillStyle = '#87CEEB'; ctx.beginPath(); ctx.arc(cx, cy - 30, 10, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(cx - 47, cy - 5, 7, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(cx + 47, cy - 5, 7, 0, Math.PI * 2); ctx.fill();
+        // 城墙
+        ctx.fillStyle = '#D3D3D3'; ctx.fillRect(cx - 80, cy + 30, 160, 15);
+        // 护城河
+        ctx.fillStyle = '#4682B4'; ctx.fillRect(0, h * 0.88, w, h * 0.12);
+    }
+
+    drawCustomZebra(ctx, w, h) {
+        ctx.fillStyle = '#90EE90';
+        ctx.fillRect(0, 0, w, h);
+        ctx.fillStyle = '#228B22'; ctx.fillRect(0, h * 0.82, w, h * 0.18);
+        const cx = w * 0.5, cy = h * 0.5;
+        // 身体
+        ctx.beginPath(); ctx.ellipse(cx, cy + 10, 55, 40, 0, 0, Math.PI * 2); ctx.fillStyle = '#FFF'; ctx.fill();
+        // 条纹
+        ctx.strokeStyle = '#000'; ctx.lineWidth = 5;
+        for (let i = 0; i < 6; i++) {
+            const y = cy - 25 + i * 12;
+            ctx.beginPath(); ctx.moveTo(cx - 50, y); ctx.lineTo(cx + 50, y + (i % 2 === 0 ? 8 : -8)); ctx.stroke();
+        }
+        // 头
+        ctx.beginPath(); ctx.ellipse(cx + 50, cy - 25, 28, 22, 0, 0, Math.PI * 2); ctx.fillStyle = '#FFF'; ctx.fill();
+        // 头条纹
+        ctx.strokeStyle = '#000'; ctx.lineWidth = 3;
+        ctx.beginPath(); ctx.moveTo(cx + 35, cy - 40); ctx.lineTo(cx + 40, cy - 15); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(cx + 45, cy - 42); ctx.lineTo(cx + 50, cy - 12); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(cx + 55, cy - 40); ctx.lineTo(cx + 60, cy - 15); ctx.stroke();
+        // 眼睛
+        ctx.beginPath(); ctx.arc(cx + 58, cy - 28, 4, 0, Math.PI * 2); ctx.fillStyle = '#000'; ctx.fill();
+        ctx.beginPath(); ctx.arc(cx + 60, cy - 29, 1.5, 0, Math.PI * 2); ctx.fillStyle = '#FFF'; ctx.fill();
+        // 鼻子
+        ctx.beginPath(); ctx.ellipse(cx + 75, cy - 22, 5, 4, 0, 0, Math.PI * 2); ctx.fillStyle = '#000'; ctx.fill();
+        // 耳朵
+        ctx.beginPath(); ctx.ellipse(cx + 38, cy - 42, 6, 12, -0.4, 0, Math.PI * 2); ctx.fillStyle = '#FFF'; ctx.fill();
+        ctx.strokeStyle = '#000'; ctx.lineWidth = 1.5; ctx.stroke();
+        ctx.beginPath(); ctx.ellipse(cx + 58, cy - 40, 6, 12, 0.3, 0, Math.PI * 2); ctx.fillStyle = '#FFF'; ctx.fill(); ctx.stroke();
+        // 鬃毛
+        ctx.fillStyle = '#000';
+        for (let i = 0; i < 5; i++) { ctx.beginPath(); ctx.arc(cx + 30 + i * 8, cy - 50 - i * 2, 4, 0, Math.PI * 2); ctx.fill(); }
+        // 腿
+        ctx.fillStyle = '#FFF'; ctx.fillRect(cx - 30, cy + 45, 10, 35); ctx.fillRect(cx - 5, cy + 45, 10, 35);
+        ctx.fillRect(cx + 15, cy + 45, 10, 35); ctx.fillRect(cx + 35, cy + 45, 10, 35);
+        // 腿条纹
+        ctx.strokeStyle = '#000'; ctx.lineWidth = 2;
+        for (let i = 0; i < 4; i++) {
+            const lx = cx - 30 + i * 22;
+            ctx.beginPath(); ctx.moveTo(lx, cy + 50); ctx.lineTo(lx + 10, cy + 58); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(lx, cy + 62); ctx.lineTo(lx + 10, cy + 70); ctx.stroke();
+        }
+        // 尾巴
+        ctx.beginPath(); ctx.moveTo(cx - 50, cy); ctx.quadraticCurveTo(cx - 75, cy - 20, cx - 70, cy - 45); ctx.strokeStyle = '#000'; ctx.lineWidth = 5; ctx.stroke();
+        ctx.beginPath(); ctx.arc(cx - 70, cy - 45, 6, 0, Math.PI * 2); ctx.fillStyle = '#000'; ctx.fill();
+    }
+
+    drawCustomLeopard(ctx, w, h) {
+        ctx.fillStyle = '#D2B48C';
+        ctx.fillRect(0, 0, w, h);
+        ctx.fillStyle = '#228B22'; ctx.fillRect(0, h * 0.82, w, h * 0.18);
+        const cx = w * 0.5, cy = h * 0.5;
+        // 身体
+        ctx.beginPath(); ctx.ellipse(cx, cy + 10, 50, 40, 0, 0, Math.PI * 2); ctx.fillStyle = '#FFD700'; ctx.fill();
+        // 斑点
+        const spots = [[cx - 25, cy - 10], [cx + 15, cy - 15], [cx - 10, cy + 10], [cx + 30, cy + 5], [cx - 30, cy + 25], [cx + 5, cy + 25], [cx - 15, cy + 35], [cx + 25, cy + 30], [cx - 5, cy - 5], [cx + 20, cy - 25]];
+        spots.forEach(([x, y]) => { ctx.beginPath(); ctx.ellipse(x, y, 8, 5, Math.random(), 0, Math.PI * 2); ctx.fillStyle = '#000'; ctx.fill(); });
+        // 头
+        ctx.beginPath(); ctx.ellipse(cx + 48, cy - 25, 28, 24, 0, 0, Math.PI * 2); ctx.fillStyle = '#FFD700'; ctx.fill();
+        // 头斑点
+        ctx.beginPath(); ctx.ellipse(cx + 40, cy - 32, 4, 3, 0, 0, Math.PI * 2); ctx.fillStyle = '#000'; ctx.fill();
+        ctx.beginPath(); ctx.ellipse(cx + 55, cy - 28, 4, 3, 0.5, 0, Math.PI * 2); ctx.fillStyle = '#000'; ctx.fill();
+        ctx.beginPath(); ctx.ellipse(cx + 50, cy - 18, 4, 3, -0.3, 0, Math.PI * 2); ctx.fillStyle = '#000'; ctx.fill();
+        // 眼睛
+        ctx.beginPath(); ctx.ellipse(cx + 55, cy - 32, 5, 6, 0, 0, Math.PI * 2); ctx.fillStyle = '#228B22'; ctx.fill();
+        ctx.beginPath(); ctx.arc(cx + 57, cy - 33, 2.5, 0, Math.PI * 2); ctx.fillStyle = '#000'; ctx.fill();
+        // 鼻子
+        ctx.beginPath(); ctx.ellipse(cx + 72, cy - 22, 4, 3, 0, 0, Math.PI * 2); ctx.fillStyle = '#FF69B4'; ctx.fill();
+        // 耳朵
+        ctx.beginPath(); ctx.ellipse(cx + 32, cy - 42, 7, 12, -0.5, 0, Math.PI * 2); ctx.fillStyle = '#FFD700'; ctx.fill();
+        ctx.beginPath(); ctx.ellipse(cx + 58, cy - 40, 7, 12, 0.3, 0, Math.PI * 2); ctx.fillStyle = '#FFD700'; ctx.fill();
+        // 腿
+        ctx.fillStyle = '#FFD700'; ctx.fillRect(cx - 28, cy + 45, 10, 32); ctx.fillRect(cx - 5, cy + 45, 10, 32);
+        ctx.fillRect(cx + 15, cy + 45, 10, 32); ctx.fillRect(cx + 35, cy + 45, 10, 32);
+        // 尾巴
+        ctx.beginPath(); ctx.moveTo(cx - 48, cy + 5); ctx.quadraticCurveTo(cx - 75, cy - 15, cx - 68, cy - 40); ctx.strokeStyle = '#FFD700'; ctx.lineWidth = 8; ctx.stroke();
+    }
+
+    drawCustomCow(ctx, w, h) {
+        ctx.fillStyle = '#87CEEB';
+        ctx.fillRect(0, 0, w, h);
+        ctx.fillStyle = '#90EE90'; ctx.fillRect(0, h * 0.82, w, h * 0.18);
+        // 远山
+        ctx.fillStyle = '#228B22';
+        ctx.beginPath(); ctx.moveTo(0, h * 0.82); ctx.lineTo(w * 0.2, h * 0.65); ctx.lineTo(w * 0.4, h * 0.72); ctx.lineTo(w * 0.6, h * 0.6); ctx.lineTo(w * 0.8, h * 0.7); ctx.lineTo(w, h * 0.62); ctx.lineTo(w, h * 0.82); ctx.closePath(); ctx.fill();
+        const cx = w * 0.5, cy = h * 0.5;
+        // 身体
+        ctx.beginPath(); ctx.ellipse(cx, cy + 5, 55, 42, 0, 0, Math.PI * 2); ctx.fillStyle = '#FFF'; ctx.fill();
+        // 斑点
+        const cSpots = [[cx - 25, cy - 10], [cx + 20, cy - 15], [cx - 10, cy + 15], [cx + 35, cy + 10], [cx - 35, cy + 20], [cx + 5, cy - 25]];
+        cSpots.forEach(([x, y]) => { ctx.beginPath(); ctx.ellipse(x, y, 10, 7, Math.random(), 0, Math.PI * 2); ctx.fillStyle = '#000'; ctx.fill(); });
+        // 头
+        ctx.beginPath(); ctx.ellipse(cx + 50, cy - 20, 26, 30, 0, 0, Math.PI * 2); ctx.fillStyle = '#FFF'; ctx.fill();
+        // 头斑点
+        ctx.beginPath(); ctx.ellipse(cx + 42, cy - 32, 6, 4, 0, 0, Math.PI * 2); ctx.fillStyle = '#000'; ctx.fill();
+        ctx.beginPath(); ctx.ellipse(cx + 58, cy - 10, 5, 4, 0.5, 0, Math.PI * 2); ctx.fillStyle = '#000'; ctx.fill();
+        // 眼睛
+        ctx.beginPath(); ctx.arc(cx + 58, cy - 28, 4, 0, Math.PI * 2); ctx.fillStyle = '#FFF'; ctx.fill();
+        ctx.beginPath(); ctx.arc(cx + 59, cy - 28, 2, 0, Math.PI * 2); ctx.fillStyle = '#000'; ctx.fill();
+        // 鼻子
+        ctx.beginPath(); ctx.ellipse(cx + 72, cy - 18, 5, 4, 0, 0, Math.PI * 2); ctx.fillStyle = '#FF69B4'; ctx.fill();
+        // 鼻孔
+        ctx.beginPath(); ctx.arc(cx + 70, cy - 18, 1.5, 0, Math.PI * 2); ctx.fillStyle = '#000'; ctx.fill();
+        ctx.beginPath(); ctx.arc(cx + 74, cy - 18, 1.5, 0, Math.PI * 2); ctx.fillStyle = '#000'; ctx.fill();
+        // 耳朵
+        ctx.beginPath(); ctx.ellipse(cx + 32, cy - 38, 8, 14, -0.5, 0, Math.PI * 2); ctx.fillStyle = '#FFF'; ctx.fill();
+        ctx.beginPath(); ctx.ellipse(cx + 60, cy - 36, 8, 14, 0.3, 0, Math.PI * 2); ctx.fillStyle = '#FFF'; ctx.fill();
+        // 角
+        ctx.beginPath(); ctx.moveTo(cx + 35, cy - 48); ctx.lineTo(cx + 30, cy - 62); ctx.strokeStyle = '#D2B48C'; ctx.lineWidth = 4; ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(cx + 60, cy - 46); ctx.lineTo(cx + 65, cy - 60); ctx.strokeStyle = '#D2B48C'; ctx.lineWidth = 4; ctx.stroke();
+        // 腿
+        ctx.fillStyle = '#FFF'; ctx.fillRect(cx - 30, cy + 42, 12, 32); ctx.fillRect(cx - 5, cy + 42, 12, 32);
+        ctx.fillRect(cx + 15, cy + 42, 12, 32); ctx.fillRect(cx + 38, cy + 42, 12, 32);
+        // 腿斑点
+        ctx.beginPath(); ctx.ellipse(cx - 24, cy + 48, 4, 3, 0, 0, Math.PI * 2); ctx.fillStyle = '#000'; ctx.fill();
+        ctx.beginPath(); ctx.ellipse(cx + 42, cy + 52, 4, 3, 0, 0, Math.PI * 2); ctx.fillStyle = '#000'; ctx.fill();
+        // 尾巴
+        ctx.beginPath(); ctx.moveTo(cx - 52, cy); ctx.quadraticCurveTo(cx - 80, cy - 15, cx - 72, cy - 35); ctx.strokeStyle = '#FFF'; ctx.lineWidth = 8; ctx.stroke();
+        ctx.beginPath(); ctx.arc(cx - 72, cy - 35, 5, 0, Math.PI * 2); ctx.fillStyle = '#000'; ctx.fill();
+        // 铃铛
+        ctx.beginPath(); ctx.arc(cx + 48, cy + 8, 6, 0, Math.PI * 2); ctx.fillStyle = '#FFD700'; ctx.fill();
+    }
+
+    drawCustomPeacock(ctx, w, h) {
+        ctx.fillStyle = '#E0F7FA';
+        ctx.fillRect(0, 0, w, h);
+        const cx = w * 0.5, cy = h * 0.55;
+        // 身体
+        ctx.beginPath(); ctx.ellipse(cx, cy, 22, 35, 0, 0, Math.PI * 2); ctx.fillStyle = '#4169E1'; ctx.fill();
+        // 脖子
+        ctx.beginPath(); ctx.ellipse(cx, cy - 38, 10, 20, 0, 0, Math.PI * 2); ctx.fillStyle = '#4169E1'; ctx.fill();
+        // 头
+        ctx.beginPath(); ctx.ellipse(cx + 5, cy - 60, 14, 10, 0.3, 0, Math.PI * 2); ctx.fillStyle = '#4169E1'; ctx.fill();
+        // 冠羽
+        ctx.fillStyle = '#4169E1';
+        for (let i = 0; i < 5; i++) { ctx.beginPath(); ctx.ellipse(cx - 5 + i * 5, cy - 72, 2, 8, (i - 2) * 0.3, 0, Math.PI * 2); ctx.fill(); }
+        // 眼睛
+        ctx.beginPath(); ctx.arc(cx + 10, cy - 62, 3, 0, Math.PI * 2); ctx.fillStyle = '#FFF'; ctx.fill();
+        ctx.beginPath(); ctx.arc(cx + 11, cy - 62, 1.5, 0, Math.PI * 2); ctx.fillStyle = '#000'; ctx.fill();
+        // 嘴巴
+        ctx.beginPath(); ctx.moveTo(cx + 18, cy - 60); ctx.lineTo(cx + 28, cy - 58); ctx.lineTo(cx + 18, cy - 56); ctx.closePath();
+        ctx.fillStyle = '#FF8C00'; ctx.fill();
+        // 尾巴（扇形展开）
+        const tailColors = ['#4169E1','#00CED1','#FFD700','#FF69B4','#9370DB'];
+        for (let i = 0; i < 7; i++) {
+            const a = -Math.PI * 0.6 + (i / 6) * Math.PI * 1.2;
+            const tx = cx + Math.cos(a) * 70, ty = cy - 50 + Math.sin(a) * 30;
+            ctx.beginPath(); ctx.ellipse(tx, ty, 12, 35, a - Math.PI / 2, 0, Math.PI * 2);
+            ctx.fillStyle = tailColors[i % tailColors.length]; ctx.fill();
+            ctx.strokeStyle = '#333'; ctx.lineWidth = 1; ctx.stroke();
+            // 眼斑
+            ctx.beginPath(); ctx.arc(tx, ty + 10, 5, 0, Math.PI * 2); ctx.fillStyle = '#FFD700'; ctx.fill();
+            ctx.beginPath(); ctx.arc(tx, ty + 10, 2.5, 0, Math.PI * 2); ctx.fillStyle = '#4169E1'; ctx.fill();
+        }
+        // 翅膀
+        ctx.beginPath(); ctx.ellipse(cx - 25, cy - 5, 28, 18, -0.3, 0, Math.PI * 2); ctx.fillStyle = '#00CED1'; ctx.fill();
+        ctx.beginPath(); ctx.ellipse(cx + 25, cy - 5, 28, 18, 0.3, 0, Math.PI * 2); ctx.fillStyle = '#00CED1'; ctx.fill();
+        // 腿
+        ctx.beginPath(); ctx.moveTo(cx - 8, cy + 30); ctx.lineTo(cx - 10, cy + 55); ctx.strokeStyle = '#FF8C00'; ctx.lineWidth = 3; ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(cx + 8, cy + 30); ctx.lineTo(cx + 10, cy + 55); ctx.strokeStyle = '#FF8C00'; ctx.lineWidth = 3; ctx.stroke();
+        // 草地
+        ctx.fillStyle = '#90EE90'; ctx.fillRect(0, h * 0.88, w, h * 0.12);
+    }
+
 }
