@@ -171,55 +171,17 @@
             
             <div class="config-section">
                 <p class="config-label">选择图案：</p>
-                <div class="mode-buttons">
-                    <button class="mode-btn" data-theme="rainbow">
-                        <span class="mode-icon">🌈</span>
-                        <span class="mode-name">彩虹</span>
-                    </button>
-                    <button class="mode-btn" data-theme="sunflower">
-                        <span class="mode-icon">🌻</span>
-                        <span class="mode-name">太阳花</span>
-                    </button>
-                    <button class="mode-btn" data-theme="fish">
-                        <span class="mode-icon">🐟</span>
-                        <span class="mode-name">小鱼</span>
-                    </button>
-                    <button class="mode-btn" data-theme="house">
-                        <span class="mode-icon">🏠</span>
-                        <span class="mode-name">小房子</span>
-                    </button>
-                    <button class="mode-btn" data-theme="star">
-                        <span class="mode-icon">⭐</span>
-                        <span class="mode-name">星星</span>
-                    </button>
-                    <button class="mode-btn" data-theme="balloon">
-                        <span class="mode-icon">🎈</span>
-                        <span class="mode-name">气球</span>
-                    </button>
-                    <button class="mode-btn" data-theme="moon">
-                        <span class="mode-icon">🌙</span>
-                        <span class="mode-name">月亮</span>
-                    </button>
-                    <button class="mode-btn" data-theme="cake">
-                        <span class="mode-icon">🍰</span>
-                        <span class="mode-name">蛋糕</span>
-                    </button>
-                    <button class="mode-btn" data-theme="car">
-                        <span class="mode-icon">🚗</span>
-                        <span class="mode-name">小汽车</span>
-                    </button>
-                    <button class="mode-btn" data-theme="flower">
-                        <span class="mode-icon">🌺</span>
-                        <span class="mode-name">花朵</span>
-                    </button>
-                    <button class="mode-btn" data-theme="elephant">
-                        <span class="mode-icon">🐘</span>
-                        <span class="mode-name">大象</span>
-                    </button>
-                    <button class="mode-btn" data-theme="tree">
-                        <span class="mode-icon">🎄</span>
-                        <span class="mode-name">圣诞树</span>
-                    </button>
+                <div class="pattern-preview-wrapper">
+                    <div class="pattern-preview" id="pattern-preview"></div>
+                    <div class="pattern-info">
+                        <span class="pattern-name" id="pattern-name">彩虹条纹</span>
+                        <span class="pattern-number" id="pattern-number">图案 #1 / 30</span>
+                    </div>
+                </div>
+                <div class="pattern-nav">
+                    <button id="pattern-prev" class="pattern-nav-btn">← 上一个</button>
+                    <button id="pattern-random" class="pattern-nav-btn random">🎲 随机</button>
+                    <button id="pattern-next" class="pattern-nav-btn">下一个 →</button>
                 </div>
             </div>
             
