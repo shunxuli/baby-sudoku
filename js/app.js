@@ -758,6 +758,10 @@ class MathGame {
         document.getElementById('math-start-btn').disabled = !ready;
     }
 
+    hideComplete() {
+        this.lobby.hideOverlay('win-overlay');
+    }
+
     startGame() {
         this.hideComplete();
         this.state.streak = 0;
